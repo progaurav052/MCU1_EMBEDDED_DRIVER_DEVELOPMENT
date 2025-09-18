@@ -10,7 +10,6 @@
 
 #include <stdint.h>
 
-#define __vo                                volatile
 #define FLASH_BASEADDR						0x08000000U
 #define SRAM1_BASEADDR						0x20000000U
 #define SRAM2_BASEADDR						0x2001C000U
@@ -70,27 +69,27 @@
 /******************Peripheral register structure Definitions ********************/
 
 typedef struct{
-	__vo uint32_t MODER;
-	__vo uint32_t OTYPER;
-	__vo uint32_t OSPEEDR;
-	__vo uint32_t PUPDR;
-	__vo uint32_t IDR;
-	__vo uint32_t ODR;
-	__vo uint32_t BSRR;
-	__vo uint32_t LCKR;
-	__vo uint32_t AFRL;
-	__vo uint32_t AFRH;
+	uint32_t MODER;
+	uint32_t OTYPER;
+	uint32_t OSPEEDR;
+	uint32_t PUPDR;
+	uint32_t IDR;
+	uint32_t ODR;
+	uint32_t BSRR;
+	uint32_t LCKR;
+	uint32_t AFRL;
+	uint32_t AFRH;
 }GPIO_RegDef_t;
 
-#define GPIOA  				((GPIO_RegDef_t*)GPIOA_BASEADDR)
-#define GPIOB  				((GPIO_RegDef_t*)GPIOB_BASEADDR)
-#define GPIOC  				((GPIO_RegDef_t*)GPIOC_BASEADDR)
-#define GPIOD  				((GPIO_RegDef_t*)GPIOD_BASEADDR)
+#define GPIOA  		((GPIO_RegDef_t*)GPIOA_BASEADDR)
+#define GPIOB  		((GPIO_RegDef_t*)GPIOB_BASEADDR)
+#define GPIOC  		((GPIO_RegDef_t*)GPIOC_BASEADDR)
+#define GPIOD  		((GPIO_RegDef_t*)GPIOD_BASEADDR)
 
 
-GPIO_RegDef_t *pGPIOA = GPIOA;
-GPIO_RegDef_t *pGPIOB = GPIOB;
-GPIO_RegDef_t *pGPIOC = GPIOC;
-GPIO_RegDef_t *pGPIOD = GPIOD;
+GPIO_RegDef_t *gpioA = GPIOA;
+GPIO_RegDef_t *gpioB = GPIOB;
+GPIO_RegDef_t *gpioC = GPIOC;
+GPIO_RegDef_t *gpioD = GPIOD;
 
 #endif /* INC_STM32F407XX_H_ */
