@@ -310,3 +310,7 @@
 2025-09-20 00:21:39,928 [INFO] WebApp:593 - Web application path used D:\GAURAV_G_PAI\STM32CubeIDE_1.19.0\STM32CubeIDE\plugins\com.st.stm32cube.common.mx_6.15.0.202507011659\db\plugins\mcufinder\reactClient1\index.html
 2025-09-20 13:47:46,264 [INFO] WebApp:194 - Connection lost
 2025-09-20 13:47:47,305 [INFO] WebApp:191 - Connection restablished
+2025-09-20 15:30:34,052 [INFO] WebApp:194 - Connection lost
+2025-09-20 15:30:34,533 [INFO] WebApp:191 - Connection restablished
+2025-09-20 15:30:36,988 [INFO] WebApp:194 - Connection lost
+2025-09-20 15:30:37,178 [INFO] WebApp:191 - Connection restablished

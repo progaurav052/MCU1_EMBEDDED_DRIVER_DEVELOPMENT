@@ -1,0 +1,1 @@
+../drivers/Src/stm32f4xx_gpio_driver.c:11:6:GPIO_PeripheralClockControl	16	static
