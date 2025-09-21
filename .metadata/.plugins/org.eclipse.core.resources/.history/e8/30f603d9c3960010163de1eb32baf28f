@@ -162,5 +162,6 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx){
 			}
 			else if(pGPIOx == GPIOI){
 				GPIOI_REG_RESET();
+
 			}
 }
