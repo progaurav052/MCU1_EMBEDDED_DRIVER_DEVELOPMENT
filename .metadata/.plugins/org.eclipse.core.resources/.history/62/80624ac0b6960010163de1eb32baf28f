@@ -7,47 +7,6 @@
 
 #include "stm32f4xx_gpio_driver.h"
 
-void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
-	uint32_temp=0;
-
-	//1. configure the mode of gpio pin
-	if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_ANALOG)
-	{
-		// non - interrupt mode
-		temp = (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode << (2 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
-		// now do set this mode in the GPIO register struct which is pointing to actual GPIOx peripheral
-		pGPIOHandle->pGPIOx->MODER |= temp;
-
-
-	}
-	else
-	{
-		// interrupt mode - code it later
-	}
-
-	//2. configure the speed
-	temp=0;
-	temp = (pGPIOHandle->GPIO_PinConfig.GPIO_PinSpeed << (2 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
-	pGPIOHandle->pGPIOx->OSPEEDR |= temp;
-
-	//3. configure the pupd settings
-	temp=0;
-	temp = (pGPIOHandle->GPIO_PinConfig.GPIO_PinPuPdControl << (2 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
-	pGPIOHandle->pGPIOx->PUPDR |= temp;
-	//4. configure the optype
-	temp=0;
-	temp = (pGPIOHandle->GPIO_PinConfig.GPIO_PinOPType <<  pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
-	pGPIOHandle->pGPIOx->OTYPER |= temp;
-
-	//5. configure the altfn
-	if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode == GPIO_MODE_ALTFN)
-	{
-			// configure the altfn registers
-
-
-	}
-
-}
 
 void GPIO_PeripheralClockControl(GPIO_RegDef_t *pGPIOx,uint8_t EnorDi){
 
