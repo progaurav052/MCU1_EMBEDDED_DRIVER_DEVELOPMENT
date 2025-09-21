@@ -19,7 +19,7 @@ typedef struct{
 	uint8_t GPIO_PinSpeed;   /*!< Possible values from @GPIO_SPEED_*>*/
 	uint8_t GPIO_PinPuPdControl;
 	uint8_t GPIO_PinOPType;
-	uint8_t GPIO_PinAltFunValue;
+	uint8_t GPIO_PinAltFunMode;
 }GPIO_PinConfig_t;
 
 
@@ -82,25 +82,6 @@ typedef struct{
 #define GPIO_PIN_PU					1
 #define GPIO_PIN_PD                 2
 
-/*GPIO ALternate functionality possible values */
-// there are 15 different alternate functionalities
-
-#define GPIO_ALTFN_0   				0
-#define GPIO_ALTFN_1   				1
-#define GPIO_ALTFN_2   				2
-#define GPIO_ALTFN_3   				3
-#define GPIO_ALTFN_4   				4
-#define GPIO_ALTFN_5   				5
-#define GPIO_ALTFN_6   				6
-#define GPIO_ALTFN_7   				7
-#define GPIO_ALTFN_8   				8
-#define GPIO_ALTFN_9   				9
-#define GPIO_ALTFN_10  				10
-#define GPIO_ALTFN_11   			11
-#define GPIO_ALTFN_12   			12
-#define GPIO_ALTFN_13  				13
-#define GPIO_ALTFN_14   			14
-#define GPIO_ALTFN_15  				15
 
 /******DRIVER API prototype****************/
 

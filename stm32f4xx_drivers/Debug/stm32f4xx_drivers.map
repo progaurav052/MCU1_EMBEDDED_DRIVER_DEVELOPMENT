@@ -275,18 +275,21 @@ Discarded input sections
  .group         0x00000000        0xc ./drivers/Src/stm32f4xx_gpio_driver.o
  .group         0x00000000        0xc ./drivers/Src/stm32f4xx_gpio_driver.o
  .group         0x00000000        0xc ./drivers/Src/stm32f4xx_gpio_driver.o
+ .group         0x00000000        0xc ./drivers/Src/stm32f4xx_gpio_driver.o
  .text          0x00000000        0x0 ./drivers/Src/stm32f4xx_gpio_driver.o
  .data          0x00000000        0x0 ./drivers/Src/stm32f4xx_gpio_driver.o
  .bss           0x00000000        0x0 ./drivers/Src/stm32f4xx_gpio_driver.o
+ .text.GPIO_Init
+                0x00000000      0x1bc ./drivers/Src/stm32f4xx_gpio_driver.o
  .text.GPIO_PeripheralClockControl
                 0x00000000      0x1d0 ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_info    0x00000000      0x2d9 ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_abbrev  0x00000000       0xae ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_info    0x00000000      0x414 ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_abbrev  0x00000000       0xc8 ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_aranges
-                0x00000000       0x20 ./drivers/Src/stm32f4xx_gpio_driver.o
+                0x00000000       0x28 ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_rnglists
-                0x00000000       0x14 ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_macro   0x00000000       0x7c ./drivers/Src/stm32f4xx_gpio_driver.o
+                0x00000000       0x28 ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_macro   0x00000000       0x81 ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_macro   0x00000000      0xad8 ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_macro   0x00000000       0x22 ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_macro   0x00000000       0x8e ./drivers/Src/stm32f4xx_gpio_driver.o
@@ -295,10 +298,11 @@ Discarded input sections
  .debug_macro   0x00000000       0x6a ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_macro   0x00000000      0x1df ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_macro   0x00000000      0x269 ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_line    0x00000000      0x562 ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_str     0x00000000     0x4df0 ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_macro   0x00000000      0x124 ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_line    0x00000000      0x6bf ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_str     0x00000000     0x51c1 ./drivers/Src/stm32f4xx_gpio_driver.o
  .comment       0x00000000       0x44 ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_frame   0x00000000       0x38 ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_frame   0x00000000       0x60 ./drivers/Src/stm32f4xx_gpio_driver.o
  .ARM.attributes
                 0x00000000       0x2e ./drivers/Src/stm32f4xx_gpio_driver.o
  .text          0x00000000        0x0 D:/GAURAV_G_PAI/STM32CubeIDE_1.19.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.win32_1.0.0.202411081344/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/nofp\libc_nano.a(libc_a-exit.o)
