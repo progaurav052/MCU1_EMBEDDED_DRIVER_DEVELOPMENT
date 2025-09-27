@@ -134,41 +134,6 @@ void GPIO_PeripheralClockControl(GPIO_RegDef_t *pGPIOx,uint8_t EnorDi){
 
 
 }
-uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx,uint8_t PinNumber){
-	uint8_t value;
-	value = (uint8_t)((pGPIOx->IDR >> PinNumber)&0x1);
-	return value; //either 0 or 1
-} // Read a bit from IDR of GPIO port
-uint16_t  GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx){
-
-	uint16_t value;
-	value = (uint16_t)pGPIOx->IDR;
-	return value;
-
-} // Read full IDR 16 bits
-void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx,uint8_t PinNumber, uint8_t Value){
-	// set an bit in the ODR
-	if(value==GPIO_PIN_SET)
-	{
-		pGPIOx->ODR|=(1<<PinNumber);
-
-	}
-	else if(value == GPIO_PIN_RESET)
-	{
-		pGPIOx->ODR&=~(1<<PinNumber);
-	}
-
-	//nothing to return
-}
-void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx,uint16_t Value){
-
-	pGPIOx->ODR=value;
-
-}
-void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx,uint8_t PinNumber){
-	pGPIOx->ODR^=(1<<PinNumber);
-
-}
 
 void GPIO_DeInit(GPIO_RegDef_t *pGPIOx){
 	if(pGPIOx == GPIOA){
