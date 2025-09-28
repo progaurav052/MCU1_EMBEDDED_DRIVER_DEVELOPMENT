@@ -1,22 +1,21 @@
-12:08:33 **** Incremental Build of configuration Debug for project stm32f4xx_drivers ****
+14:20:40 **** Incremental Build of configuration Debug for project stm32f4xx_drivers ****
 make -j8 all 
-arm-none-eabi-gcc "../drivers/Src/stm32f4xx_gpio_driver.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I"D:/GAURAV_G_PAI/Embedded-c/MCU1/stm32f4xx_drivers/drivers/Inc" -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"drivers/Src/stm32f4xx_gpio_driver.d" -MT"drivers/Src/stm32f4xx_gpio_driver.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "drivers/Src/stm32f4xx_gpio_driver.o"
-arm-none-eabi-gcc "../Src/001led_toggle.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I"D:/GAURAV_G_PAI/Embedded-c/MCU1/stm32f4xx_drivers/drivers/Inc" -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/001led_toggle.d" -MT"Src/001led_toggle.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/001led_toggle.o"
+arm-none-eabi-gcc "../Src/002led_toggle_btn.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F407G_DISC1 -DSTM32F4 -DSTM32F407VGTx -c -I"D:/GAURAV_G_PAI/Embedded-c/MCU1/stm32f4xx_drivers/drivers/Inc" -I../Inc -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Src/002led_toggle_btn.d" -MT"Src/002led_toggle_btn.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Src/002led_toggle_btn.o"
 arm-none-eabi-gcc -o "stm32f4xx_drivers.elf" @"objects.list"   -mcpu=cortex-m4 -T"D:\GAURAV_G_PAI\Embedded-c\MCU1\stm32f4xx_drivers\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="stm32f4xx_drivers.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 Finished building target: stm32f4xx_drivers.elf
  
 arm-none-eabi-size  stm32f4xx_drivers.elf 
 arm-none-eabi-objdump -h -S stm32f4xx_drivers.elf  > "stm32f4xx_drivers.list"
    text	   data	    bss	    dec	    hex	filename
-   1704	      0	   1568	   3272	    cc8	stm32f4xx_drivers.elf
+   1804	      0	   1568	   3372	    d2c	stm32f4xx_drivers.elf
 Finished building: default.size.stdout
  
 Finished building: stm32f4xx_drivers.list
  
-12:08:40 **** Incremental Build of configuration Debug for project stm32f4xx_drivers ****
+14:20:48 **** Incremental Build of configuration Debug for project stm32f4xx_drivers ****
 make -j8 all 
 arm-none-eabi-size  stm32f4xx_drivers.elf 
    text	   data	    bss	    dec	    hex	filename
-   1704	      0	   1568	   3272	    cc8	stm32f4xx_drivers.elf
+   1804	      0	   1568	   3372	    d2c	stm32f4xx_drivers.elf
 Finished building: default.size.stdout
  
