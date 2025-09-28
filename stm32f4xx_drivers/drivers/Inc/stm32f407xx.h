@@ -116,6 +116,7 @@ typedef struct{
 	__vo uint32_t AHB1RSTR;
 	__vo uint32_t AHB2RSTR;
 	__vo uint32_t AHB3RSTR;
+	__vo uint32_t RESERVED0;
 	__vo uint32_t APB1RSTR;
 	__vo uint32_t APB2RSTR;
 	__vo uint32_t RESERVED1;
@@ -154,15 +155,15 @@ RCC_RegDef_t *pRCC = RCC;
 /*define clock Enable Macros for GPIOx peripherals
  */
 
-#define GPIOA_PCLK_EN()			 (RCC->AHB1ENR |= ( 1<<0 ))
-#define GPIOB_PCLK_EN()			 (RCC->AHB1ENR |= ( 1<<1 ))
-#define GPIOC_PCLK_EN()			 (RCC->AHB1ENR |= ( 1<<2 ))
-#define GPIOD_PCLK_EN()			 (RCC->AHB1ENR |= ( 1<<3 ))
-#define GPIOE_PCLK_EN()			 (RCC->AHB1ENR |= ( 1<<4 ))
-#define GPIOF_PCLK_EN()			 (RCC->AHB1ENR |= ( 1<<5 ))
-#define GPIOG_PCLK_EN()			 (RCC->AHB1ENR |= ( 1<<6 ))
-#define GPIOH_PCLK_EN()			 (RCC->AHB1ENR |= ( 1<<7 ))
-#define GPIOI_PCLK_EN()			 (RCC->AHB1ENR |= ( 1<<8 ))
+#define GPIOA_PCLK_EN()			 (RCC->AHB1ENR |= ( 1 << 0 ))
+#define GPIOB_PCLK_EN()			 (RCC->AHB1ENR |= ( 1 << 1 ))
+#define GPIOC_PCLK_EN()			 (RCC->AHB1ENR |= ( 1 << 2 ))
+#define GPIOD_PCLK_EN()			 (RCC->AHB1ENR |= ( 1 << 3 ))
+#define GPIOE_PCLK_EN()			 (RCC->AHB1ENR |= ( 1 << 4 ))
+#define GPIOF_PCLK_EN()			 (RCC->AHB1ENR |= ( 1 << 5 ))
+#define GPIOG_PCLK_EN()			 (RCC->AHB1ENR |= ( 1 << 6 ))
+#define GPIOH_PCLK_EN()			 (RCC->AHB1ENR |= ( 1 << 7 ))
+#define GPIOI_PCLK_EN()			 (RCC->AHB1ENR |= ( 1 << 8 ))
 
 
 /*define clock Enable Macros for I2Cx peripherals
@@ -254,6 +255,9 @@ RCC_RegDef_t *pRCC = RCC;
 #define GPIOG_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<6));}while(0)
 #define GPIOH_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<7));}while(0)
 #define GPIOI_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<8));}while(0)
+
+#include "stm32f4xx_gpio_driver.h"
+
 
 #endif /* INC_STM32F407XX_H_ */
 

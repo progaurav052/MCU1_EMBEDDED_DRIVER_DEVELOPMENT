@@ -148,12 +148,12 @@ uint16_t  GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx){
 } // Read full IDR 16 bits
 void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx,uint8_t PinNumber, uint8_t Value){
 	// set an bit in the ODR
-	if(value==GPIO_PIN_SET)
+	if(Value==GPIO_PIN_SET)
 	{
 		pGPIOx->ODR|=(1<<PinNumber);
 
 	}
-	else if(value == GPIO_PIN_RESET)
+	else if(Value == GPIO_PIN_RESET)
 	{
 		pGPIOx->ODR&=~(1<<PinNumber);
 	}
@@ -162,7 +162,7 @@ void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx,uint8_t PinNumber, uint8_t Valu
 }
 void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx,uint16_t Value){
 
-	pGPIOx->ODR=value;
+	pGPIOx->ODR=Value;
 
 }
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx,uint8_t PinNumber){
