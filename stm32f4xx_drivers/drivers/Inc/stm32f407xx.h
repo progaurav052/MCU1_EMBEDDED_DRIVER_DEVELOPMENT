@@ -246,6 +246,7 @@ RCC_RegDef_t *pRCC = RCC;
 
 
 /*MAcros to reset the GPIOx peripherals */
+//set it once and clear that again , if  left as 1 ... it will keep on resetting
 #define GPIOA_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<0));}while(0)
 #define GPIOB_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<1));}while(0)
 #define GPIOC_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<2));}while(0)

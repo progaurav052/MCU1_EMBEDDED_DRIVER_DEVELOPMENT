@@ -47,18 +47,18 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 			// configure the altfn registers
 		uint8_t temp1,temp2;
 
-		temp1 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber /8;
-		temp2 = pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber %8;
+		temp1 = pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode /8;
+		temp2 = pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode %8;
 
 		if(temp1 ==0){
 			pGPIOHandle->pGPIOx->AFRL &=~(0xF << (4 * temp2));
-			pGPIOHandle->pGPIOx->AFRL |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunValue << (4 * temp2));
+			pGPIOHandle->pGPIOx->AFRL |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode << (4 * temp2));
 
 		}
 		else
 		{
 			pGPIOHandle->pGPIOx->AFRH &=~(0xF<< (4 * temp2));
-			pGPIOHandle->pGPIOx->AFRH |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunValue << (4 * temp2));
+			pGPIOHandle->pGPIOx->AFRH |= (pGPIOHandle->GPIO_PinConfig.GPIO_PinAltFunMode << (4 * temp2));
 		}
 
 
