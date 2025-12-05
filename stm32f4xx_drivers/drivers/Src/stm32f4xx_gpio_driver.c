@@ -136,7 +136,7 @@ void GPIO_PeripheralClockControl(GPIO_RegDef_t *pGPIOx,uint8_t EnorDi){
 }
 uint8_t GPIO_ReadFromInputPin(GPIO_RegDef_t *pGPIOx,uint8_t PinNumber){
 	uint8_t value;
-	value = (uint8_t)((pGPIOx->IDR >> PinNumber)&0x1);
+	value = (uint8_t)((pGPIOx->IDR >> PinNumber)&0x1); // this logic is more suitable rather than shifting 1 to the right , because return value is 0 or 1
 	return value; //either 0 or 1
 } // Read a bit from IDR of GPIO port
 uint16_t  GPIO_ReadFromInputPort(GPIO_RegDef_t *pGPIOx){
