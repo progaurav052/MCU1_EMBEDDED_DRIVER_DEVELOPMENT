@@ -148,6 +148,25 @@ typedef struct{
 
 #define RCC 			((RCC_RegDef_t*)RCC_BASEADDR)
 
+
+
+/*EXTI Peripheral Register Definition *
+ *
+ */
+
+typedef struct{
+
+	__vo uint32_t IMR;
+	__vo uint32_t EMR;
+	__vo uint32_t RTSR;
+	__vo uint32_t FTSR;
+	__vo uint32_t SWIER;
+	__vo uint32_t PR;
+
+}EXTI_RegDef_t;
+
+
+#define EXTI            ((EXTI_RegDef_t*)EXTI_BASEADDR)
 /*
 RCC_RegDef_t *pRCC = RCC;
 */
@@ -192,6 +211,10 @@ RCC_RegDef_t *pRCC = RCC;
 
 #define UART4_PCLK_EN()			( RCC->AHB1ENR |= ( 1<<19 ))
 #define UART5_PCLK_EN()			( RCC->AHB1ENR |= ( 1<<20 ))
+
+
+//define clock enable macro for SYSCFG peripheral
+#define SYSCFG_PCLK_EN()      ( RCC->APB1ENR |= ( 1<<14 ))
 
 
 

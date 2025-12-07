@@ -59,9 +59,9 @@ typedef struct{
 #define GPIO_MODE_ALTFN 		2
 #define GPIO_MODE_ANALOG 		3
 // we also have to configure for the Interrupt Modes such as falling edge , rising edge , etc ...
-#define GPIO_MODE_IT_FE			4
-#define GPIO_MODE_IT_RE 		5
-#define GPIO_MODE_IT_RFE		6
+#define GPIO_MODE_IT_FT			4
+#define GPIO_MODE_IT_RT 		5
+#define GPIO_MODE_IT_RFT		6
 
 
 

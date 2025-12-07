@@ -22,6 +22,38 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 	else
 	{
 		// interrupt mode - code it later
+		if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_IT_FT)
+		{
+			// configure Falling trigger using FTSR
+			EXTI->FTSR|= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+
+			//clear the corresponding RTSR bit for safety
+			EXTI->RTSR|= ~(1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+		}
+		else if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_IT_RT)
+		{
+			//configure Rising trigger RTSR
+			EXTI->RTSR|= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+
+			//clear the corresponding FTSR bit for safety
+			EXTI->FTSR|= ~(1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+		}
+		else if(pGPIOHandle->GPIO_PinConfig.GPIO_PinMode <= GPIO_MODE_IT_RFT)
+		{
+			// configure both falling trigger and rising trigger
+			// FTSR and RTSR
+			EXTI->FTSR|= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+			EXTI->RTSR|= (1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+
+		}
+
+		//2. configure the GPIO port selection in the SYSCFG_EXTICR
+
+
+		//3.  enable the EXTI interrupt Delivery using Interrupt mask register
+        // enable that EXTI line  to deliver the interrupt from MCU side
+		EXTI->IMR=(1 << pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
+
 	}
 
 	//2. configure the speed
