@@ -65,7 +65,7 @@ int main()
 
 	while(1)
 	{
-		if(!GPIO_ReadFromInputPin(GPIOExtBtn.pGPIOx, GPIOExtBtn.GPIO_PinConfig.GPIO_PinNumber))
+		if(GPIO_ReadFromInputPin(GPIOExtBtn.pGPIOx, GPIOExtBtn.GPIO_PinConfig.GPIO_PinNumber))
 		{
 			GPIO_WriteToOutputPin(GPIOLed_12.pGPIOx, GPIOLed_12.GPIO_PinConfig.GPIO_PinNumber, GPIO_PIN_SET);
 			GPIO_WriteToOutputPin(GPIOLed_13.pGPIOx, GPIOLed_13.GPIO_PinConfig.GPIO_PinNumber, GPIO_PIN_SET);
