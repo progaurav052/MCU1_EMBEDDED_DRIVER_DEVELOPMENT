@@ -148,7 +148,9 @@ typedef struct{
 
 #define RCC 			((RCC_RegDef_t*)RCC_BASEADDR)
 
-
+/*
+RCC_RegDef_t *pRCC = RCC;
+*/
 
 /*EXTI Peripheral Register Definition *
  *
@@ -167,10 +169,28 @@ typedef struct{
 
 
 #define EXTI            ((EXTI_RegDef_t*)EXTI_BASEADDR)
-/*
-RCC_RegDef_t *pRCC = RCC;
-*/
 
+/*SYSCFG Peripheral Register Definition *
+ * used to select the GPIO port
+ */
+
+typedef struct {
+	__vo uint32_t MEMRMP;
+	__vo uint32_t PMC;
+	/*__vo uint32_t EXTICR1;
+	__vo uint32_t EXTICR2;
+	__vo uint32_t EXTICR3;
+	__vo uint32_t EXTICR4;
+	*/
+	__vo uint32_t EXTICR[4];
+	__vo uint32_t RESERVED1;
+	__vo uint32_t RESERVED2;
+	__vo uint32_t CMPCR;
+
+
+}SYSCFG_RegDef_t;
+
+#define SYSCFG         ((SYSCFG_RegDef_t*)SYSCFG_BASEADDR)
 /*define clock Enable Macros for GPIOx peripherals
  */
 
@@ -266,6 +286,17 @@ RCC_RegDef_t *pRCC = RCC;
 #define RESET				DISABLE
 #define GPIO_PIN_SET		SET
 #define GPIO_PIN_RESET		RESET
+
+
+#define GPIO_BASEADDR_TO_CODE(x)  		  ( (x==GPIOA)? 0 :\
+											(x==GPIOB)? 1 :\
+											(x==GPIOC)? 2 :\
+											(x==GPIOD)? 3 :\
+											(x==GPIOE)? 4 :\
+											(x==GPIOF)? 5 :\
+											(x==GPIOF)? 6 :\
+											(x==GPIOG)? 7 :0 )
+
 
 
 /*MAcros to reset the GPIOx peripherals */
