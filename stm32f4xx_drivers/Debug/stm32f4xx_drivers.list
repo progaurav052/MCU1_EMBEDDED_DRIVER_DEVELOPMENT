@@ -29,25 +29,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  12 .ARM.attributes 0000002a  00000000  00000000  000018a0  2**0
                   CONTENTS, READONLY
- 13 .debug_info   0000093f  00000000  00000000  000018ca  2**0
+ 13 .debug_info   000009f3  00000000  00000000  000018ca  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 0000023d  00000000  00000000  00002209  2**0
+ 14 .debug_abbrev 0000027f  00000000  00000000  000022bd  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 000000a8  00000000  00000000  00002448  2**3
+ 15 .debug_aranges 000000c0  00000000  00000000  00002540  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 00000080  00000000  00000000  000024f0  2**0
+ 16 .debug_rnglists 00000093  00000000  00000000  00002600  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  00001425  00000000  00000000  00002570  2**0
+ 17 .debug_macro  00001498  00000000  00000000  00002693  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00000df6  00000000  00000000  00003995  2**0
+ 18 .debug_line   00000ee1  00000000  00000000  00003b2b  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    00005610  00000000  00000000  0000478b  2**0
+ 19 .debug_str    00005893  00000000  00000000  00004a0c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  00009d9b  2**0
+ 20 .comment      00000043  00000000  00000000  0000a29f  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  000001d4  00000000  00000000  00009de0  2**2
+ 21 .debug_frame  0000024c  00000000  00000000  0000a2e4  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 00000082  00000000  00000000  00009fb4  2**0
+ 22 .debug_line_str 00000082  00000000  00000000  0000a530  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1109,11 +1109,11 @@ void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx,uint8_t PinNumber, uint8_t Valu
  800080c:	431a      	orrs	r2, r3
  800080e:	687b      	ldr	r3, [r7, #4]
  8000810:	615a      	str	r2, [r3, #20]
+	}
+	else if(Value == GPIO_PIN_RESET)
 	{
 		pGPIOx->ODR&=~(1<<PinNumber);
 	}
-
-	//nothing to return
 }
  8000812:	e00c      	b.n	800082e <GPIO_WriteToOutputPin+0x44>
 	else if(Value == GPIO_PIN_RESET)

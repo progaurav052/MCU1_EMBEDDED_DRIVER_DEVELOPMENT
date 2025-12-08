@@ -114,7 +114,8 @@ void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx,uint8_t PinNumber, uint8_t Valu
 void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx,uint16_t Value);
 void GPIO_ToggleOutputPin(GPIO_RegDef_t *pGPIOx,uint8_t PinNumber);
 
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnorDi);
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi);
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority);
 void GPIO_IRQHandling(uint8_t PinNumber); // from which pin Interrupt has been triggerd
 
 

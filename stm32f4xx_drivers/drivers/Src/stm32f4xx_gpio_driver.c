@@ -14,7 +14,7 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 	{
 		// non - interrupt mode
 		temp = (pGPIOHandle->GPIO_PinConfig.GPIO_PinMode << (2 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber));
-		// now do set this mode in the GPIO register struct which is pointing to actual GPIOx peripheral
+		// now do set this mode in the GPIO register structure which is pointing to actual GPIOx peripheral
 		pGPIOHandle->pGPIOx->MODER &=(~(0x3 <<(2 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber)));
 		pGPIOHandle->pGPIOx->MODER |= temp;
 
@@ -197,8 +197,6 @@ void GPIO_WriteToOutputPin(GPIO_RegDef_t *pGPIOx,uint8_t PinNumber, uint8_t Valu
 	{
 		pGPIOx->ODR&=~(1<<PinNumber);
 	}
-
-	//nothing to return
 }
 void GPIO_WriteToOutputPort(GPIO_RegDef_t *pGPIOx,uint16_t Value){
 
@@ -242,9 +240,8 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx){
 
 
 
-// Interrupt configuration , configuring NVIC registers
-
-void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnorDi){
+/* Interrupt configuration , configuring NVIC registers ISER and ICER */
+void GPIO_IRQInterruptConfig(uint8_t IRQNumber,  uint8_t EnorDi){
 	// Note only around 96 IRQ are implemented
 	// we can use just first three ISER and ICER registers
 	if(EnorDi == ENABLE)
@@ -282,6 +279,21 @@ void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnorDi){
 	}
 
 }
+
+void GPIO_InterruptPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
+{
+	uint8_t iprx = IRQNumber/4;
+	uint8_t iprx_section = IRQNumber%4;
+	// in each of the section first 4 bits lower half is not implemented , only upper half is implemented
+	uint8_t shift_amount = (8 *iprx_section) + (8 - NO_OF_BITS_IMPLEMENTED_IPR);
+
+	*(NVIC_PRI_BASE_ADDR + (iprx*4)) |= (IRQPriority  << shift_amount);
+}
+
+
+
+
+
 void GPIO_IRQHandling(uint8_t PinNumber){
 
 
