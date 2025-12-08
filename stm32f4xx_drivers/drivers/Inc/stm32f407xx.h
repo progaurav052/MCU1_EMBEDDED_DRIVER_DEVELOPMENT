@@ -9,6 +9,23 @@
 #define INC_STM32F407XX_H_
 
 #include <stdint.h>
+#define __vo                                volatile
+
+/*Processor specific Details*/
+
+/*NVIC Registers ISER and ICER register addresses*/
+
+#define NVIC_ISER0   ((__vo uint32_t*)0xE000E100 )
+#define NVIC_ISER1   ((__vo uint32_t*)0xE000E104 )
+#define NVIC_ISER2   ((__vo uint32_t*)0xE000E108 )
+#define NVIC_ISER3   ((__vo uint32_t*)0xE000E10C )
+
+
+#define NVIC_ICER0   ((__vo uint32_t*)0xE000E180 )
+#define NVIC_ICER1   ((__vo uint32_t*)0xE000E184 )
+#define NVIC_ICER2   ((__vo uint32_t*)0xE000E188 )
+#define NVIC_ICER3   ((__vo uint32_t*)0xE000E18C )
+
 
 #define __vo                                volatile
 #define FLASH_BASEADDR						0x08000000U
@@ -296,6 +313,16 @@ typedef struct {
 											(x==GPIOF)? 5 :\
 											(x==GPIOF)? 6 :\
 											(x==GPIOG)? 7 :0 )
+
+
+#define IRQ_NO_EXTI0  		6
+#define IRQ_NO_EXTI1    	7
+#define IRQ_NO_EXTI2  		8
+#define IRQ_NO_EXTI3    	9
+#define IRQ_NO_EXTI4  		10
+#define IRQ_NO_EXTI9_5    	23
+#define IRQ_NO_EXTI15_10	40
+
 
 
 

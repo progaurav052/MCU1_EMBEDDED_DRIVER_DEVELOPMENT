@@ -239,3 +239,50 @@ void GPIO_DeInit(GPIO_RegDef_t *pGPIOx){
 				GPIOI_REG_RESET();
 			}
 }
+
+
+
+// Interrupt configuration , configuring NVIC registers
+
+void GPIO_IRQConfig(uint8_t IRQNumber, uint8_t IRQPriority, uint8_t EnorDi){
+	// Note only around 96 IRQ are implemented
+	// we can use just first three ISER and ICER registers
+	if(EnorDi == ENABLE)
+	{
+		if(IRQNumber <=31)
+		{
+           *NVIC_ISER0 |=(1 << IRQNumber);
+		}
+		else if(IRQNumber >=32 && IRQNumber <64)
+		{
+			*NVIC_ISER1 |=(1 << (IRQNumber % 32));
+
+		}
+		else if(IRQNumber >=64 && IRQNumber <96)
+		{
+			*NVIC_ISER2 |=(1 << (IRQNumber % 32));
+		}
+	}
+	else
+	{
+		if(IRQNumber <=31)
+		{
+			*NVIC_ICER0 |=(1 << IRQNumber);
+		}
+		else if(IRQNumber >=32 && IRQNumber <64)
+		{
+			*NVIC_ICER1 |=(1 << (IRQNumber % 32));
+
+		}
+		else if(IRQNumber >=64 && IRQNumber <96)
+		{
+			*NVIC_ICER2 |=(1 << (IRQNumber % 32));
+
+		}
+	}
+
+}
+void GPIO_IRQHandling(uint8_t PinNumber){
+
+
+}
