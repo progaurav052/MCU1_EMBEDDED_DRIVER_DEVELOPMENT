@@ -76,6 +76,8 @@ void GPIO_Init(GPIO_Handle_t *pGPIOHandle){
 	pGPIOHandle->pGPIOx->PUPDR &=(~(0x3 <<(2 * pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber)));
 	pGPIOHandle->pGPIOx->PUPDR |= temp;
 	//4. configure the optype
+	// this code should be configured only if the mode is in OUTPUT Mode
+	// Need to add checks for this code
 	temp=0;
 	temp = (pGPIOHandle->GPIO_PinConfig.GPIO_PinOPType <<  pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber);
 	pGPIOHandle->pGPIOx->OTYPER &=(~(0x1 <<(pGPIOHandle->GPIO_PinConfig.GPIO_PinNumber)));
