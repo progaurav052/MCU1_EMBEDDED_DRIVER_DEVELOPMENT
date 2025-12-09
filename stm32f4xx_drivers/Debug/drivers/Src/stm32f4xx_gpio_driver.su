@@ -8,4 +8,4 @@
 ../drivers/Src/stm32f4xx_gpio_driver.c:211:6:GPIO_DeInit	16	static
 ../drivers/Src/stm32f4xx_gpio_driver.c:244:6:GPIO_IRQInterruptConfig	16	static
 ../drivers/Src/stm32f4xx_gpio_driver.c:283:6:GPIO_InterruptPriorityConfig	24	static
-../drivers/Src/stm32f4xx_gpio_driver.c:297:6:GPIO_IRQHandling	16	static
+../drivers/Src/stm32f4xx_gpio_driver.c:295:6:GPIO_IRQHandling	16	static
