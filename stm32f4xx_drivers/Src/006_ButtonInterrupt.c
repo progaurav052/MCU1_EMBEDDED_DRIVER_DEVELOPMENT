@@ -7,13 +7,19 @@
 
 #include "stm32f407xx.h"
 
+void delay(void){
+	for(uint32_t i=0;i<500000;i++);
+
+}
+
 int main()
 {
 	// connect the Button to PD5  external Led to P12
 	GPIO_Handle_t GPIOLed,GPIOButton;
 
 	//initialize the GPIOLed and GPIO Button
-
+    memset(&GPIOButton,0,sizeof(GPIOButton));
+    memset(&GPIOLed,0,sizeof(GPIOLed));
 	GPIOLed.pGPIOx=GPIOD;
 	GPIOLed.GPIO_PinConfig.GPIO_PinMode=GPIO_MODE_OUT;
 	GPIOLed.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_12;
@@ -38,11 +44,8 @@ int main()
 	GPIO_Init(&GPIOLed);
 
 	//call the functions to configure the interrupt on the Processor side (NVIC)
-	GPIO_IRQInterruptConfig(IRQ_NO_EXTI9_5, ENBALE);
+	GPIO_IRQInterruptConfig(IRQ_NO_EXTI9_5, ENABLE);
 	GPIO_IRQPriorityConfig(IRQ_NO_EXTI9_5, 15);
-
-
-
 
 
 	while(1);
@@ -54,9 +57,8 @@ void EXTI9_5_IRQHandler(void)
 {
 	// ISR which will call  the GPIO_handler
 
+	delay(); // to settle the vibrations
 	GPIO_IRQHandling(GPIO_PIN_NO_5);
 	GPIO_ToggleOutputPin(GPIOD, GPIO_PIN_NO_12);
-
-
 
 }

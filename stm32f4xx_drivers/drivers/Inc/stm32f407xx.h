@@ -9,6 +9,7 @@
 #define INC_STM32F407XX_H_
 
 #include <stdint.h>
+#include <string.h>
 #define __vo                                volatile
 
 /*Processor specific Details , get these details from cortex-m4 documentation */
@@ -202,7 +203,7 @@ typedef struct{
 typedef struct {
 	__vo uint32_t MEMRMP;
 	__vo uint32_t PMC;
-	/*__vo uint32_t EXTICR1;
+    /*__vo uint32_t EXTICR1;
 	__vo uint32_t EXTICR2;
 	__vo uint32_t EXTICR3;
 	__vo uint32_t EXTICR4;
@@ -259,7 +260,7 @@ typedef struct {
 
 
 //define clock enable macro for SYSCFG peripheral
-#define SYSCFG_PCLK_EN()      ( RCC->APB1ENR |= ( 1<<14 ))
+#define SYSCFG_PCLK_EN()      ( RCC->APB2ENR |= ( 1<<14 ))
 
 
 
@@ -313,14 +314,14 @@ typedef struct {
 #define GPIO_PIN_RESET		RESET
 
 
-#define GPIO_BASEADDR_TO_CODE(x)  		  ( (x==GPIOA)? 0 :\
-											(x==GPIOB)? 1 :\
-											(x==GPIOC)? 2 :\
-											(x==GPIOD)? 3 :\
-											(x==GPIOE)? 4 :\
-											(x==GPIOF)? 5 :\
-											(x==GPIOF)? 6 :\
-											(x==GPIOG)? 7 :0 )
+#define GPIO_BASEADDR_TO_CODE(x)  		  ( (x == GPIOA)?0:\
+											(x == GPIOB)?1:\
+											(x == GPIOC)?2:\
+											(x == GPIOD)?3:\
+											(x == GPIOE)?4:\
+											(x == GPIOG)?5:\
+											(x == GPIOH)?6:\
+											(x == GPIOI)?7:0 )
 
 
 #define IRQ_NO_EXTI0  		6
