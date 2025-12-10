@@ -1327,9 +1327,9 @@ void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
  8000970:	3304      	adds	r3, #4
  8000972:	737b      	strb	r3, [r7, #13]
 
-	*(NVIC_PRI_BASE_ADDR + (iprx*4)) |= (IRQPriority  << shift_amount);
+	*(NVIC_PRI_BASE_ADDR + iprx) |= (IRQPriority  << shift_amount);
  8000974:	7bfb      	ldrb	r3, [r7, #15]
- 8000976:	011b      	lsls	r3, r3, #4
+ 8000976:	009b      	lsls	r3, r3, #2
  8000978:	f103 4360 	add.w	r3, r3, #3758096384	@ 0xe0000000
  800097c:	f503 4364 	add.w	r3, r3, #58368	@ 0xe400
  8000980:	681a      	ldr	r2, [r3, #0]
@@ -1338,7 +1338,7 @@ void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
  8000986:	fa01 f303 	lsl.w	r3, r1, r3
  800098a:	4619      	mov	r1, r3
  800098c:	7bfb      	ldrb	r3, [r7, #15]
- 800098e:	011b      	lsls	r3, r3, #4
+ 800098e:	009b      	lsls	r3, r3, #2
  8000990:	f103 4360 	add.w	r3, r3, #3758096384	@ 0xe0000000
  8000994:	f503 4364 	add.w	r3, r3, #58368	@ 0xe400
  8000998:	430a      	orrs	r2, r1

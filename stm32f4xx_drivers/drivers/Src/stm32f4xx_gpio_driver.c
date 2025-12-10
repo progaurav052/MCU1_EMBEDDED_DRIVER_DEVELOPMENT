@@ -282,14 +282,14 @@ void GPIO_IRQInterruptConfig(uint8_t IRQNumber,  uint8_t EnorDi){
 
 }
 
-void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint8_t IRQPriority)
+void GPIO_IRQPriorityConfig(uint8_t IRQNumber, uint32_t IRQPriority)
 {
 	uint8_t iprx = IRQNumber/4;
 	uint8_t iprx_section = IRQNumber%4;
 	// in each of the section first 4 bits lower half is not implemented , only upper half is implemented
 	uint8_t shift_amount = (8 *iprx_section) + (8 - NO_OF_BITS_IMPLEMENTED_IPR);
 
-	*(NVIC_PRI_BASE_ADDR + (iprx*4)) |= (IRQPriority  << shift_amount);
+	*(NVIC_PRI_BASE_ADDR + iprx) |= (IRQPriority  << shift_amount);
 }
 
 
