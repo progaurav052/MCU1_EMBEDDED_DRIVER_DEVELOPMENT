@@ -88,6 +88,7 @@
  * Base addresses of peripherals which are hanging on APB2 bus*/
 #define EXTI_BASEADDR						(APB2PERIPH_BASEADDR + 0x3C00)
 #define SPI1_BASEADDR						(APB2PERIPH_BASEADDR + 0x3000)
+#define SPI4_BASEADDR						(APB2PERIPH_BASEADDR + 0x3400)
 #define SYSCFG_BASEADDR        				(APB2PERIPH_BASEADDR + 0x3800)
 #define USART1_BASEADDR						(APB2PERIPH_BASEADDR + 0x1000)
 #define USART6_BASEADDR						(APB2PERIPH_BASEADDR + 0x1400)
@@ -217,6 +218,31 @@ typedef struct {
 }SYSCFG_RegDef_t;
 
 #define SYSCFG         ((SYSCFG_RegDef_t*)SYSCFG_BASEADDR)
+
+
+/*SPI Peripheral Register Definition*
+ used to select the SPI peripheral
+ */
+typedef struct{
+	__vo uint32_t SPI_CR1;
+	__vo uint32_t SPI_CR2;
+	__vo uint32_t SPI_SR;
+	__vo uint32_t SPI_DR;
+	__vo uint32_t SPI_CRCPR;
+	__vo uint32_t SPI_RXCRCR;
+	__vo uint32_t SPI_TXCRCR;
+	__vo uint32_t SPI_I2SCFGR;
+	__vo uint32_t SPI_I2SPR;
+
+}SPI_RegDef_t;
+
+# define SPI1  ((SPI_RegDef_t*)SPI1_BASEADDR);
+# define SPI2  ((SPI_RegDef_t*)SPI2_BASEADDR);
+# define SPI3  ((SPI_RegDef_t*)SPI3_BASEADDR);
+# define SPI4  ((SPI_RegDef_t*)SPI4_BASEADDR);
+
+
+
 /*define clock Enable Macros for GPIOx peripherals
  */
 
@@ -348,6 +374,7 @@ typedef struct {
 #define GPIOI_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<8));}while(0)
 
 #include "stm32f4xx_gpio_driver.h"
+#include "stm32f4xx_spi_driver.h"
 
 
 #endif /* INC_STM32F407XX_H_ */
