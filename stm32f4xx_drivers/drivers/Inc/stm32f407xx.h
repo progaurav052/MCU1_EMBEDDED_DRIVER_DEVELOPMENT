@@ -236,10 +236,10 @@ typedef struct{
 
 }SPI_RegDef_t;
 
-# define SPI1  ((SPI_RegDef_t*)SPI1_BASEADDR);
-# define SPI2  ((SPI_RegDef_t*)SPI2_BASEADDR);
-# define SPI3  ((SPI_RegDef_t*)SPI3_BASEADDR);
-# define SPI4  ((SPI_RegDef_t*)SPI4_BASEADDR);
+# define SPI1  ((SPI_RegDef_t*)SPI1_BASEADDR)
+# define SPI2  ((SPI_RegDef_t*)SPI2_BASEADDR)
+# define SPI3  ((SPI_RegDef_t*)SPI3_BASEADDR)
+# define SPI4  ((SPI_RegDef_t*)SPI4_BASEADDR)
 
 
 
@@ -270,6 +270,7 @@ typedef struct{
 #define SPI1_PCLK_EN()			( RCC->APB2ENR |= ( 1<<12 ))
 #define SPI2_PCLK_EN()			( RCC->APB1ENR |= ( 1<<14 ))
 #define SPI3_PCLK_EN()			( RCC->APB1ENR |= ( 1<<15 ))
+#define SPI4_PCLK_EN()			( RCC->APB2ENR |= ( 1<<13 ))
 
 /*define clock Enable Macros for USARTx peripherals
  */
@@ -317,6 +318,7 @@ typedef struct{
 #define SPI1_PCLK_DI()			( RCC->APB2ENR &= ~( 1<<12 ))
 #define SPI2_PCLK_DI()			( RCC->APB1ENR &= ~( 1<<14 ))
 #define SPI3_PCLK_DI()			( RCC->APB1ENR &= ~( 1<<15 ))
+#define SPI4_PCLK_DI()			( RCC->APB1ENR &= ~( 1<<13 ))
 
 /*define clock Disable Macros for USARTx peripherals
  */
@@ -361,7 +363,7 @@ typedef struct{
 
 
 
-/*MAcros to reset the GPIOx peripherals */
+/*Macros to reset the GPIOx peripherals */
 //set it once and clear that again , if  left as 1 ... it will keep on resetting
 #define GPIOA_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<0));}while(0)
 #define GPIOB_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<1));}while(0)
