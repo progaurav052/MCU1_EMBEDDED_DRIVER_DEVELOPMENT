@@ -27,9 +27,59 @@ typedef struct{
 }SPI_Handle_t;
 
 
+/*
+ * @SPI_DeviceMode  <-Refer the reference manual->
+ */
+#define SPI_DEVICE_MODE_SLAVE   0
+#define SPI_DEVICE_MODE_MASTER 	1
 
+
+
+/*
+ * @SPI_BusConfig	<-Refer the reference manual->
+ * */
+#define SPI_BUS_CONFIG_FD   				1  //moslty working on this
+#define SPI_BUS_CONFIG_HD					2
+//#define SPI_BUS_CONFIG_SIMPLEX_TXONLY 		3 // we dont need this , its basically FD only with RX line disbaled
+#define SPI_BUS_CONFIG_SIMPLEX_RXONLY 		3
+
+
+/*
+ * @SPI_SclkSpeed  <-Refer the reference manual->
+ * */
+#define SPI_SCLK_SPEED_DIV2 	0
+#define SPI_SCLK_SPEED_DIV4 	1
+#define SPI_SCLK_SPEED_DIV8 	2
+#define SPI_SCLK_SPEED_DIV16 	3
+#define SPI_SCLK_SPEED_DIV32 	4
+#define SPI_SCLK_SPEED_DIV64 	5
+#define SPI_SCLK_SPEED_DIV128 	6
+#define SPI_SCLK_SPEED_DIV256 	7
+
+/*
+ * @SPI_DFF  <-Refer the reference manual->
+ * */
+#define SPI_DFF_8BITS  		0
+#define SPI_DFF_16BITS  	1
+
+/*
+ * @SPI_CPOL  <-Refer the reference manual->
+ * */
+#define SPI_CPOL_HIGH 		0
+#define SPI_CPOL_LOW		1
+
+/*
+ * @SPI_CPHA  <-Refer the reference manual->
+ * */
+#define SPI_CPHA_LOW		0
+#define SPI_CPHA_HIGH		1
+
+/*
+ * @SPI_SSM  <-Refer the reference manual->
+ * */
+#define	SPI_SSM_EN		1
+#define SPI_SSM_DI		0  // disabled by default
 //Adding API Prototypes for SPI peripherals
-
 /*Peripheral clock control */
 void SPI_PeripheralClockControl(SPI_RegDef_t *pSPIx,uint8_t EnorDi);
 
