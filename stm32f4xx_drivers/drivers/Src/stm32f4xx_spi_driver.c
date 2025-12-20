@@ -11,6 +11,18 @@
 //Adding Definition for  API Prototypes for SPI peripherals
 
 /*Peripheral clock control */
+
+uint8_t getTXEBitStatus(SPI_RegDef_t *pSPIx)
+{
+	if(pSPIx->SPI_SR & (1 << 1))
+	{
+		return TXE_EMPTY;
+	}
+	else
+	{
+		return TXE_NOT_EMPTY;
+	}
+}
 void SPI_PeripheralClockControl(SPI_RegDef_t *pSPIx,uint8_t EnorDi){
 
 	if(EnorDi==ENABLE)
@@ -60,7 +72,7 @@ void SPI_Init(SPI_Handle_t *pSPIHandle){
 	uint32_t tempReg = 0;
 	tempReg|=(pSPIHandle->SPIConfig.SPI_DeviceMode <<2);
 
-	//2.configure the BUS config
+	//2.configure the BUS configuration
 	if(pSPIHandle->SPIConfig.SPI_BusConfig==SPI_BUS_CONFIG_FD)
 	{
 		tempReg &= ~(1<<15);
@@ -142,6 +154,34 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx){
 
 /*Send data and receive data */
 void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len){
+	//find the related algorithm for this
+	//Blocking API - Polling method
+	while(len > 0)
+	{
+		// check if TX Buffer is empty , only than load the data into the DR (use the SPI_SR register for this)
+		while(getTXEBitStatus(pSPIx) == TXE_NOT_EMPTY); // till the TXE is not empty keep hanging
+
+		// we are here indicates : ready to load Data to DR,TX empty
+		if(pSPIx->SPI_CR1 & (1 << 11))
+		{
+			 //DFF is 16 Bit
+			pSPIx->SPI_DR = *((uint16_t*)pTxBuffer);
+
+			(uint16_t*)pTxBuffer++;
+			len--;
+			len--;
+
+		}
+		else
+		{
+			//DFF is 8 Bit
+			pSPIx->SPI_DR = *(pTxBuffer);
+			pTxBuffer++;
+			len --;
+
+		}
+
+	}
 
 }
 void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len){

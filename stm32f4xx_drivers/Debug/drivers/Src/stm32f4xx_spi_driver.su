@@ -1,8 +1,9 @@
-../drivers/Src/stm32f4xx_spi_driver.c:14:6:SPI_PeripheralClockControl	16	static
-../drivers/Src/stm32f4xx_spi_driver.c:56:6:SPI_Init	24	static
-../drivers/Src/stm32f4xx_spi_driver.c:139:6:SPI_DeInit	16	static
-../drivers/Src/stm32f4xx_spi_driver.c:144:6:SPI_SendData	24	static
-../drivers/Src/stm32f4xx_spi_driver.c:147:6:SPI_RecieveData	24	static
-../drivers/Src/stm32f4xx_spi_driver.c:153:6:SPI_IRQInterruptConfig	16	static
-../drivers/Src/stm32f4xx_spi_driver.c:156:6:SPI_IRQPriorityConfig	16	static
-../drivers/Src/stm32f4xx_spi_driver.c:159:6:SPI_IRQHandling	16	static
+../drivers/Src/stm32f4xx_spi_driver.c:15:9:getTXEBitStatus	16	static
+../drivers/Src/stm32f4xx_spi_driver.c:26:6:SPI_PeripheralClockControl	16	static
+../drivers/Src/stm32f4xx_spi_driver.c:68:6:SPI_Init	24	static
+../drivers/Src/stm32f4xx_spi_driver.c:151:6:SPI_DeInit	16	static
+../drivers/Src/stm32f4xx_spi_driver.c:156:6:SPI_SendData	24	static
+../drivers/Src/stm32f4xx_spi_driver.c:187:6:SPI_RecieveData	24	static
+../drivers/Src/stm32f4xx_spi_driver.c:193:6:SPI_IRQInterruptConfig	16	static
+../drivers/Src/stm32f4xx_spi_driver.c:196:6:SPI_IRQPriorityConfig	16	static
+../drivers/Src/stm32f4xx_spi_driver.c:199:6:SPI_IRQHandling	16	static

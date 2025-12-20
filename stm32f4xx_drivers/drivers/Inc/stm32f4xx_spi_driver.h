@@ -79,6 +79,8 @@ typedef struct{
  * */
 #define	SPI_SSM_EN		1
 #define SPI_SSM_DI		0  // disabled by default
+
+
 //Adding API Prototypes for SPI peripherals
 /*Peripheral clock control */
 void SPI_PeripheralClockControl(SPI_RegDef_t *pSPIx,uint8_t EnorDi);
@@ -96,5 +98,13 @@ void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len);
 void SPI_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi);
 void SPI_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority);
 void SPI_IRQHandling(SPI_Handle_t *pSPIHandle);
+
+/*
+ * SPI_SR related Macros*/
+#define TXE_NOT_EMPTY    	0
+#define TXE_EMPTY		 	1
+
+#define RXNE_EMPTY 				0
+#define RXNE_NOT_EMPTY     		1
 
 #endif /* INC_STM32F4XX_SPI_DRIVER_H_ */

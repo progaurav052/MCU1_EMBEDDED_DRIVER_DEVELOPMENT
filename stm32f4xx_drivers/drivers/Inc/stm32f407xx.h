@@ -334,12 +334,15 @@ typedef struct{
 #define UART5_PCLK_DI()			( RCC->AHB1ENR &= ~( 1<<20 ))
 
 
+// some generic macros
 #define ENABLE 				1
 #define DISABLE     		0
 #define SET 				ENABLE
 #define RESET				DISABLE
 #define GPIO_PIN_SET		SET
 #define GPIO_PIN_RESET		RESET
+#define FLAG_SET     		SET
+#define FLAG_RESET			RESET
 
 
 #define GPIO_BASEADDR_TO_CODE(x)  		  ( (x == GPIOA)?0:\
