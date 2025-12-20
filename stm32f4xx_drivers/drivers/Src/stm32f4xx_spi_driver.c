@@ -52,8 +52,88 @@ void SPI_PeripheralClockControl(SPI_RegDef_t *pSPIx,uint8_t EnorDi){
 	}
 }
 
-/*Init and De-Init*/
+/* Init and De-Init*/
 void SPI_Init(SPI_Handle_t *pSPIHandle){
+	// configure the CR1 register
+	// 1. Configure the device Mode :
+	// Method is to build the Temp-register and than do an OR with the actual Peripheral register
+	uint32_t tempReg = 0;
+	tempReg|=(pSPIHandle->SPIConfig.SPI_DeviceMode <<2);
+
+	//2.configure the BUS config
+	if(pSPIHandle->SPIConfig.SPI_BusConfig==SPI_BUS_CONFIG_FD)
+	{
+		tempReg &= ~(1<<15);
+
+	}
+	else if(pSPIHandle->SPIConfig.SPI_BusConfig==SPI_BUS_CONFIG_HD)
+	{
+		tempReg |=(1<< 15);
+
+	}
+	else if(pSPIHandle->SPIConfig.SPI_BusConfig==SPI_BUS_CONFIG_SIMPLEX_RXONLY)
+	{
+		// for both TX and RX mode,the connection is like 2 line only , we only need not connect 1 line
+		// clear the BIDI mode first
+		tempReg &= ~(1<<15);
+		// set the RX only bit
+		tempReg |=(1<<10);
+	}
+
+	//3.configure the SCLK speed in BR[2:0]
+	tempReg |=(pSPIHandle->SPIConfig.SPI_SclkSpeed << 3);
+
+
+	//4.configure the DFF bit
+	if(pSPIHandle->SPIConfig.SPI_DFF==SPI_DFF_8BITS)
+	{
+		tempReg &= ~(1<<11);
+
+	}
+	else if(pSPIHandle->SPIConfig.SPI_DFF==SPI_DFF_16BITS)
+	{
+		tempReg |= (1<<11);
+	}
+
+	//5. configure CPOL
+	if(pSPIHandle->SPIConfig.SPI_CPOL==SPI_CPOL_LOW)
+	{
+		tempReg &= ~(1<<1);
+
+	}
+	else if(pSPIHandle->SPIConfig.SPI_CPOL==SPI_CPOL_HIGH)
+	{
+		tempReg |= (1<<1);
+	}
+
+	//6. configure CPHA
+	if(pSPIHandle->SPIConfig.SPI_CPHA==SPI_CPHA_LOW)
+	{
+		tempReg &= ~(1<<0);
+
+	}
+	else if(pSPIHandle->SPIConfig.SPI_DFF==SPI_CPHA_HIGH)
+	{
+		tempReg |= (1<<0);
+	}
+
+	//7. configure SSM
+	if(pSPIHandle->SPIConfig.SPI_DFF==SPI_SSM_DI)
+	{
+		tempReg &= ~(1<<9);
+
+	}
+	else if(pSPIHandle->SPIConfig.SPI_DFF==SPI_SSM_EN)
+	{
+		tempReg |= (1<<9);
+	}
+
+
+	// save the tempReg to actual CR register
+
+	pSPIHandle->pSPIx->SPI_CR1 = tempReg; // fresh value so can use = operator
+
+
 
 }
 void SPI_DeInit(SPI_RegDef_t *pSPIx){
