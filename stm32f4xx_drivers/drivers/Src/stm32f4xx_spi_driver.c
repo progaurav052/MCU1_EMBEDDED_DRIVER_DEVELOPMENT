@@ -64,7 +64,7 @@ void SPI_PeripheralClockControl(SPI_RegDef_t *pSPIx,uint8_t EnorDi){
 	}
 }
 
-/* Init and De-Init*/
+/* Initialization and De-Init*/
 void SPI_Init(SPI_Handle_t *pSPIHandle){
 	// configure the CR1 register
 	// 1. Configure the device Mode :
@@ -75,88 +75,65 @@ void SPI_Init(SPI_Handle_t *pSPIHandle){
 	//2.configure the BUS configuration
 	if(pSPIHandle->SPIConfig.SPI_BusConfig==SPI_BUS_CONFIG_FD)
 	{
-		tempReg &= ~(1<<15);
+		tempReg &= ~(1<<SPI_CR1_BIDI_MODE);
 
 	}
 	else if(pSPIHandle->SPIConfig.SPI_BusConfig==SPI_BUS_CONFIG_HD)
 	{
-		tempReg |=(1<< 15);
+		tempReg |=(1<<SPI_CR1_BIDI_MODE);
 
 	}
 	else if(pSPIHandle->SPIConfig.SPI_BusConfig==SPI_BUS_CONFIG_SIMPLEX_RXONLY)
 	{
 		// for both TX and RX mode,the connection is like 2 line only , we only need not connect 1 line
 		// clear the BIDI mode first
-		tempReg &= ~(1<<15);
+		tempReg &= ~(1<<SPI_CR1_BIDI_MODE);
 		// set the RX only bit
-		tempReg |=(1<<10);
+		tempReg |=(1<<SPI_CR1_BIDI_OE);
 	}
 
 	//3.configure the SCLK speed in BR[2:0]
-	tempReg |=(pSPIHandle->SPIConfig.SPI_SclkSpeed << 3);
-
-
+	tempReg |=(pSPIHandle->SPIConfig.SPI_SclkSpeed << SPI_CR1_BR3_5);
 	//4.configure the DFF bit
-	if(pSPIHandle->SPIConfig.SPI_DFF==SPI_DFF_8BITS)
-	{
-		tempReg &= ~(1<<11);
-
-	}
-	else if(pSPIHandle->SPIConfig.SPI_DFF==SPI_DFF_16BITS)
-	{
-		tempReg |= (1<<11);
-	}
-
+	tempReg |= (1<<SPI_CR1_DFF);
 	//5. configure CPOL
-	if(pSPIHandle->SPIConfig.SPI_CPOL==SPI_CPOL_LOW)
-	{
-		tempReg &= ~(1<<1);
-
-	}
-	else if(pSPIHandle->SPIConfig.SPI_CPOL==SPI_CPOL_HIGH)
-	{
-		tempReg |= (1<<1);
-	}
-
+	tempReg |= (1<<SPI_CR1_CPOL);
 	//6. configure CPHA
-	if(pSPIHandle->SPIConfig.SPI_CPHA==SPI_CPHA_LOW)
-	{
-		tempReg &= ~(1<<0);
-
-	}
-	else if(pSPIHandle->SPIConfig.SPI_DFF==SPI_CPHA_HIGH)
-	{
-		tempReg |= (1<<0);
-	}
-
+	tempReg |= (1<<SPI_CR1_CPHA);
 	//7. configure SSM
-	if(pSPIHandle->SPIConfig.SPI_DFF==SPI_SSM_DI)
-	{
-		tempReg &= ~(1<<9);
-
-	}
-	else if(pSPIHandle->SPIConfig.SPI_DFF==SPI_SSM_EN)
-	{
-		tempReg |= (1<<9);
-	}
-
-
+	tempReg |= (1<<SPI_CR1_SSM);
 	// save the tempReg to actual CR register
-
 	pSPIHandle->pSPIx->SPI_CR1 = tempReg; // fresh value so can use = operator
 
 
 
 }
+
 void SPI_DeInit(SPI_RegDef_t *pSPIx){
+	if(pSPIx==SPI1)
+	{
+		SPI1_REG_RESET();
+	}
+	else if(pSPIx==SPI2)
+	{
+		SPI2_REG_RESET();
+	}
+	else if(pSPIx==SPI3)
+	{
+		SPI3_REG_RESET();
+	}
+	else if(pSPIx==SPI4)
+	{
+		SPI4_REG_RESET();
+	}
 
 }
 
 /*Send data and receive data */
 void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len){
-	//find the related algorithm for this
+	//find the related algorithm for this from the net
 	//Blocking API - Polling method
-	while(len > 0)
+	while(len > 0) // in Bytes
 	{
 		// check if TX Buffer is empty , only than load the data into the DR (use the SPI_SR register for this)
 		while(getTXEBitStatus(pSPIx) == TXE_NOT_EMPTY); // till the TXE is not empty keep hanging
