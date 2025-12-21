@@ -369,22 +369,22 @@ typedef struct{
 /*Macros to reset the GPIOx peripherals */
 //set it once and clear that again , if  left as 1,it will keep on resetting
 #define GPIOA_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<0));}while(0)
-#define GPIOB_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<1));}while(0)
-#define GPIOC_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<2));}while(0)
-#define GPIOD_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<3));}while(0)
-#define GPIOE_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<4));}while(0)
-#define GPIOF_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<5));}while(0)
-#define GPIOG_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<6));}while(0)
-#define GPIOH_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<7));}while(0)
-#define GPIOI_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<0)); (RCC->AHB1RSTR |= ~(1<<8));}while(0)
+#define GPIOB_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<1)); (RCC->AHB1RSTR |= ~(1<<1));}while(0)
+#define GPIOC_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<2)); (RCC->AHB1RSTR |= ~(1<<2));}while(0)
+#define GPIOD_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<3)); (RCC->AHB1RSTR |= ~(1<<3));}while(0)
+#define GPIOE_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<4)); (RCC->AHB1RSTR |= ~(1<<4));}while(0)
+#define GPIOF_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<5)); (RCC->AHB1RSTR |= ~(1<<5));}while(0)
+#define GPIOG_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<6)); (RCC->AHB1RSTR |= ~(1<<6));}while(0)
+#define GPIOH_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<7)); (RCC->AHB1RSTR |= ~(1<<7));}while(0)
+#define GPIOI_REG_RESET()        do{(RCC->AHB1RSTR |= (1<<8)); (RCC->AHB1RSTR |= ~(1<<8));}while(0)
 
 
 /*SPI Peripheral Register reset*/
 //set it once and clear that again , if  left as 1,it will keep on resetting
-#define SPI1_REG_RESET()        do{(RCC->APB2RSTR |= (1<<0)); (RCC->APB2RSTR |= ~(1<<0));}while(0)
-#define SPI2_REG_RESET()        do{(RCC->APB1RSTR |= (1<<0)); (RCC->APB1RSTR |= ~(1<<1));}while(0)
-#define SPI3_REG_RESET()        do{(RCC->APB1RSTR |= (1<<0)); (RCC->APB1RSTR |= ~(1<<2));}while(0)
-#define SPI4_REG_RESET()        do{(RCC->APB2RSTR |= (1<<0)); (RCC->APB2RSTR |= ~(1<<3));}while(0)
+#define SPI1_REG_RESET()        do{(RCC->APB2RSTR |= (1<<12)); (RCC->APB2RSTR |= ~(1<<12));}while(0)
+#define SPI2_REG_RESET()        do{(RCC->APB1RSTR |= (1<<14)); (RCC->APB1RSTR |= ~(1<<14));}while(0)
+#define SPI3_REG_RESET()        do{(RCC->APB1RSTR |= (1<<15)); (RCC->APB1RSTR |= ~(1<<15));}while(0)
+#define SPI4_REG_RESET()        do{(RCC->APB2RSTR |= (1<<13)); (RCC->APB2RSTR |= ~(1<<13));}while(0)
 
 #include "stm32f4xx_gpio_driver.h"
 #include "stm32f4xx_spi_driver.h"
