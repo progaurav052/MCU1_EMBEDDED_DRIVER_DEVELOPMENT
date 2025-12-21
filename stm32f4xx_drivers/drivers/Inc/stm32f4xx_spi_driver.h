@@ -65,8 +65,8 @@ typedef struct{
 /*
  * @SPI_CPOL  <-Refer the reference manual->
  * */
-#define SPI_CPOL_HIGH 		0
-#define SPI_CPOL_LOW		1
+#define SPI_CPOL_HIGH 		1
+#define SPI_CPOL_LOW		0
 
 /*
  * @SPI_CPHA  <-Refer the reference manual->
@@ -93,6 +93,12 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx);
 void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len);
 void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len);
 
+/*SPI Peripheral enable API */
+void SPI_PeripheralEnable(SPI_RegDef_t *pSPIX,uint8_t EnorDi);
+
+/*
+ * SPI SSI configuration*/
+void SPI_SSI_Config(SPI_RegDef_t *pSPIX,uint8_t EnorDi);
 
 /* Interrupt configuration and ISR handling */
 void SPI_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi);
@@ -150,5 +156,13 @@ void SPI_IRQHandling(SPI_Handle_t *pSPIHandle);
 
 #define RXNE_EMPTY 				0
 #define RXNE_NOT_EMPTY     		1
+
+
+/*
+ * SPI related status flags definitions
+ */
+#define SPI_TXE_FLAG    ( 1 << SPI_SR_TXE)
+#define SPI_RXNE_FLAG   ( 1 << SPI_SR_RXNE)
+#define SPI_BUSY_FLAG   ( 1 << SPI_SR_BSY)
 
 #endif /* INC_STM32F4XX_SPI_DRIVER_H_ */

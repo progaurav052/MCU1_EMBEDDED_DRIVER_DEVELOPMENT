@@ -61,12 +61,13 @@ void SPI_Inits()
 	//Initialize
 	SPI_Init(&SPI_Pins);
 
-
-
-
 }
 int main()
 {
+	//create an Data buffer
+	char user_data[]= "Hello world";
+
+
 	// Identified the GPIO pins we need to use in AF mode from Datasheet
 	//GPIO initialize
 	SPI_GPIOInits();
@@ -74,6 +75,18 @@ int main()
 	//SPI initialize
 	SPI_Inits();
 
+	SPI_SSI_Config(SPI2,ENABLE);
+
+	//Enable the SPI peripheral -- > all the Initialization  to CR register has to be done before this step (recommended)
+	SPI_PeripheralEnable(SPI2,ENABLE);
+
+	//Send Data
+	SPI_SendData(SPI2,(uint8_t*)user_data,strlen(user_data));
+
+	// after all data send , Disable the Peripheral
+	SPI_PeripheralEnable(SPI2,DISABLE);
+
+	while(1);
 
 	return 0;
 

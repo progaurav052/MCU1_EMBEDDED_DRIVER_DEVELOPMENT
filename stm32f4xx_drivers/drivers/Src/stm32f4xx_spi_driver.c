@@ -23,6 +23,8 @@ uint8_t getTXEBitStatus(SPI_RegDef_t *pSPIx)
 		return TXE_NOT_EMPTY;
 	}
 }
+
+
 void SPI_PeripheralClockControl(SPI_RegDef_t *pSPIx,uint8_t EnorDi){
 
 	if(EnorDi==ENABLE)
@@ -95,13 +97,13 @@ void SPI_Init(SPI_Handle_t *pSPIHandle){
 	//3.configure the SCLK speed in BR[2:0]
 	tempReg |=(pSPIHandle->SPIConfig.SPI_SclkSpeed << SPI_CR1_BR3_5);
 	//4.configure the DFF bit
-	tempReg |= (1<<SPI_CR1_DFF);
+	tempReg |= (pSPIHandle->SPIConfig.SPI_DFF<<SPI_CR1_DFF);
 	//5. configure CPOL
-	tempReg |= (1<<SPI_CR1_CPOL);
+	tempReg |= (pSPIHandle->SPIConfig.SPI_CPOL<<SPI_CR1_CPOL);
 	//6. configure CPHA
-	tempReg |= (1<<SPI_CR1_CPHA);
+	tempReg |= (pSPIHandle->SPIConfig.SPI_CPHA<<SPI_CR1_CPHA);
 	//7. configure SSM
-	tempReg |= (1<<SPI_CR1_SSM);
+	tempReg |= (pSPIHandle->SPIConfig.SPI_SSM<<SPI_CR1_SSM);
 	// save the tempReg to actual CR register
 	pSPIHandle->pSPIx->SPI_CR1 = tempReg; // fresh value so can use = operator
 
@@ -139,7 +141,7 @@ void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len){
 		while(getTXEBitStatus(pSPIx) == TXE_NOT_EMPTY); // till the TXE is not empty keep hanging
 
 		// we are here indicates : ready to load Data to DR,TX empty
-		if(pSPIx->SPI_CR1 & (1 << 11))
+		if((pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF)))
 		{
 			 //DFF is 16 Bit
 			pSPIx->SPI_DR = *((uint16_t*)pTxBuffer);
@@ -165,16 +167,30 @@ void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len){
 
 
 void SPI_PeripheralEnable(SPI_RegDef_t *pSPIX,uint8_t EnorDi){
+
 	if(EnorDi ==ENABLE)
 	{
 		pSPIX->SPI_CR1 |=(1 << SPI_CR1_SPE);
-
 	}
 	else
 	{
 		pSPIX->SPI_CR1 &= ~(1 << SPI_CR1_SPE);
 	}
 
+}
+
+void SPI_SSI_Config(SPI_RegDef_t *pSPIX,uint8_t EnorDi)
+{
+	//used to configure the SSI bit , in case of SSM = 1 and SSI 0 , in single master case this will cause NSS of master to ground
+	//which will cause MODF fault and Reset the MSTR bit which will make master as slave
+	if(EnorDi == ENABLE)
+	{
+		pSPIX->SPI_CR1|=(1 << SPI_CR1_SSI);
+	}
+	else
+	{
+		pSPIX->SPI_CR1 &= ~(1 << SPI_CR1_SSI);
+	}
 }
 void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len){
 
