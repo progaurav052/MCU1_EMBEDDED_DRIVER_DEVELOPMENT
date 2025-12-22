@@ -24,6 +24,17 @@ uint8_t getTXEBitStatus(SPI_RegDef_t *pSPIx)
 	}
 }
 
+uint8_t SPI_SR_BSY_Status(SPI_RegDef_t *pSPIx)
+{
+	if(pSPIx->SR & (SPI_BUSY_FLAG))
+	{
+		return SPI_IS_BUSY;
+
+	}
+	return SPI_NOT_BUSY;
+
+}
+
 
 void SPI_PeripheralClockControl(SPI_RegDef_t *pSPIx,uint8_t EnorDi){
 
@@ -192,6 +203,18 @@ void SPI_SSI_Config(SPI_RegDef_t *pSPIX,uint8_t EnorDi)
 		pSPIX->SPI_CR1 &= ~(1 << SPI_CR1_SSI);
 	}
 }
+void SPI_SSOE_Config(SPI_RegDef_t *pSPIx,uint8_t EnorDi)
+{
+	if(EnorDi == ENABLE)
+	{
+		pSPIx->SPI_CR2|=(1 << SPI_CR2_SSOE);
+	}
+	else
+	{
+		pSPIx->SPI_CR2|=~(1 << SPI_CR2_SSOE);
+	}
+}
+
 void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len){
 
 }

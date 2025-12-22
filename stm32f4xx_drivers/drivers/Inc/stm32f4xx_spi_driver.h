@@ -100,6 +100,9 @@ void SPI_PeripheralEnable(SPI_RegDef_t *pSPIX,uint8_t EnorDi);
  * SPI SSI configuration*/
 void SPI_SSI_Config(SPI_RegDef_t *pSPIX,uint8_t EnorDi);
 
+/* SPI SSOE configuration*/
+void SPI_SSOE_Config(SPI_RegDef_t *pSPIX,uint8_t EnorDi);
+
 /* Interrupt configuration and ISR handling */
 void SPI_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi);
 void SPI_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority);
@@ -156,6 +159,9 @@ void SPI_IRQHandling(SPI_Handle_t *pSPIHandle);
 
 #define RXNE_EMPTY 				0
 #define RXNE_NOT_EMPTY     		1
+
+#define SPI_BSY_BUSY     			1
+#define SPI_BSY_NOT_BUSY    		0
 
 
 /*

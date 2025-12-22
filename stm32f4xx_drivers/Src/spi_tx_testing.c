@@ -65,7 +65,7 @@ void SPI_Inits()
 int main()
 {
 	//create an Data buffer
-	char user_data[]= "Hello world";
+	char user_data[]= "Hello world"; // length in bytes
 
 
 	// Identified the GPIO pins we need to use in AF mode from Datasheet
@@ -77,11 +77,21 @@ int main()
 
 	SPI_SSI_Config(SPI2,ENABLE);
 
+	//for MASTER Slave communication where you need to do Hardware slave management by using NSS ping for master to pull the SS of slave to ground
+	//use SPI_CR2_SSOE bit to enable the NSS output for master , which can be controlled with SSM and SPE bit in CR register
+	//Refer Notes for this
+    //SPI_SSOE_Config(SPI2,ENABLE);
+
 	//Enable the SPI peripheral -- > all the Initialization  to CR register has to be done before this step (recommended)
 	SPI_PeripheralEnable(SPI2,ENABLE);
 
 	//Send Data
 	SPI_SendData(SPI2,(uint8_t*)user_data,strlen(user_data));
+
+
+	//Good Methodology  to use an SPI_SR BSY bit to make sure SPI is not busy and only than we disable the SPI Peripheral , rather than doing abruptly
+	// if busy keep hanging
+	while(SPI_SR_BSY_Status(SPI2)==SPI_BSY_BUSY);
 
 	// after all data send , Disable the Peripheral
 	SPI_PeripheralEnable(SPI2,DISABLE);
