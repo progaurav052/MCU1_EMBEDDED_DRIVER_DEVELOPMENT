@@ -26,12 +26,12 @@ uint8_t getTXEBitStatus(SPI_RegDef_t *pSPIx)
 
 uint8_t SPI_SR_BSY_Status(SPI_RegDef_t *pSPIx)
 {
-	if(pSPIx->SR & (SPI_BUSY_FLAG))
+	if(pSPIx->SPI_SR & (SPI_BUSY_FLAG))
 	{
-		return SPI_IS_BUSY;
+		return SPI_BSY_BUSY;
 
 	}
-	return SPI_NOT_BUSY;
+	return SPI_BSY_NOT_BUSY;
 
 }
 
