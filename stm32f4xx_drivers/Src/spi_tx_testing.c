@@ -53,7 +53,7 @@ void SPI_Inits()
 	SPI_Pins.SPIConfig.SPI_CPOL=SPI_CPOL_LOW;
 	SPI_Pins.SPIConfig.SPI_DFF=SPI_DFF_8BITS;
 	SPI_Pins.SPIConfig.SPI_SSM=SPI_SSM_EN; // we are using master only
-	SPI_Pins.SPIConfig.SPI_SclkSpeed=SPI_SCLK_SPEED_DIV2;
+	SPI_Pins.SPIConfig.SPI_SclkSpeed=SPI_SCLK_SPEED_DIV8;
 
 	// enable the Peripheral clock
 	SPI_PeripheralClockControl(SPI_Pins.pSPIx, ENABLE);

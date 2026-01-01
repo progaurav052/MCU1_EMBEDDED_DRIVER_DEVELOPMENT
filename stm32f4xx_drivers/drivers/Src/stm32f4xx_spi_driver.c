@@ -14,7 +14,7 @@
 
 uint8_t getTXEBitStatus(SPI_RegDef_t *pSPIx)
 {
-	if(pSPIx->SPI_SR & (1 << 1))
+	if(pSPIx->SPI_SR & (1 << SPI_SR_TXE))
 	{
 		return TXE_EMPTY;
 	}
@@ -22,6 +22,16 @@ uint8_t getTXEBitStatus(SPI_RegDef_t *pSPIx)
 	{
 		return TXE_NOT_EMPTY;
 	}
+}
+
+uint8_t getRXNEBitStatus(SPI_RegDef_t *pSPIx)
+{
+	if(pSPIx->SPI_SR & (1 << SPI_SR_RXNE))
+	{
+		return RXNE_NOT_EMPTY;
+	}
+	return RXNE_EMPTY;
+
 }
 
 uint8_t SPI_SR_BSY_Status(SPI_RegDef_t *pSPIx)
@@ -102,7 +112,7 @@ void SPI_Init(SPI_Handle_t *pSPIHandle){
 		// clear the BIDI mode first
 		tempReg &= ~(1<<SPI_CR1_BIDI_MODE);
 		// set the RX only bit
-		tempReg |=(1<<SPI_CR1_BIDI_OE);
+		tempReg |=(1<<SPI_CR1_RX_ONLY);
 	}
 
 	//3.configure the SCLK speed in BR[2:0]
@@ -149,7 +159,7 @@ void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len){
 	while(len > 0) // in Bytes
 	{
 		// check if TX Buffer is empty , only than load the data into the DR (use the SPI_SR register for this)
-		while(getTXEBitStatus(pSPIx) == TXE_NOT_EMPTY); // till the TXE is not empty keep hanging
+		while(getTXEBitStatus(pSPIx) == TXE_NOT_EMPTY); // till the TXE is not empty keep hanging , only once empty push the new data
 
 		// we are here indicates : ready to load Data to DR,TX empty
 		if((pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF)))
@@ -175,7 +185,34 @@ void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len){
 
 }
 
+void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len)
+{
+	while(len > 0)
+	{
 
+		// *pRxBuffer is the pointer to array where we store the incoming Data
+		while(getRXNEBitStatus(pSPIx) == RXNE_EMPTY); // till RX buffer is not full do not read
+
+		if(pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF))
+		{
+			// 16 bit DFF
+			*((uint16_t *)pRxBuffer)= pSPIx->DR;
+			(uint16_t*)pRxBuffer++;
+			len--;
+			len--;
+		}
+		else
+		{
+			// 8 bit DFF
+			*(pRxBuffer)= pSPIx->DR;
+			pRxBuffer++;
+			len--;
+			len--;
+		}
+
+
+	}
+}
 
 void SPI_PeripheralEnable(SPI_RegDef_t *pSPIX,uint8_t EnorDi){
 
