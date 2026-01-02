@@ -355,6 +355,7 @@ typedef struct{
 											(x == GPIOI)?7:0 )
 
 
+/*IRQ number Definitions for EXTI lines used by GPIO peripherals to deliver interrupt to NVIC*/
 #define IRQ_NO_EXTI0  		6
 #define IRQ_NO_EXTI1    	7
 #define IRQ_NO_EXTI2  		8
@@ -363,7 +364,14 @@ typedef struct{
 #define IRQ_NO_EXTI9_5    	23
 #define IRQ_NO_EXTI15_10	40
 
-
+/*IRQ number definitions at which SPI delivers interrupt to NVIC
+ */
+#define IRQ_NO_SPI1  	35
+#define IRQ_NO_SPI2     36
+#define IRQ_NO_SPI3  	51
+#define IRQ_NO_SPI4     84
+#define IRQ_NO_SPI5  	85
+#define IRQ_NO_SPI6     86
 
 
 /*Macros to reset the GPIOx peripherals */

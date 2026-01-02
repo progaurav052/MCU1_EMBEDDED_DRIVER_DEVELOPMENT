@@ -258,9 +258,52 @@ void SPI_SSOE_Config(SPI_RegDef_t *pSPIx,uint8_t EnorDi)
 
 /* Interrupt configuration and ISR handling */
 void SPI_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi){
+		// Note only around 96 IRQ are implemented
+		// we can use just first three ISER and ICER registers
+	    // writing zero in this register bit  has no effect
+		if(EnorDi == ENABLE)
+		{
+			if(IRQNumber <=31)
+			{
+	           *NVIC_ISER0 |=(1 << IRQNumber);
+			}
+			else if(IRQNumber >=32 && IRQNumber <64)
+			{
+				*NVIC_ISER1 |=(1 << (IRQNumber % 32));
+
+			}
+			else if(IRQNumber >=64 && IRQNumber <96)
+			{
+				*NVIC_ISER2 |=(1 << (IRQNumber % 32));
+			}
+		}
+		else
+		{
+			if(IRQNumber <=31)
+			{
+				*NVIC_ICER0 |=(1 << IRQNumber);
+			}
+			else if(IRQNumber >=32 && IRQNumber <64)
+			{
+				*NVIC_ICER1 |=(1 << (IRQNumber % 32));
+
+			}
+			else if(IRQNumber >=64 && IRQNumber <96)
+			{
+				*NVIC_ICER2 |=(1 << (IRQNumber % 32));
+
+			}
+		}
 
 }
 void SPI_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority){
+
+	uint8_t iprx = IRQNumber/4;
+	uint8_t iprx_section = IRQNumber%4;
+	// in each of the section first 4 bits lower half is not implemented , only upper half is implemented
+	uint8_t shift_amount = (8 *iprx_section) + (8 - NO_OF_BITS_IMPLEMENTED_IPR);
+
+	*(NVIC_PRI_BASE_ADDR + iprx) |= (IRQPriority  << shift_amount);
 
 }
 void SPI_IRQHandling(SPI_Handle_t *pSPIHandle){

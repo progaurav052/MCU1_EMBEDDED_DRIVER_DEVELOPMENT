@@ -10,5 +10,5 @@
 ../drivers/Src/stm32f4xx_spi_driver.c:233:6:SPI_SSI_Config	16	static
 ../drivers/Src/stm32f4xx_spi_driver.c:246:6:SPI_SSOE_Config	16	static
 ../drivers/Src/stm32f4xx_spi_driver.c:260:6:SPI_IRQInterruptConfig	16	static
-../drivers/Src/stm32f4xx_spi_driver.c:263:6:SPI_IRQPriorityConfig	16	static
-../drivers/Src/stm32f4xx_spi_driver.c:266:6:SPI_IRQHandling	16	static
+../drivers/Src/stm32f4xx_spi_driver.c:299:6:SPI_IRQPriorityConfig	24	static
+../drivers/Src/stm32f4xx_spi_driver.c:309:6:SPI_IRQHandling	16	static
