@@ -209,6 +209,9 @@ int main()
 
 
 	        	//dummy write to get the actual value either 0 or 255 0 if GND 255 if 5V
+	        	//here we are immediately asking for the sensor read , but internally slave will be doing ADC conversion and this will take sometime , to put actual data in its shift register
+	        	// so introduce and Delay . slave will be busy in ADC conversion
+	        	delay(); // to much delay but its okay for now adjust !
 	        	SPI_SendData(SPI2,&dummy_write_byte,sizeof(dummy_write_byte));
 
 	        	//read the data into RXE
