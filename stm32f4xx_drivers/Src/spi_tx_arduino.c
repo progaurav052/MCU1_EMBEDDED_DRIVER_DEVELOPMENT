@@ -20,7 +20,7 @@ void delay(void)
 
 void SPI_GPIOInits()
 {
-	// initilaize the peripheral clock before init
+	// initialize the peripheral clock before init
 	GPIO_Handle_t SPI_GpioPins;
 
 	SPI_GpioPins.pGPIOx=GPIOB;
@@ -97,7 +97,7 @@ int main ()
 	//Need to use GPIO pins for MISO , MOSI , NSS and SCLK
 
 	//Define the Message to be sent
-	char master_data[]="Hi My Name is Gaurav, testing master slave communication";
+	char master_data[]="Hi My name is gaurav, testing master slave communication";
 
 	uint8_t master_data_len= strlen(master_data);
 	SPI_GPIOInits();

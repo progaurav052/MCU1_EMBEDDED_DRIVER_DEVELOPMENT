@@ -91,7 +91,7 @@ void SPI_DeInit(SPI_RegDef_t *pSPIx);
 
 /*Send data and receive data */
 void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len);
-void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len);
+void SPI_ReceiveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len);
 
 /*SPI Peripheral enable API */
 void SPI_PeripheralControl(SPI_RegDef_t *pSPIX,uint8_t EnorDi);
@@ -102,6 +102,9 @@ void SPI_SSI_Config(SPI_RegDef_t *pSPIX,uint8_t EnorDi);
 
 /* SPI SSOE configuration*/
 void SPI_SSOE_Config(SPI_RegDef_t *pSPIX,uint8_t EnorDi);
+
+/* SPI_SR_BSY status checking */
+uint8_t SPI_SR_BSY_Status(SPI_RegDef_t *pSPIx);
 
 /* Interrupt configuration and ISR handling */
 void SPI_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi);

@@ -5,7 +5,7 @@
 ../drivers/Src/stm32f4xx_spi_driver.c:91:6:SPI_Init	24	static
 ../drivers/Src/stm32f4xx_spi_driver.c:138:6:SPI_DeInit	16	static
 ../drivers/Src/stm32f4xx_spi_driver.c:159:6:SPI_SendData	24	static
-../drivers/Src/stm32f4xx_spi_driver.c:191:6:SPI_RecieveData	24	static
+../drivers/Src/stm32f4xx_spi_driver.c:191:6:SPI_ReceiveData	24	static
 ../drivers/Src/stm32f4xx_spi_driver.c:220:6:SPI_PeripheralControl	16	static
 ../drivers/Src/stm32f4xx_spi_driver.c:233:6:SPI_SSI_Config	16	static
 ../drivers/Src/stm32f4xx_spi_driver.c:246:6:SPI_SSOE_Config	16	static

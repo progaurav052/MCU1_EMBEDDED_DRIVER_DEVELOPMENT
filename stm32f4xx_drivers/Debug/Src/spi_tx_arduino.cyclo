@@ -1,5 +1,0 @@
-../Src/spi_tx_arduino.c:16:6:delay	2
-../Src/spi_tx_arduino.c:21:6:SPI_GPIOInits	1
-../Src/spi_tx_arduino.c:54:6:GPIO_ButtonInit	1
-../Src/spi_tx_arduino.c:74:6:SPI_Inits	1
-../Src/spi_tx_arduino.c:94:5:main	3
