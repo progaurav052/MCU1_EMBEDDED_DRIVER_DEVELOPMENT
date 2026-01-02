@@ -164,14 +164,13 @@ int main()
 
 
 	    	SPI_PeripheralControl(SPI2, ENABLE);
-
 	    	//1.  CMD_LED_CTRL     <pin no (1)>   <value (1)>
 	    	uint8_t commandCode=COMMAND_LED_CTRL;
 	    	SPI_SendData(SPI2,&commandCode, sizeof(commandCode)); // this will push the commandCode into the TX buffer -> shift register than transmitted on MOSI Line to slave
 	    	SPI_ReceiveData(SPI2,&dummy_read_byte,sizeof(dummy_read_byte)); // to clear the Rx buffer which got filled when we did SendData, can be cleared by Reading the Rx buffer
 	    	// if slave recognizes the command code it will send ACK byte, which we we should receive over MISO Line
 	    	// slave does not initiate the data transfer so we should send some dummy data to push the ACK byte from its Shift register to our Master
-	    	// Send dummy_write_ byte
+	    	// Send dummy_write_ byte to get the ack_byte in masters shift register
 	    	SPI_SendData(SPI2,&dummy_write_byte,sizeof(dummy_write_byte));
 	    	// after the above send Data we will have the ACK/NACK Byte in our shift register->RxBuffer , which will read into our <received_data>
 	    	SPI_ReceiveData(SPI2,&ack_byte,sizeof(ack_byte));
@@ -187,6 +186,35 @@ int main()
 	    	//End of CMD_CTRL_LED command
 
 
+	    	//2.Analog Pin read (sensor read) , just one argument here
+	    	while(!(GPIO_ReadFromInputPin(GPIOA,GPIO_BTN_PIN) == BTN_PRESSED)); //keep waiting for Btn press
+	    	// add Delay if required , to solve debouncing issue of button
+	    	delay();
+
+            commandCode=COMMAND_SENSOR_READ;
+	    	SPI_SendData(SPI2,&commandCode, sizeof(commandCode));
+	    	SPI_ReceiveData(SPI2,&dummy_read_byte,sizeof(dummy_read_byte));
+
+	    	// Send dummy_write_ byte to get the ack_byte in masters shift register
+	        SPI_SendData(SPI2,&dummy_write_byte,sizeof(dummy_write_byte));
+	        // after the above send Data we will have the ACK/NACK Byte in our shift register->RxBuffer , which will read into our <received_data>
+	        SPI_ReceiveData(SPI2,&ack_byte,sizeof(ack_byte));
+	        if(SPI_verifySlaveResponse(ack_byte)==ACK_BYTE_VALUE)
+	        {
+	        	// proceed with sending arguments
+	        	args[0]=ANALOG_PIN5;
+	        	SPI_SendData(SPI2,args,1);
+	        	//again do an dummy read clear RXNE
+	        	SPI_ReceiveData(SPI2,&dummy_read_byte,sizeof(dummy_read_byte));
+
+
+	        	//dummy write to get the actual value either 0 or 255 0 if GND 255 if 5V
+	        	SPI_SendData(SPI2,&dummy_write_byte,sizeof(dummy_write_byte));
+
+	        	//read the data into RXE
+	        	SPI_ReceiveData(SPI2,&ack_byte,sizeof(ack_byte));
+
+	        }
 
 	    	//once transfer is done disable the SPI Peripheral
 	    	//Good Methodology  to use an SPI_SR BSY bit to make sure SPI is not busy and only than we disable the SPI Peripheral , rather than doing abruptly
