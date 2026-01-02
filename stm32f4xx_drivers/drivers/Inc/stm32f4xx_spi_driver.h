@@ -94,7 +94,7 @@ void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len);
 void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len);
 
 /*SPI Peripheral enable API */
-void SPI_PeripheralEnable(SPI_RegDef_t *pSPIX,uint8_t EnorDi);
+void SPI_PeripheralControl(SPI_RegDef_t *pSPIX,uint8_t EnorDi);
 
 /*
  * SPI SSI configuration*/

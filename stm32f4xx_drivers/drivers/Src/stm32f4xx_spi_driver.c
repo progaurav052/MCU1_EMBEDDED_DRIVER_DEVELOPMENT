@@ -93,6 +93,9 @@ void SPI_Init(SPI_Handle_t *pSPIHandle){
 	// 1. Configure the device Mode :
 	// Method is to build the Temp-register and than do an OR with the actual Peripheral register
 	uint32_t tempReg = 0;
+
+	SPI_PeripheralClockControl(pSPIHandle->pSPIx, ENABLE);
+
 	tempReg|=(pSPIHandle->SPIConfig.SPI_DeviceMode <<2);
 
 	//2.configure the BUS configuration
@@ -196,7 +199,7 @@ void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len)
 		if(pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF))
 		{
 			// 16 bit DFF
-			*((uint16_t *)pRxBuffer)= pSPIx->DR;
+			*((uint16_t *)pRxBuffer)= pSPIx->SPI_DR;
 			(uint16_t*)pRxBuffer++;
 			len--;
 			len--;
@@ -204,7 +207,7 @@ void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len)
 		else
 		{
 			// 8 bit DFF
-			*(pRxBuffer)= pSPIx->DR;
+			*(pRxBuffer)= pSPIx->SPI_DR;
 			pRxBuffer++;
 			len--;
 			len--;
@@ -214,7 +217,7 @@ void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len)
 	}
 }
 
-void SPI_PeripheralEnable(SPI_RegDef_t *pSPIX,uint8_t EnorDi){
+void SPI_PeripheralControl(SPI_RegDef_t *pSPIX,uint8_t EnorDi){
 
 	if(EnorDi ==ENABLE)
 	{
@@ -250,10 +253,6 @@ void SPI_SSOE_Config(SPI_RegDef_t *pSPIx,uint8_t EnorDi)
 	{
 		pSPIx->SPI_CR2|=~(1 << SPI_CR2_SSOE);
 	}
-}
-
-void SPI_RecieveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len){
-
 }
 
 

@@ -83,7 +83,7 @@ int main()
     //SPI_SSOE_Config(SPI2,ENABLE);
 
 	//Enable the SPI peripheral -- > all the Initialization  to CR register has to be done before this step (recommended)
-	SPI_PeripheralEnable(SPI2,ENABLE);
+	SPI_PeripheralControl(SPI2,ENABLE);
 
 	//Send Data
 	SPI_SendData(SPI2,(uint8_t*)user_data,strlen(user_data));
@@ -94,7 +94,7 @@ int main()
 	while(SPI_SR_BSY_Status(SPI2)==SPI_BSY_BUSY);
 
 	// after all data send , Disable the Peripheral
-	SPI_PeripheralEnable(SPI2,DISABLE);
+	SPI_PeripheralControl(SPI2,DISABLE);
 
 	while(1);
 
