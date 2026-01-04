@@ -1,4 +1,4 @@
-"./Src/spi_cmd_handling.o"
+"./Src/spi_testing_tx_kiran.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
 "./Startup/startup_stm32f407vgtx.o"

@@ -62,9 +62,6 @@ void GPIO_ButtonInit()
 	GPIOButton.GPIO_PinConfig.GPIO_PinSpeed=GPIO_SPEED_FAST;
 	GPIOButton.GPIO_PinConfig.GPIO_PinPuPdControl=GPIO_NO_PUPD; // internal button , refer the Schema doc for this config
 
-	// Enbale the RCC clock
-
-	GPIO_PeripheralClockControl(GPIOButton.pGPIOx, ENABLE);
 
 	//initialize the config
 	GPIO_Init(&GPIOButton);
@@ -97,7 +94,7 @@ int main ()
 	//Need to use GPIO pins for MISO , MOSI , NSS and SCLK
 
 	//Define the Message to be sent
-	char master_data[]="Hi My name is gaurav, testing master slave communication";
+	char master_data[]="Hi My name is Gaurav Pai";
 
 	uint8_t master_data_len= strlen(master_data);
 	SPI_GPIOInits();
@@ -114,17 +111,15 @@ int main ()
     while(1)
     {
 
-    	while(!(GPIO_ReadFromInputPin(GPIOA,GPIO_BTN_PIN) == BTN_PRESSED)); //keep waiting for Btn press
-    	// add Delay if required , to solve debouncing issue of button
-    	delay();
+    	while(!GPIO_ReadFromInputPin(GPIOA,GPIO_BTN_PIN));
 
 
     	SPI_PeripheralControl(SPI2, ENABLE);
     	// first send the number of bytes to be transfered
-    	SPI_SendData(SPI2,&master_data_len,sizeof(master_data_len));
+    	SPI_SendData(SPI2,&master_data_len,1);
 
     	// transfer those bytes
-    	SPI_SendData(SPI2,(uint8_t *)master_data, strlen(master_data));
+    	SPI_SendData(SPI2,(uint8_t *)master_data, master_data_len);
     	// above procedure is followed in sketch file --> First send number bytes , followed by those bytes
 
 
@@ -134,6 +129,7 @@ int main ()
     	while(SPI_SR_BSY_Status(SPI2)==SPI_BSY_BUSY);
     	// after all data send , Disable the Peripheral
     	SPI_PeripheralControl(SPI2,DISABLE);
+
 
     }
 

@@ -12,6 +12,15 @@
 
 /*Peripheral clock control */
 
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx , uint32_t FlagName)
+{
+	if(pSPIx->SPI_SR & FlagName)
+	{
+		return FLAG_SET;
+	}
+	return FLAG_RESET;
+}
+
 uint8_t getTXEBitStatus(SPI_RegDef_t *pSPIx)
 {
 	if(pSPIx->SPI_SR & (1 << SPI_SR_TXE))
@@ -162,7 +171,7 @@ void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len){
 	while(len > 0) // in Bytes
 	{
 		// check if TX Buffer is empty , only than load the data into the DR (use the SPI_SR register for this)
-		while(getTXEBitStatus(pSPIx) == TXE_NOT_EMPTY); // till the TXE is not empty keep hanging , only once empty push the new data
+		while(SPI_GetFlagStatus(pSPIx,SPI_TXE_FLAG)  == FLAG_RESET ); // till the TXE is not empty keep hanging , only once empty push the new data
 
 		// we are here indicates : ready to load Data to DR,TX empty
 		if((pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF)))
@@ -194,7 +203,7 @@ void SPI_ReceiveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len)
 	{
 
 		// *pRxBuffer is the pointer to array where we store the incoming Data
-		while(getRXNEBitStatus(pSPIx) == RXNE_EMPTY); // till RX buffer is not full do not read
+		while(SPI_GetFlagStatus(pSPIx,SPI_RXNE_FLAG)  == (uint8_t)FLAG_RESET ); // till RX buffer is not full do not read
 
 		if(pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF))
 		{

@@ -111,6 +111,9 @@ void SPI_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi);
 void SPI_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority);
 void SPI_IRQHandling(SPI_Handle_t *pSPIHandle);
 
+//Adding an function to check the flags ,repo code
+uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx , uint32_t FlagName);
+
 
 /*
  * SPI_CR1 register Bit Position Definition Macros*/
