@@ -6,7 +6,7 @@
  */
 
 #include "stm32f4xx_spi_driver.h"
-
+#include <stddef.h>
 
 //Adding Definition for  API Prototypes for SPI peripherals
 
@@ -51,6 +51,77 @@ uint8_t SPI_SR_BSY_Status(SPI_RegDef_t *pSPIx)
 
 	}
 	return SPI_BSY_NOT_BUSY;
+
+}
+
+
+
+// interrupt handler implementations
+static void spi_txeie_interrupt_handler(SPI_Handle_t *pSPIHandle){
+
+		if((pSPIHandle->pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF)))
+		{
+			 //DFF is 16 Bit
+			pSPIHandle->pSPIx->SPI_DR = *((uint16_t*)pSPIHandle->pTxBuffer);
+			(uint16_t*)pSPIHandle->pTxBuffer++;
+			pSPIHandle->TxLen--;
+		    pSPIHandle->TxLen--;
+
+		}
+		else
+		{
+			//DFF is 8 Bit
+			pSPIHandle->pSPIx->SPI_DR = *(pSPIHandle->pTxBuffer);
+			pSPIHandle->pTxBuffer++;
+			pSPIHandle->TxLen--;
+
+		}
+
+        // close tranmission
+		if(pSPIHandle->TxLen == 0)
+		{
+
+			//first disable the interrupt generating flag , TXEIE
+			pSPIHandle->pSPIx->SPI_CR2 &= ~(1 << SPI_CR2_TXEIE);
+			pSPIHandle->pTxBuffer = NULL;
+			pSPIHandle->TxLen=0;
+			pSPIHandle->TxState=SPI_READY;
+
+		}
+}
+
+static void spi_rxneie_interrupt_handler(SPI_Handle_t *pSPIHandle){
+
+	if(pSPIHandle->pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF))
+		{
+			// 16 bit DFF
+			*((uint16_t *)pSPIHandle->pRxBuffer)= pSPIHandle->pSPIx->SPI_DR;
+			(uint16_t*)pSPIHandle->pRxBuffer++;
+			pSPIHandle->RxLen--;
+		    pSPIHandle->RxLen--;
+		}
+		else
+		{
+			// 8 bit DFF
+			*(pSPIHandle->pRxBuffer)= pSPIHandle->pSPIx->SPI_DR;
+			pSPIHandle->pRxBuffer++;
+			pSPIHandle->RxLen--;
+		   
+		}
+		 // close tranmission
+		if(pSPIHandle->RxLen == 0)
+		{
+
+			//first disable the interrupt generating flag , TXEIE
+			pSPIHandle->pSPIx->SPI_CR2 &= ~(1 << SPI_CR2_RXNEIE);
+			pSPIHandle->pRxBuffer = NULL;
+			pSPIHandle->RxLen=0;
+			pSPIHandle->RxState=SPI_READY;
+
+		}
+}
+static void spi_ovr_errie_interrupt_handler(SPI_Handle_t *pSPIHandle){
+
 
 }
 
@@ -172,7 +243,8 @@ void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len){
 	{
 		// check if TX Buffer is empty , only than load the data into the DR (use the SPI_SR register for this)
 		while(SPI_GetFlagStatus(pSPIx,SPI_TXE_FLAG)  == FLAG_RESET ); // till the TXE is not empty keep hanging , only once empty push the new data
-
+        //the above code handles the firmware delays because sometimes TX data might just be transferring on the way to shift register
+		// before a the complete data is transferred to Shift register the TX buffer might be overwritten so to handle this
 		// we are here indicates : ready to load Data to DR,TX empty
 		if((pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF)))
 		{
@@ -196,7 +268,7 @@ void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len){
 	}
 
 }
-uint8_t SPI_SendDataWithIT(SPI_Handle_t *pSPIHandle,uint8_t *pTxBuffer,uint32_t len)	{
+uint8_t SPI_SendDataWithIT(SPI_Handle_t *pSPIHandle,uint8_t *pTxBuffer,uint32_t len){
    // we wont be doing data transmission here 
    // only storing buffer address and len info in global varaibles , that is handle structure
    // we will be enabling the TXEIE control bit to get interrupt when TXE flag is set in SR register
@@ -209,7 +281,7 @@ uint8_t SPI_SendDataWithIT(SPI_Handle_t *pSPIHandle,uint8_t *pTxBuffer,uint32_t 
 		pSPIHandle->pTxBuffer = pTxBuffer;
 		pSPIHandle->TxLen = len;
 		pSPIHandle->TxState = SPI_BUSY_IN_TX;
-		//enable the TXEIE control bit
+		//enable the TXEIE control bit ,this generates the interrupt whenever the TXE flag is set 
 		pSPIHandle->pSPIx->SPI_CR2 |= (1 << SPI_CR2_TXEIE);
    }
   
@@ -226,6 +298,8 @@ void SPI_ReceiveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len)
 
 		// *pRxBuffer is the pointer to array where we store the incoming Data
 		while(SPI_GetFlagStatus(pSPIx,SPI_RXNE_FLAG)  == (uint8_t)FLAG_RESET ); // till RX buffer is not full do not read
+		// the above loop is done to take care of firmware delays , sometime new byte may fully not be hsifted into the Rx buffer
+		// and before its full if its read it not correct data
 
 		if(pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF))
 		{
@@ -358,5 +432,39 @@ void SPI_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority){
 
 }
 void SPI_IRQHandling(SPI_Handle_t *pSPIHandle){
+	//this will be called by an ISR
+	//similar mechanism to that of GPIO ISR , check the code
+
+	//check first why the interrupt was called
+	// 1. TXEIE or 2. RXNEIE or 3. some error (CRC or OVR)
+
+	uint8_t temp1,temp2;
+	temp1 = pSPIHandle->pSPIx->SPI_SR & ( 1 << SPI_SR_TXE);
+	temp2 = pSPIHandle->pSPIx->SPI_CR2 & ( 1 << SPI_CR2_TXEIE);
+
+	if(temp1 && temp2)
+	{
+		// interrupt because of TXEIE bit
+		spi_txeie_interrupt_handler(pSPIHandle);
+
+	}
+
+
+	temp1 = pSPIHandle->pSPIx->SPI_SR & ( 1 << SPI_SR_RXNE);
+	temp2 = pSPIHandle->pSPIx->SPI_CR2 & ( 1 << SPI_CR2_RXNEIE);
+	if(temp1 && temp2)
+	{
+
+		spi_rxneie_interrupt_handler(pSPIHandle);
+
+	}
+	temp1 = pSPIHandle->pSPIx->SPI_SR & ( 1 << SPI_SR_OVR);
+	temp2 = pSPIHandle->pSPIx->SPI_CR2 & ( 1 << SPI_CR2_ERRIE);
+	if(temp1 && temp2)
+	{
+
+		spi_ovr_errie_interrupt_handler(pSPIHandle);
+
+	}
 
 }

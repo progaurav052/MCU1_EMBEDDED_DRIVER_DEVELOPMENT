@@ -28,7 +28,7 @@ typedef struct{
 	uint8_t *pTxBuffer;
 	uint8_t *pRxBuffer;
 	uint8_t TxState;
-	uint8_t TxState;
+	uint8_t RxState;
 
 }SPI_Handle_t;
 
@@ -155,7 +155,7 @@ uint8_t SPI_ReceiveDataWithIT(SPI_Handle_t *pSPIHandle,uint8_t *pRxBuffer,uint32
 #define SPI_CR2_SSOE			  	2
 #define SPI_CR2_RES_1			  	3
 #define SPI_CR2_FRF				  	4
-#define SPI_CR2_LSB_ERRIE		  	5
+#define SPI_CR2_ERRIE		  	5
 #define SPI_CR2_RXNEIE			  	6
 #define SPI_CR2_TXEIE			  	7
 #define SPI_CR2_RES_2			  	8
