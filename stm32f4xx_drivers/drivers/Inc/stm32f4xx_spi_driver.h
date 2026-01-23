@@ -130,6 +130,14 @@ uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx , uint32_t FlagName);
 uint8_t SPI_SendDataWithIT(SPI_Handle_t *pSPIHandle,uint8_t *pTxBuffer,uint32_t len); // we wont use any loops here
 uint8_t SPI_ReceiveDataWithIT(SPI_Handle_t *pSPIHandle,uint8_t *pRxBuffer,uint32_t len); // we wont use any loops here
 
+
+void SPI_ClearOVRFlag(SPI_RegDef_t *pSPIx);
+void SPI_CloseTransmission(SPI_Handle_t *pSPIHandle);
+void SPI_CloseReception(SPI_Handle_t *pSPIHandle);
+
+// appliucation call back
+void SPI_ApplicationEventCallback(SPI_Handle_t *pSPIHandle,uint8_t AppEvent); // this has to be implemented by the application, else it will give error
+// but we dont know what application will do ... so give an weak implementation in Driver file
 /*
  * SPI_CR1 register Bit Position Definition Macros*/
 #define SPI_CR1_CPHA			  0
@@ -191,5 +199,9 @@ uint8_t SPI_ReceiveDataWithIT(SPI_Handle_t *pSPIHandle,uint8_t *pRxBuffer,uint32
 #define SPI_TXE_FLAG    ( 1 << SPI_SR_TXE)
 #define SPI_RXNE_FLAG   ( 1 << SPI_SR_RXNE)
 #define SPI_BUSY_FLAG   ( 1 << SPI_SR_BSY)
+
+#define SPI_EVENT_RX_CMPLT   	1
+#define SPI_EVENT_TX_CMPLT		2
+#define SPI_EVENT_OVR_ERR		3
 
 #endif /* INC_STM32F4XX_SPI_DRIVER_H_ */

@@ -29,25 +29,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  12 .ARM.attributes 0000002a  00000000  00000000  00001b5c  2**0
                   CONTENTS, READONLY
- 13 .debug_info   00001470  00000000  00000000  00001b86  2**0
+ 13 .debug_info   00001533  00000000  00000000  00001b86  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 00000483  00000000  00000000  00002ff6  2**0
+ 14 .debug_abbrev 00000470  00000000  00000000  000030b9  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00000180  00000000  00000000  00003480  2**3
+ 15 .debug_aranges 000001a0  00000000  00000000  00003530  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 00000124  00000000  00000000  00003600  2**0
+ 16 .debug_rnglists 0000013c  00000000  00000000  000036d0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  00002544  00000000  00000000  00003724  2**0
+ 17 .debug_macro  0000256e  00000000  00000000  0000380c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00001d9d  00000000  00000000  00005c68  2**0
+ 18 .debug_line   00001e24  00000000  00000000  00005d7a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000097ec  00000000  00000000  00007a05  2**0
+ 19 .debug_str    0000988a  00000000  00000000  00007b9e  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  000111f1  2**0
+ 20 .comment      00000043  00000000  00000000  00011428  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  0000058c  00000000  00000000  00011234  2**2
+ 21 .debug_frame  00000620  00000000  00000000  0001146c  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 00000082  00000000  00000000  000117c0  2**0
+ 22 .debug_line_str 00000082  00000000  00000000  00011a8c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -1233,10 +1233,10 @@ uint8_t SPI_SR_BSY_Status(SPI_RegDef_t *pSPIx)
 	...
 
 08000884 <SPI_PeripheralClockControl>:
-
-
+	pSPIHandle->pRxBuffer = NULL;
+	pSPIHandle->RxLen=0;
+	pSPIHandle->RxState=SPI_READY;
 }
-
 
 void SPI_PeripheralClockControl(SPI_RegDef_t *pSPIx,uint8_t EnorDi){
  8000884:	b480      	push	{r7}

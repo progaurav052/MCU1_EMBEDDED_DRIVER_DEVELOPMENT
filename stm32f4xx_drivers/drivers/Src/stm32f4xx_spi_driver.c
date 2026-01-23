@@ -82,10 +82,8 @@ static void spi_txeie_interrupt_handler(SPI_Handle_t *pSPIHandle){
 		{
 
 			//first disable the interrupt generating flag , TXEIE
-			pSPIHandle->pSPIx->SPI_CR2 &= ~(1 << SPI_CR2_TXEIE);
-			pSPIHandle->pTxBuffer = NULL;
-			pSPIHandle->TxLen=0;
-			pSPIHandle->TxState=SPI_READY;
+		    SPI_CloseTransmission(pSPIHandle);
+			SPI_ApplicationEventCallback(pSPIHandle,SPI_EVENT_TX_CMPLT);
 
 		}
 }
@@ -113,18 +111,48 @@ static void spi_rxneie_interrupt_handler(SPI_Handle_t *pSPIHandle){
 		{
 
 			//first disable the interrupt generating flag , TXEIE
-			pSPIHandle->pSPIx->SPI_CR2 &= ~(1 << SPI_CR2_RXNEIE);
-			pSPIHandle->pRxBuffer = NULL;
-			pSPIHandle->RxLen=0;
-			pSPIHandle->RxState=SPI_READY;
+            SPI_CloseReception(pSPIHandle);
+			SPI_ApplicationEventCallback(pSPIHandle,SPI_EVENT_RX_CMPLT);
 
 		}
 }
 static void spi_ovr_errie_interrupt_handler(SPI_Handle_t *pSPIHandle){
 
 
+   //clear the ovr flag
+	uint8_t temp;
+	if(pSPIHandle->TxState != SPI_BUSY_IN_TX)
+	{
+		temp =pSPIHandle->pSPIx->SPI_DR;
+		temp =pSPIHandle->pSPIx->SPI_SR;
+	}
+   //inform the application , application will later take action (clear the OVR flag , close the transmission or reception)
+	SPI_ApplicationEventCallback(pSPIHandle,SPI_EVENT_OVR_ERR);
 }
 
+
+void SPI_ClearOVRFlag(SPI_RegDef_t *pSPIx){
+	// if over run error occurs in TX mode the application will be notified using the call back
+	// and the application can explicitly clear the flags
+	uint8_t temp;
+	temp =pSPIx->SPI_DR;
+	temp =pSPIx->SPI_SR;
+
+
+}
+void SPI_CloseTransmission(SPI_Handle_t *pSPIHandle){
+	pSPIHandle->pSPIx->SPI_CR2 &= ~(1 << SPI_CR2_TXEIE);
+	pSPIHandle->pTxBuffer = NULL;
+	pSPIHandle->TxLen=0;
+	pSPIHandle->TxState=SPI_READY;
+}
+
+void SPI_CloseReception(SPI_Handle_t *pSPIHandle){
+	pSPIHandle->pSPIx->SPI_CR2 &= ~(1 << SPI_CR2_RXNEIE);
+	pSPIHandle->pRxBuffer = NULL;
+	pSPIHandle->RxLen=0;
+	pSPIHandle->RxState=SPI_READY;
+}
 
 void SPI_PeripheralClockControl(SPI_RegDef_t *pSPIx,uint8_t EnorDi){
 
@@ -381,6 +409,9 @@ void SPI_SSOE_Config(SPI_RegDef_t *pSPIx,uint8_t EnorDi)
 }
 
 
+
+
+
 /* Interrupt configuration and ISR handling */
 void SPI_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi){
 		// Note only around 96 IRQ are implemented
@@ -466,5 +497,10 @@ void SPI_IRQHandling(SPI_Handle_t *pSPIHandle){
 		spi_ovr_errie_interrupt_handler(pSPIHandle);
 
 	}
+
+}
+
+
+__attribute__ ((weak)) void SPI_ApplicationEventCallback(SPI_Handle_t *pSPIHandle,uint8_t AppEvent){
 
 }
