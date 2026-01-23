@@ -23,6 +23,12 @@ typedef struct{
 typedef struct{
 	SPI_RegDef_t *pSPIx; //either SPI1 , SPI2 , SPI3
 	SPI_Config_t SPIConfig;
+	uint32_t TxLen;
+	uint32_t RxLen;
+	uint8_t *pTxBuffer;
+	uint8_t *pRxBuffer;
+	uint8_t TxState;
+	uint8_t TxState;
 
 }SPI_Handle_t;
 
@@ -79,6 +85,12 @@ typedef struct{
  * */
 #define	SPI_SSM_EN		1
 #define SPI_SSM_DI		0  // disabled by default
+
+
+/*SPI Possible application state*/
+#define SPI_READY 			0
+#define SPI_BUSY_IN_TX		2
+#define SPI_BUSY_IN_RX      1
 
 
 //Adding API Prototypes for SPI peripherals
