@@ -126,6 +126,9 @@ void SPI_IRQHandling(SPI_Handle_t *pSPIHandle);
 //Adding an function to check the flags ,repo code
 uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx , uint32_t FlagName);
 
+//interrupt modes for SPI_SendData and receive Data
+uint8_t SPI_SendDataWithIT(SPI_Handle_t *pSPIHandle,uint8_t *pTxBuffer,uint32_t len); // we wont use any loops here
+uint8_t SPI_ReceiveDataWithIT(SPI_Handle_t *pSPIHandle,uint8_t *pRxBuffer,uint32_t len); // we wont use any loops here
 
 /*
  * SPI_CR1 register Bit Position Definition Macros*/
@@ -154,7 +157,7 @@ uint8_t SPI_GetFlagStatus(SPI_RegDef_t *pSPIx , uint32_t FlagName);
 #define SPI_CR2_FRF				  	4
 #define SPI_CR2_LSB_ERRIE		  	5
 #define SPI_CR2_RXNEIE			  	6
-#define SPI_CR2_TXEI			  	7
+#define SPI_CR2_TXEIE			  	7
 #define SPI_CR2_RES_2			  	8
 
 
