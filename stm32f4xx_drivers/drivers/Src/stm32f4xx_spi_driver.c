@@ -271,9 +271,7 @@ void SPI_SendData(SPI_RegDef_t *pSPIx,uint8_t *pTxBuffer,uint32_t len){
 	{
 		// check if TX Buffer is empty , only than load the data into the DR (use the SPI_SR register for this)
 		while(SPI_GetFlagStatus(pSPIx,SPI_TXE_FLAG)  == FLAG_RESET ); // till the TXE is not empty keep hanging , only once empty push the new data
-        //the above code handles the firmware delays because sometimes TX data might just be transferring on the way to shift register
-		// before a the complete data is transferred to Shift register the TX buffer might be overwritten so to handle this
-		// we are here indicates : ready to load Data to DR,TX empty
+        // the above code is to ensure no overwriting of already existing data happens 
 		if((pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF)))
 		{
 			 //DFF is 16 Bit
@@ -326,9 +324,7 @@ void SPI_ReceiveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len)
 
 		// *pRxBuffer is the pointer to array where we store the incoming Data
 		while(SPI_GetFlagStatus(pSPIx,SPI_RXNE_FLAG)  == (uint8_t)FLAG_RESET ); // till RX buffer is not full do not read
-		// the above loop is done to take care of firmware delays , sometime new byte may fully not be hsifted into the Rx buffer
-		// and before its full if its read it not correct data
-
+	    //above code is done to ensure new data everytime , not read empty rx buffer 
 		if(pSPIx->SPI_CR1 & (1 << SPI_CR1_DFF))
 		{
 			// 16 bit DFF
