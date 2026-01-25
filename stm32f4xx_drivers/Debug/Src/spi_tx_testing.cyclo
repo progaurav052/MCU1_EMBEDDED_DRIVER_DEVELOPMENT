@@ -1,3 +1,0 @@
-../Src/spi_tx_testing.c:10:6:SPI_GPIOInits	1
-../Src/spi_tx_testing.c:45:6:SPI_Inits	1
-../Src/spi_tx_testing.c:65:5:main	2
