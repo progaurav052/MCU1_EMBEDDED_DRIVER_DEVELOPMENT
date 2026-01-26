@@ -243,6 +243,30 @@ typedef struct{
 
 
 
+/*I2C peripheral register structure definition*/
+typedef struct{
+
+	__vo uint32_t I2C_CR1;
+	__vo uint32_t I2C_CR2;
+	__vo uint32_t I2C_OAR1;
+	__vo uint32_t I2C_OAR2;
+	__vo uint32_t I2C_DR;
+	__vo uint32_t I2C_SR1;
+	__vo uint32_t I2C_SR2;
+	__vo uint32_t I2C_CCR;
+	__vo uint32_t I2C_TRISE;
+	__vo uint32_t I2C_FLTR;
+
+
+}I2C_RegDef_t;
+
+
+//the above structure should be pointer to actual I2C peripherals which are memory mapped
+
+#define I2C1  			((I2C_RegDef_t*)I2C1_BASEADDR)
+#define I2C2  			((I2C_RegDef_t*)I2C2_BASEADDR)
+#define I2C3  			((I2C_RegDef_t*)I2C3_BASEADDR)
+
 /*define clock Enable Macros for GPIOx peripherals
  */
 
@@ -396,6 +420,7 @@ typedef struct{
 
 #include "stm32f4xx_gpio_driver.h"
 #include "stm32f4xx_spi_driver.h"
+#include "stm32f4xx_i2c_driver.h"
 
 
 #endif /* INC_STM32F407XX_H_ */
