@@ -12,6 +12,10 @@
 #include <string.h>
 #define __vo                                volatile
 
+uint32_t  AHB_PS[8]={2,4,8,16,64,128,256,512};
+uint32_t  APB_PS[5]={2,4,8,16};
+
+
 /*Processor specific Details , get these details from cortex-m4 documentation */
 
 /*NVIC Registers ISER and ICER register addresses*/
