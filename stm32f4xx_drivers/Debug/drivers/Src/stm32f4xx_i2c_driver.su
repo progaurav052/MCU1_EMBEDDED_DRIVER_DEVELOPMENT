@@ -1,0 +1,7 @@
+../drivers/Src/stm32f4xx_i2c_driver.c:11:6:I2C_PeripheralClockControl	16	static
+../drivers/Src/stm32f4xx_i2c_driver.c:45:6:I2C_Init	16	static
+../drivers/Src/stm32f4xx_i2c_driver.c:48:6:I2C_DeInit	16	static
+../drivers/Src/stm32f4xx_i2c_driver.c:65:6:I2C_PeripheralControl	16	static
+../drivers/Src/stm32f4xx_i2c_driver.c:79:6:I2C_IRQInterruptConfig	16	static
+../drivers/Src/stm32f4xx_i2c_driver.c:118:6:I2C_IRQPriorityConfig	24	static
+../drivers/Src/stm32f4xx_i2c_driver.c:131:9:I2C_GetFlagStatus	16	static

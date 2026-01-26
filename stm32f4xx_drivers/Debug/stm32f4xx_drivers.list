@@ -37,17 +37,17 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING, OCTETS
  16 .debug_rnglists 000001e1  00000000  00000000  00006928  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  00003738  00000000  00000000  00006b09  2**0
+ 17 .debug_macro  00003880  00000000  00000000  00006b09  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00002ca9  00000000  00000000  0000a241  2**0
+ 18 .debug_line   00002cf7  00000000  00000000  0000a389  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    0000c04f  00000000  00000000  0000ceea  2**0
+ 19 .debug_str    0000c473  00000000  00000000  0000d080  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  00018f39  2**0
+ 20 .comment      00000043  00000000  00000000  000194f3  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00001124  00000000  00000000  00018f7c  2**2
+ 21 .debug_frame  00001124  00000000  00000000  00019538  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 00000082  00000000  00000000  0001a0a0  2**0
+ 22 .debug_line_str 00000082  00000000  00000000  0001a65c  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -403,7 +403,7 @@ int main()
 			while(!stopreceiving)
  80003b2:	e012      	b.n	80003da <main+0x6e>
 			{
-				while(SPI_SendDataWithIT(&SPI_Pins,&dummyWriteByte,1) ==SPI_BUSY_IN_TX);
+				while(SPI_SendDataWithIT(&SPI_Pins,&dummyWriteByte,1) ==SPI_BUSY_IN_TX); //using while loop is important here , else code will jump to Rx when Tx
  80003b4:	bf00      	nop
  80003b6:	1dfb      	adds	r3, r7, #7
  80003b8:	2201      	movs	r2, #1

@@ -30,6 +30,30 @@ typedef struct{
 
 }I2C_Handle_t;
 
+/******************************************************************************************
+ *Values for user configurable Macros
+ ******************************************************************************************/
+/*
+ * @I2C_SCLSpeed
+ */
+#define I2C_SCL_SPEED_SM 	100000  // standard  mode
+#define I2C_SCL_SPEED_FM4K 	400000
+#define I2C_SCL_SPEED_FM2K  200000
+
+
+/*
+ * @I2C_AckControl
+ */
+#define I2C_ACK_ENABLE        1
+#define I2C_ACK_DISABLE       0   // by default disabled
+
+
+/*
+ * @I2C_FMDutyCycle
+ */
+#define I2C_FM_DUTY_2        0    // by default
+#define I2C_FM_DUTY_16_9     1
+
 
 /******************************************************************************************
  *Bit position definitions of I2C peripheral
@@ -92,5 +116,27 @@ typedef struct{
 #define I2C_CCR_CCR 					 0
 #define I2C_CCR_DUTY 					14
 #define I2C_CCR_FS  				 	15
+
+/******************************************************************************************
+ *								APIs supported by this driver
+ *		 For more information about the APIs check the function definitions
+ ******************************************************************************************/
+
+void I2C_PeripheralClockControl(I2C_RegDef_t *pI2Cx,uint8_t EnorDi);
+
+/*Init and De-Init*/
+void I2C_Init(I2C_Handle_t *pI2CHandle);
+void I2C_DeInit(I2C_RegDef_t *pI2Cx);
+
+/*I2C Peripheral enable API */
+void I2C_PeripheralControl(I2C_RegDef_t *pI2CX,uint8_t EnorDi);
+
+/* Interrupt configuration and ISR handling */
+void I2C_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi);
+void I2C_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority);
+void I2C_IRQHandling(I2C_Handle_t *pI2CHandle);
+
+//Adding an function to check the flags ,repo code
+uint8_t I2C_GetFlagStatus(I2C_RegDef_t *pI2Cx , uint32_t FlagName);
 
 #endif /* INC_STM32F4XX_I2C_DRIVER_H_ */

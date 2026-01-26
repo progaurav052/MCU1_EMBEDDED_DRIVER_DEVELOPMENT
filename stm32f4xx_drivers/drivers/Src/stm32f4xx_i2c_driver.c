@@ -11,31 +11,31 @@
 void I2C_PeripheralClockControl(I2C_RegDef_t *pI2Cx,uint8_t EnorDi){
 	if(EnorDi==ENABLE)
 		{
-			if(pSPIx==SPI1)
+			if(pI2Cx==I2C1)
 			{
-				SPI1_PCLK_EN();
+				I2C1_PCLK_EN();
 			}
-			else if(pSPIx==SPI2)
+			else if(pI2Cx==I2C2)
 			{
-				SPI2_PCLK_EN();
+				I2C2_PCLK_EN();
 			}
-			else if(pSPIx==SPI3)
+			else if(pI2Cx==I2C3)
 			{
-				SPI3_PCLK_EN();
+				I2C3_PCLK_EN();
 			}
 
 		}else{
-			if(pSPIx==SPI1)
+			if(pI2Cx==I2C1)
 			{
-				SPI1_PCLK_DI();
+				I2C1_PCLK_DI();
 			}
-			else if(pSPIx==SPI2)
+			else if(pI2Cx==I2C2)
 			{
-				SPI2_PCLK_DI();
+				I2C2_PCLK_DI();
 			}
-			else if(pSPIx==SPI3)
+			else if(pI2Cx==I2C3)
 			{
-				SPI3_PCLK_DI();
+				I2C3_PCLK_DI();
 			}
 
 		}
@@ -47,17 +47,17 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
 }
 void I2C_DeInit(I2C_RegDef_t *pI2Cx){
 
-		if(pSPIx==SPI1)
+		if(pI2Cx==I2C1)
 		{
-			SPI1_REG_RESET();
+			I2C1_REG_RESET();
 		}
-		else if(pSPIx==SPI2)
+		else if(pI2Cx==I2C2)
 		{
-			SPI2_REG_RESET();
+			I2C2_REG_RESET();
 		}
-		else if(pSPIx==SPI3)
+		else if(pI2Cx==I2C3)
 		{
-			SPI3_REG_RESET();
+			I2C3_REG_RESET();
 		}
 }
 
@@ -66,11 +66,11 @@ void I2C_PeripheralControl(I2C_RegDef_t *pI2CX,uint8_t EnorDi){
 
 		if(EnorDi ==ENABLE)
 		{
-			pSPIX->SPI_CR1 |=(1 << SPI_CR1_SPE);
+			pI2CX->I2C_CR1 |=(1 << I2C_CR1_PE);
 		}
 		else
 		{
-			pSPIX->SPI_CR1 &= ~(1 << SPI_CR1_SPE);
+			pI2CX->I2C_CR1 &= ~(1 << I2C_CR1_PE);
 		}
 
 }
@@ -129,7 +129,7 @@ void I2C_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority){
 
 //Adding an function to check the flags ,repo code
 uint8_t I2C_GetFlagStatus(I2C_RegDef_t *pI2Cx , uint32_t FlagName){
-	if(pSPIx->SPI_SR & FlagName)
+	if(pI2Cx->I2C_SR1 & FlagName)
 		{
 			return FLAG_SET;
 		}

@@ -163,7 +163,7 @@ void SPI_ApplicationEventCallback(SPI_Handle_t *pSPIHandle,uint8_t AppEvent); //
 #define SPI_CR2_SSOE			  	2
 #define SPI_CR2_RES_1			  	3
 #define SPI_CR2_FRF				  	4
-#define SPI_CR2_ERRIE		  	5
+#define SPI_CR2_ERRIE		  		5
 #define SPI_CR2_RXNEIE			  	6
 #define SPI_CR2_TXEIE			  	7
 #define SPI_CR2_RES_2			  	8
