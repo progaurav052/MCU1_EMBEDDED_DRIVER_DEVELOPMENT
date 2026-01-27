@@ -8,72 +8,6 @@
 
 #include "stm32f4xx_i2c_driver.h"
 
-void I2C_PeripheralClockControl(I2C_RegDef_t *pI2Cx,uint8_t EnorDi){
-	if(EnorDi==ENABLE)
-		{
-			if(pI2Cx==I2C1)
-			{
-				I2C1_PCLK_EN();
-			}
-			else if(pI2Cx==I2C2)
-			{
-				I2C2_PCLK_EN();
-			}
-			else if(pI2Cx==I2C3)
-			{
-				I2C3_PCLK_EN();
-			}
-
-		}else{
-			if(pI2Cx==I2C1)
-			{
-				I2C1_PCLK_DI();
-			}
-			else if(pI2Cx==I2C2)
-			{
-				I2C2_PCLK_DI();
-			}
-			else if(pI2Cx==I2C3)
-			{
-				I2C3_PCLK_DI();
-			}
-
-		}
-}
-
-/*Init and De-Init*/
-void I2C_Init(I2C_Handle_t *pI2CHandle){
-
-
-	uint32_t tempReg=0;
-
-	// configure the ACK bit in CR1 register
-	tempReg|=(pI2CHandle->I2C_Config.I2C_AckControl << I2C_CR1_ACK);
-    pI2CHandle->pI2Cx->I2C_CR1=tempReg;
-
-	//configure the SCL speed , for this calculation we need to know the PCLK speed (it can be anything based on preScaler)
-	//first configure the FREQ field in CR2 register
-    tempReg=0;
-    tempReg|=Cal_PCLK_Speed()/1000000;
-    pI2CHandle->pI2Cx->I2C_CR2=tempReg;
-
-
-    //program the Device own address
-    tempReg=0;
-    tempReg|=pI2CHandle->I2C_Config.I2C_DeviceAddress << 1;
-    tempReg|= (1<<14); //SPECIFIED IN MANUAL
-
-    pI2CHandle->pI2Cx->I2C_OAR1=tempReg;
-
-
-
-
-
-
-
-
-}
-
 uint32_t findClockSource()
 {
 	uint32_t temp;
@@ -83,7 +17,7 @@ uint32_t findClockSource()
 	return temp;
 
 }
-uint32_t  Cal_PCLK_Speed()
+uint32_t  get_PCLK_Speed()
 {
 	// clock source --> AHb1 prescaler --> APB1 prescaler ---> APB1 peripheral clocks
 
@@ -141,6 +75,111 @@ uint32_t  Cal_PCLK_Speed()
 
 
 }
+void I2C_PeripheralClockControl(I2C_RegDef_t *pI2Cx,uint8_t EnorDi){
+	if(EnorDi==ENABLE)
+		{
+			if(pI2Cx==I2C1)
+			{
+				I2C1_PCLK_EN();
+			}
+			else if(pI2Cx==I2C2)
+			{
+				I2C2_PCLK_EN();
+			}
+			else if(pI2Cx==I2C3)
+			{
+				I2C3_PCLK_EN();
+			}
+
+		}else{
+			if(pI2Cx==I2C1)
+			{
+				I2C1_PCLK_DI();
+			}
+			else if(pI2Cx==I2C2)
+			{
+				I2C2_PCLK_DI();
+			}
+			else if(pI2Cx==I2C3)
+			{
+				I2C3_PCLK_DI();
+			}
+
+		}
+}
+
+/*Init and De-Init*/
+void I2C_Init(I2C_Handle_t *pI2CHandle){
+
+
+	uint32_t tempReg=0;
+
+	// configure the ACK bit in CR1 register
+	tempReg|=(pI2CHandle->I2C_Config.I2C_AckControl << I2C_CR1_ACK);
+    pI2CHandle->pI2Cx->I2C_CR1=tempReg;
+
+	//configure the SCL speed , for this calculation we need to know the PCLK speed (it can be anything based on preScaler)
+	//first configure the FREQ field in CR2 register
+    tempReg=0;
+    tempReg|=get_PCLK_Speed()/1000000;
+    pI2CHandle->pI2Cx->I2C_CR2=(tempReg & 0x3F);
+
+
+    //program the Device own address
+    tempReg=0;
+    tempReg|=pI2CHandle->I2C_Config.I2C_DeviceAddress << 1;
+    tempReg|= (1<<14); //SPECIFIED IN MANUAL
+    pI2CHandle->pI2Cx->I2C_OAR1=tempReg;
+
+
+    //configure the CCR register,configure the CCR field
+    tempReg=0;
+    uint32_t ccr_value=0;
+    if(pI2CHandle->I2C_Config.I2C_SCLSpeed <=I2C_SCL_SPEED_SM)
+    {
+    	//configure the mode bit 0 by default for STD mode
+    	//configure the CCR value in CCR field
+    	//we assume in std mode tHigh == tLow
+    	ccr_value=(get_PCLK_Speed() / (2* pI2CHandle->I2C_Config.I2C_SCLSpeed));
+    	tempReg |=(ccr_value &0xFFF);
+
+
+    }
+    else
+    {
+    	//configure the mode as fast mode 15th bit is 1
+    	tempReg |=(1 <<I2C_CCR_FS);
+
+    	//configure the duty cycle as well , give by the application
+    	tempReg |=(pI2CHandle->I2C_Config.I2C_FMDutyCycle << I2C_CCR_DUTY);
+
+    	//based on the duty cycle the tHigh and tLow changes
+    	if(pI2CHandle->I2C_Config.I2C_FMDutyCycle == I2C_FM_DUTY_2)
+    	{
+    		ccr_value=(get_PCLK_Speed() / (3 * pI2CHandle->I2C_Config.I2C_SCLSpeed));
+    	}
+    	else
+    	{
+    		ccr_value=(get_PCLK_Speed() / (25 * pI2CHandle->I2C_Config.I2C_SCLSpeed));
+    	}
+    	//configure the CCR value in CCR field
+    	tempReg |=(ccr_value &0xFFF);
+
+    }
+    pI2CHandle->pI2Cx->I2C_CCR=tempReg;
+
+
+
+
+
+
+
+
+
+}
+
+
+
 void I2C_DeInit(I2C_RegDef_t *pI2Cx){
 
 		if(pI2Cx==I2C1)
