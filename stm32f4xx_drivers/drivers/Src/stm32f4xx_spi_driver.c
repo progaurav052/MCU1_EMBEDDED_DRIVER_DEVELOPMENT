@@ -127,6 +127,7 @@ static void spi_ovr_errie_interrupt_handler(SPI_Handle_t *pSPIHandle){
 		temp =pSPIHandle->pSPIx->SPI_SR;
 	}
    //inform the application , application will later take action (clear the OVR flag , close the transmission or reception)
+	(void)temp;
 	SPI_ApplicationEventCallback(pSPIHandle,SPI_EVENT_OVR_ERR);
 }
 
@@ -137,6 +138,8 @@ void SPI_ClearOVRFlag(SPI_RegDef_t *pSPIx){
 	uint8_t temp;
 	temp =pSPIx->SPI_DR;
 	temp =pSPIx->SPI_SR;
+	(void)temp;
+
 
 
 }
