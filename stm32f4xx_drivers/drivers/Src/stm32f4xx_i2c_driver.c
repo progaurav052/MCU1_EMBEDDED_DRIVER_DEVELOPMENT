@@ -23,7 +23,7 @@ static uint32_t findClockSource()
 static void RCC_GetPLLOutputClock(){
 
 }
-static uint32_t  get_PCLK_Speed()
+static uint32_t  Get_PCLK_Speed()
 {
 	// clock source --> AHb1 prescaler --> APB1 prescaler ---> APB1 peripheral clocks
 
@@ -152,7 +152,7 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
 	//configure the SCL speed , for this calculation we need to know the PCLK speed (it can be anything based on preScaler)
 	//first configure the FREQ field in CR2 register
     tempReg=0;
-    tempReg|=get_PCLK_Speed()/1000000;
+    tempReg|=Get_PCLK_Speed()/1000000;
     pI2CHandle->pI2Cx->I2C_CR2=(tempReg & 0x3F);
 
 
@@ -171,7 +171,7 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
     	//configure the mode bit 0 by default for STD mode
     	//configure the CCR value in CCR field
     	//we assume in std mode tHigh == tLow
-    	ccr_value=(get_PCLK_Speed() / (2* pI2CHandle->I2C_Config.I2C_SCLSpeed));
+    	ccr_value=(Get_PCLK_Speed() / (2* pI2CHandle->I2C_Config.I2C_SCLSpeed));
     	tempReg |=(ccr_value &0xFFF);
 
 
@@ -187,17 +187,39 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
     	//based on the duty cycle the tHigh and tLow changes
     	if(pI2CHandle->I2C_Config.I2C_FMDutyCycle == I2C_FM_DUTY_2)
     	{
-    		ccr_value=(get_PCLK_Speed() / (3 * pI2CHandle->I2C_Config.I2C_SCLSpeed));
+    		ccr_value=(Get_PCLK_Speed() / (3 * pI2CHandle->I2C_Config.I2C_SCLSpeed));
     	}
     	else
     	{
-    		ccr_value=(get_PCLK_Speed() / (25 * pI2CHandle->I2C_Config.I2C_SCLSpeed));
+    		ccr_value=(Get_PCLK_Speed() / (25 * pI2CHandle->I2C_Config.I2C_SCLSpeed));
     	}
     	//configure the CCR value in CCR field
     	tempReg |=(ccr_value &0xFFF);
 
     }
     pI2CHandle->pI2Cx->I2C_CCR=tempReg;
+
+
+
+    //TRise configuration
+    tempReg=0;
+    //need to find maximum allowed rise time for SCL in SM mode and fast mode
+    if(pI2CHandle->I2C_Config.I2C_SCLSpeed==I2C_SCL_SPEED_SM)
+    {
+    	//standard mode , Trise is 1000ns
+    	tempReg = ((Get_PCLK_Speed()/1000000U)+1);
+
+    }
+    else{
+    	//fast mode  , Trise is 300ns
+    	tempReg=((Get_PCLK_Speed()*300)/1000000000U)+1;
+
+    }
+    pI2CHandle->pI2Cx->I2C_TRISE=tempReg;
+
+
+
+
 
 }
 
@@ -285,7 +307,7 @@ void I2C_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority){
 }
 
 
-//Adding an function to check the flags ,repo code
+//Adding an function to check the flags ,repository code
 uint8_t I2C_GetFlagStatus(I2C_RegDef_t *pI2Cx , uint32_t FlagName){
 	if(pI2Cx->I2C_SR1 & FlagName)
 		{
@@ -317,7 +339,7 @@ void I2C_MasterSendData(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len
 	// Note : until this ADDR is not cleared SCL will be stretched (pulled to Low)
 	I2C_ClearADDRFlag(pI2CHandle->pI2Cx);
 
-	//6.send the data until len becomes 0
+	//6.send the data until Length becomes 0
 	while(Len > 0)
 	{
 			while(! I2C_GetFlagStatus(pI2CHandle->pI2Cx,I2C_FLAG_TXE) ); //Wait till TXE is set
@@ -326,7 +348,7 @@ void I2C_MasterSendData(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len
 			Len--;
 	}
 
-	//7. when Len becomes zero wait for TXE=1 and BTF=1 before generating the STOP condition
+	//7. when Length becomes zero wait for TXE=1 and BTF=1 before generating the STOP condition
 		//   Note: TXE=1 , BTF=1 , means that both SR and DR are empty and next transmission should begin
 		//   when BTF=1 SCL will be stretched (pulled to LOW)
 
@@ -337,10 +359,6 @@ void I2C_MasterSendData(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len
 	//8. Generate stop condition , when executed the BTF is automatically cleared
 
 	I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
-
-
-
-
 
 
 }
