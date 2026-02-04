@@ -145,9 +145,12 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
 
 	uint32_t tempReg=0;
 
+	I2C_PeripheralClockControl(pI2CHandle->pI2Cx, ENABLE);
+
+	I2C_PeripheralControl(I2C1, ENABLE);
 	// configure the ACK bit in CR1 register
 	tempReg|=(pI2CHandle->I2C_Config.I2C_AckControl << I2C_CR1_ACK);
-    pI2CHandle->pI2Cx->I2C_CR1=tempReg;
+    pI2CHandle->pI2Cx->I2C_CR1 |=tempReg;
 
 	//configure the SCL speed , for this calculation we need to know the PCLK speed (it can be anything based on preScaler)
 	//first configure the FREQ field in CR2 register

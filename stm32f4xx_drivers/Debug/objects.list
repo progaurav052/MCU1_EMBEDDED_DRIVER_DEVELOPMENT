@@ -1,4 +1,4 @@
-"./Src/007_spi_interrupt_communication.o"
+"./Src/i2c_Master_semd_data.o"
 "./Src/syscalls.o"
 "./Src/sysmem.o"
 "./Startup/startup_stm32f407vgtx.o"

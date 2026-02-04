@@ -1,0 +1,5 @@
+../Src/i2c_Master_semd_data.c:22:6:delay	2
+../Src/i2c_Master_semd_data.c:29:6:I2C1_GpioInits	1
+../Src/i2c_Master_semd_data.c:53:6:I2C1_Inits	1
+../Src/i2c_Master_semd_data.c:71:6:GPIO_ButtonInit	1
+../Src/i2c_Master_semd_data.c:91:5:main	1
