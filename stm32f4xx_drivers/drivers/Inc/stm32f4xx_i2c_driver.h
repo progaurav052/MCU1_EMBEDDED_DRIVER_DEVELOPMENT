@@ -26,10 +26,25 @@ typedef struct{
 
 	I2C_RegDef_t *pI2Cx;
 	I2C_Config_t I2C_Config;
+	uint32_t TxLen;
+	uint32_t RxLen;
+	uint8_t *pTxBuffer;
+	uint8_t *pRxBuffer;
+	uint8_t TxRxState; // sice half duplex
+	uint8_t DevAddr;
+	uint32_t RxSize;
+	uint8_t Sr;
+
 
 
 }I2C_Handle_t;
 
+/*
+ * I2C application states
+ */
+#define I2C_READY 					0
+#define I2C_BUSY_IN_RX 				1
+#define I2C_BUSY_IN_TX 				2
 /******************************************************************************************
  *Values for user configurable Macros
  ******************************************************************************************/
@@ -168,6 +183,8 @@ void I2C_ManageAcking(I2C_RegDef_t *pI2Cx,uint8_t EnorDi);
 void I2C_MasterSendData(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len,uint8_t SlaveAddr);
 void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr);
 
-
+//interrupt API
+void I2C_MasterSendDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len,uint8_t SlaveAddr);
+void I2C_MasterReceiveDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr);
 
 #endif /* INC_STM32F4XX_I2C_DRIVER_H_ */

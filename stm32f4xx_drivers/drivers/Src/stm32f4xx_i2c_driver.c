@@ -340,7 +340,7 @@ void I2C_ManageAcking(I2C_RegDef_t *pI2Cx,uint8_t EnorDi)
 	}
 }
 
-void I2C_MasterSendData(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len,uint8_t SlaveAddr)
+void I2C_MasterSendData(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len,uint8_t SlaveAddr,uint8_t Sr)
 {
 	//1.Generate start condition
 	//create an small helper function for this  private to driver file
@@ -382,11 +382,12 @@ void I2C_MasterSendData(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len
 
 	//8. Generate stop condition , when executed the BTF is automatically cleared
 
-	I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
+	if(Sr == I2C_DISABLE_SR )
+		I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
 
 
 }
-void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr)
+void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr,uint8_t Sr)
 {
 
 	//1.generate start condition
@@ -417,8 +418,10 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
 		while(! I2C_GetFlagStatus(pI2CHandle->pI2Cx,I2C_FLAG_RXNE) );
 		// read Data in to buffer
 		*pRxBuffer =pI2CHandle->pI2Cx->I2C_DR;
+
 		//Generate the stop condition
-		I2C_GenerateStopCondition(pI2CHandle->pI2Cx); // for one byte of Data this code position is important , else before data is come to SR ... bUs will be released;
+		if(Sr == I2C_DISABLE_SR )
+			I2C_GenerateStopCondition(pI2CHandle->pI2Cx); // for one byte of Data this code position is important , else before data is come to SR ... bUs will be released;
 
 
 
@@ -439,7 +442,8 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
 				//special Handling
 				I2C_ManageAcking(pI2CHandle->pI2Cx,I2C_ACK_DISABLE); // reading 2nd last byte , but in SR Last byte is getting transferred
 
-				I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
+				if(Sr == I2C_DISABLE_SR )
+					I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
 
 			}
 			*pRxBuffer =pI2CHandle->pI2Cx->I2C_DR;
