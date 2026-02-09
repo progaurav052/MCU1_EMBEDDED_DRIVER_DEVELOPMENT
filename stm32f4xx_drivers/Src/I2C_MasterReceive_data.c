@@ -1,4 +1,11 @@
 /*
+ * I2C_MasterReceive_data.c
+ *
+ *  Created on: Feb 9, 2026
+ *      Author: ggpai
+ */
+
+/*
  * i2c_Master_semd_data.c
  *
  *  Created on: Jan 31, 2026
@@ -14,10 +21,11 @@
 #define BTN_PRESSED 	LOW
 
 #define MY_ADDRESS  	0x61
-#define SLAVE_ADDR  0x68
+#define SLAVE_ADDR  	0x68
 
 I2C_Handle_t I2C1_Handle;
-uint8_t some_data[] = "We are testing I2C master Tx\n";
+uint8_t NBytes;
+uint8_t rcvBuffer[32];
 
 void delay(void)
 {
@@ -43,7 +51,7 @@ void I2C1_GpioInits(){
 	GPIO_Init(&I2C1_pins);
 
 	//SDA line
-	I2C1_pins.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_9;
+	I2C1_pins.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_7;
 	GPIO_Init(&I2C1_pins);
 
 
@@ -90,6 +98,8 @@ void GPIO_ButtonInit()
 
 int main()
 {
+	uint8_t commandCode;
+
 	GPIO_ButtonInit();
 
 	//I2C pin init
@@ -102,16 +112,39 @@ int main()
 	//after all the configuration is done enable the I2C peripheral
 	I2C_PeripheralControl(I2C1, ENABLE);
 
-	I2C_ManageAcking(I2C1_Handle.pI2Cx,ENABLE)
+	I2C_ManageAcking(I2C1_Handle.pI2Cx,ENABLE);
 
-
-
+	//when the  button is pressed , arduino sends the data to STM board
+	//first sends the number of bytes , followed by the those bytes
+	//make use of button code
 	I2C_MasterSendData(&I2C1_Handle,some_data,strlen((char*)some_data),SLAVE_ADDR);
+	while(1)
+	{
 
-	while(1);
+		while(!(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0)== BTN_PRESSED));
+
+		commandCode=0x51;
+
+		//send 0x51 to read number of bytes in read phase
+		I2C_MasterSendData(&I2C1_Handle,&commandCode,1,SLAVE_ADDR);
+
+		I2C_MasterReceiveData(&I2C1_Handle,&NBytes,1, SLAVE_ADDR);
+		//after this you will have number of bytes in the Nbytes variable
+
+		commandCode=0x52;
+		//send 0x51 to read number of bytes in read phase
+		I2C_MasterSendData(&I2C1_Handle,&commandCode,1,SLAVE_ADDR);
+
+		// do another read to read those Nbytes of Data
+		I2C_MasterReceiveData(&I2C1_Handle,rcvBuffer,NBytes,SLAVE_ADDR);
+
+
+
+	}
 
 
 
 	return 0;
 
 }
+

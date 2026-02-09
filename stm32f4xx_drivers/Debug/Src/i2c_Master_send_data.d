@@ -1,4 +1,4 @@
-Src/i2c_Master_semd_data.o: ../Src/i2c_Master_semd_data.c \
+Src/i2c_Master_send_data.o: ../Src/i2c_Master_send_data.c \
  /Users/ggpai/Desktop/Embedded-c/MCU-1/MCU1_EMBEDDED_DRIVER_DEVELOPMENT/stm32f4xx_drivers/drivers/Inc/stm32f407xx.h \
  /Users/ggpai/Desktop/Embedded-c/MCU-1/MCU1_EMBEDDED_DRIVER_DEVELOPMENT/stm32f4xx_drivers/drivers/Inc/stm32f4xx_gpio_driver.h \
  /Users/ggpai/Desktop/Embedded-c/MCU-1/MCU1_EMBEDDED_DRIVER_DEVELOPMENT/stm32f4xx_drivers/drivers/Inc/stm32f407xx.h \
