@@ -50,7 +50,7 @@ void SPI_Inits()
 	SPI_Pins.SPIConfig.SPI_BusConfig=SPI_BUS_CONFIG_FD;
 	SPI_Pins.SPIConfig.SPI_DeviceMode=SPI_DEVICE_MODE_MASTER;
 	SPI_Pins.SPIConfig.SPI_CPHA=SPI_CPHA_LOW;
-	SPI_Pins.SPIConfig.SPI_CPOL=SPI_CPOL_HIGH;
+	SPI_Pins.SPIConfig.SPI_CPOL=SPI_CPOL_LOW;
 	SPI_Pins.SPIConfig.SPI_DFF=SPI_DFF_8BITS;
 	SPI_Pins.SPIConfig.SPI_SSM=SPI_SSM_EN; // we are using master only
 	SPI_Pins.SPIConfig.SPI_SclkSpeed=SPI_SCLK_SPEED_DIV2;
@@ -66,7 +66,7 @@ int main()
 {
 	//create an Data buffer	char user_data[]= "Hello world"; // length in bytes
 
-    char user_data[]="J";
+    char user_data[]="Gaurav Pai";
 	// Identified the GPIO pins we need to use in AF mode from Datasheet
 	//GPIO initialize
 	SPI_GPIOInits();

@@ -71,8 +71,8 @@
 							<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec.848204347" name="MCU Output Converter Motorola S-rec with symbols" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.objcopy.symbolsrec"/>
 						</toolChain>
 					</folderInfo>
-					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1387616681.1626452968" name="i2c_Master_send_data.c" rcbsApplicability="disable" resourcePath="Src/i2c_Master_send_data.c" toolsToInvoke="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.663389901.1907291433">
-						<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.663389901.1907291433" name="MCU/MPU GCC Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.663389901"/>
+					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1387616681.2026280840" name="spi_tx_testing.c" rcbsApplicability="disable" resourcePath="Src/spi_tx_testing.c" toolsToInvoke="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.663389901.1238180526">
+						<tool id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.663389901.1238180526" name="MCU/MPU GCC Compiler" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.663389901"/>
 					</fileInfo>
 					<fileInfo id="com.st.stm32cube.ide.mcu.gnu.managedbuild.config.exe.debug.1387616681.27400434" name="stm32f4xx_spi_driver.h" rcbsApplicability="disable" resourcePath="drivers/Inc/stm32f4xx_spi_driver.h" toolsToInvoke="">
 						<tool customBuildStep="true" id="org.eclipse.cdt.managedbuilder.ui.rcbs.257654868" name="Resource Custom Build Step">
@@ -92,7 +92,7 @@
 					</fileInfo>
 					<sourceEntries>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Inc"/>
-						<entry excluding="I2C_MasterReceive_data.c|007_spi_interrupt_communication.c|spi_tx_testing.c|spi_testing_tx_kiran.c|spi_tx_arduino.c|003_led_btnPress.c|spi_cmd_handling.c|006_ButtonInterrupt.c|005_ExtBtn_ExtLed.c|004_externalBtn_internalLed.c|004_LedInODMode.c|002_LedToggle.c|001_GlowLedPin.c|002led_toggle_btn.c|001led_toggle.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
+						<entry excluding="i2c_Master_send_data.c|I2C_MasterReceive_data.c|007_spi_interrupt_communication.c|spi_testing_tx_kiran.c|spi_tx_arduino.c|003_led_btnPress.c|spi_cmd_handling.c|006_ButtonInterrupt.c|005_ExtBtn_ExtLed.c|004_externalBtn_internalLed.c|004_LedInODMode.c|002_LedToggle.c|001_GlowLedPin.c|002led_toggle_btn.c|001led_toggle.c" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Startup"/>
 						<entry excluding="Inc/stm32f407xx_gaurav.h" flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="drivers"/>
 					</sourceEntries>
