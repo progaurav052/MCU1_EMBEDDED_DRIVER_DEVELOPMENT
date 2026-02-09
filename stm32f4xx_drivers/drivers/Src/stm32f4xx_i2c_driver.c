@@ -152,7 +152,7 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
 
 	I2C_PeripheralClockControl(pI2CHandle->pI2Cx, ENABLE);
 
-	I2C_PeripheralControl(I2C1, ENABLE);
+
 	// configure the ACK bit in CR1 register
 	tempReg|=(pI2CHandle->I2C_Config.I2C_AckControl << I2C_CR1_ACK);
     pI2CHandle->pI2Cx->I2C_CR1 |=tempReg;
@@ -161,14 +161,14 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
 	//first configure the FREQ field in CR2 register
     tempReg=0;
     tempReg|=Get_PCLK_Speed()/1000000;
-    pI2CHandle->pI2Cx->I2C_CR2=(tempReg & 0x3F);
+    pI2CHandle->pI2Cx->I2C_CR2|=(tempReg & 0x3F);
 
 
     //program the Device own address
     tempReg=0;
     tempReg|=pI2CHandle->I2C_Config.I2C_DeviceAddress << 1;
     tempReg|= (1<<14); //SPECIFIED IN MANUAL
-    pI2CHandle->pI2Cx->I2C_OAR1=tempReg;
+    pI2CHandle->pI2Cx->I2C_OAR1|=tempReg;
 
 
     //configure the CCR register,configure the CCR field
@@ -205,7 +205,7 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
     	tempReg |=(ccr_value &0xFFF);
 
     }
-    pI2CHandle->pI2Cx->I2C_CCR=tempReg;
+    pI2CHandle->pI2Cx->I2C_CCR|=tempReg;
 
 
 
@@ -223,7 +223,7 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
     	tempReg=((Get_PCLK_Speed()*300)/1000000000U)+1;
 
     }
-    pI2CHandle->pI2Cx->I2C_TRISE=tempReg;
+    pI2CHandle->pI2Cx->I2C_TRISE|=tempReg;
 
 
 
@@ -409,8 +409,7 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
 		//Disable Acking
 		I2C_ManageAcking(pI2CHandle->pI2Cx,I2C_ACK_DISABLE);
 
-		//Generate the stop condition
-		I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
+
 		//clear the ADDR flag .. so the clock stretching is released
 		I2C_ClearADDRFlag(pI2CHandle->pI2Cx);
 
@@ -418,6 +417,9 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
 		while(! I2C_GetFlagStatus(pI2CHandle->pI2Cx,I2C_FLAG_RXNE) );
 		// read Data in to buffer
 		*pRxBuffer =pI2CHandle->pI2Cx->I2C_DR;
+		//Generate the stop condition
+		I2C_GenerateStopCondition(pI2CHandle->pI2Cx); // for one byte of Data this code position is important , else before data is come to SR ... bUs will be released;
+
 
 
 	}
@@ -433,7 +435,7 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
 			{
 				//special Handling
 				I2C_ManageAcking(pI2CHandle->pI2Cx,I2C_ACK_DISABLE); // reading 2nd last byte , but in SR Last byte is getting transferred
-				//generate stop condition
+
 				I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
 
 			}
@@ -441,6 +443,9 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
 			while(! I2C_GetFlagStatus(pI2CHandle->pI2Cx,I2C_FLAG_RXNE) );
 			// read Data in to buffer
 			*pRxBuffer =pI2CHandle->pI2Cx->I2C_DR;
+			//generate stop condition
+
+
 
 		}
 

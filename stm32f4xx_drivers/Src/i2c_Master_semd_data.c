@@ -102,6 +102,8 @@ int main()
 	//after all the configuration is done enable the I2C peripheral
 	I2C_PeripheralControl(I2C1, ENABLE);
 
+	I2C_ManageAcking(I2C1_Handle.pI2Cx,ENABLE)
+
 
 
 	I2C_MasterSendData(&I2C1_Handle,some_data,strlen((char*)some_data),SLAVE_ADDR);
