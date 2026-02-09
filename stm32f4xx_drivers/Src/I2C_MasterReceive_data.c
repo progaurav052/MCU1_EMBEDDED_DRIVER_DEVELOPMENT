@@ -117,11 +117,10 @@ int main()
 	//when the  button is pressed , arduino sends the data to STM board
 	//first sends the number of bytes , followed by the those bytes
 	//make use of button code
-	I2C_MasterSendData(&I2C1_Handle,some_data,strlen((char*)some_data),SLAVE_ADDR);
 	while(1)
 	{
 
-		while(!(GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0)== BTN_PRESSED));
+		while(!GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0));
 
 		commandCode=0x51;
 
@@ -141,7 +140,6 @@ int main()
 
 
 	}
-
 
 
 	return 0;

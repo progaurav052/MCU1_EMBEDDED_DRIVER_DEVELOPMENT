@@ -104,12 +104,14 @@ int main()
 
 	I2C_ManageAcking(I2C1_Handle.pI2Cx,ENABLE);
 
+	while(1){
 
-	I2C_MasterSendData(&I2C1_Handle,some_data,strlen((char*)some_data),SLAVE_ADDR);
+		while(!GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0));
 
-	while(1);
+		delay();
 
-
+		I2C_MasterSendData(&I2C1_Handle,some_data,strlen((char*)some_data),SLAVE_ADDR);
+	}
 
 	return 0;
 

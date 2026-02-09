@@ -431,7 +431,10 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
 
 		for(uint32_t i=Len;i>0;i--)
 		{
-			if(i ==2)
+			// wait until RXNE becomes 1
+			while(! I2C_GetFlagStatus(pI2CHandle->pI2Cx,I2C_FLAG_RXNE) );
+			//sequence mentioned in reference manual 
+			if(i==2)
 			{
 				//special Handling
 				I2C_ManageAcking(pI2CHandle->pI2Cx,I2C_ACK_DISABLE); // reading 2nd last byte , but in SR Last byte is getting transferred
@@ -439,9 +442,6 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
 				I2C_GenerateStopCondition(pI2CHandle->pI2Cx);
 
 			}
-			// wait until RXNE becomes 1
-			while(! I2C_GetFlagStatus(pI2CHandle->pI2Cx,I2C_FLAG_RXNE) );
-			// read Data in to buffer
 			*pRxBuffer =pI2CHandle->pI2Cx->I2C_DR;
 			//generate stop condition
 
