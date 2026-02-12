@@ -449,8 +449,6 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
 			*pRxBuffer =pI2CHandle->pI2Cx->I2C_DR;
 			//generate stop condition
 
-
-
 		}
 
 	}
@@ -462,4 +460,62 @@ void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t 
 		I2C_ManageAcking(pI2CHandle->pI2Cx,I2C_ACK_ENABLE);
 	}
 
+}
+uint8_t I2C_MasterSendDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len,uint8_t SlaveAddr,uint8_t Sr){
+		uint8_t busystate = pI2CHandle->TxRxState;
+
+		if( (busystate != I2C_BUSY_IN_TX) && (busystate != I2C_BUSY_IN_RX))
+		{
+			pI2CHandle->pTxBuffer = pTxBuffer;
+			pI2CHandle->TxLen =Len;
+			pI2CHandle->TxRxState =I2C_BUSY_IN_TX;
+			pI2CHandle->DevAddr =SlaveAddr;
+			pI2CHandle->Sr =Sr;
+
+			//Implement code to Generate START Condition
+
+			I2C_GenerateStartCondition(pI2CHandle->pI2Cx);
+
+			//Implement the code to enable ITBUFEN Control Bit
+			pI2CHandle->pI2Cx->CR2 |= ( 1 << I2C_CR2_ITBUFEN);
+
+			//Implement the code to enable ITEVFEN Control Bit
+			pI2CHandle->pI2Cx->CR2 |= ( 1 << I2C_CR2_ITEVFEN);
+
+
+			//Implement the code to enable ITERREN Control Bit
+			pI2CHandle->pI2Cx->CR2 |= ( 1 << I2C_CR2_ITERREN);
+
+		}
+
+		return busystate;
+
+}
+uint8_t I2C_MasterReceiveDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr,uint8_t Sr){
+		uint8_t busystate = pI2CHandle->TxRxState;
+
+		if( (busystate != I2C_BUSY_IN_TX) && (busystate != I2C_BUSY_IN_RX))
+		{
+			pI2CHandle->pRxBuffer = pTxBuffer;
+			pI2CHandle->RxLen =Len;
+			pI2CHandle->TxRxState = I2C_BUSY_IN_RX;
+			pI2CHandle->RxSize = Len; //Rxsize is used in the ISR code to manage the data reception
+			pI2CHandle->DevAddr = SlaveAddr;
+			pI2CHandle->Sr = Sr;
+
+		//Implement code to Generate START Condition
+
+			I2C_GenerateStartCondition(pI2CHandle->pI2Cx);
+
+			//Implement the code to enable ITBUFEN Control Bit
+			pI2CHandle->pI2Cx->CR2 |= (1 << I2C_CR2_ITBUFEN);
+
+			//Implement the code to enable ITEVFEN Control Bit
+			pI2CHandle->pI2Cx->CR2 |= (1 << I2C_CR2_ITEVFEN);
+
+			//Implement the code to enable ITERREN Control Bit
+			pI2CHandle->pI2Cx->CR2 |= (1 << I2C_CR2_ITERREN);
+		}
+
+		return busystate;
 }

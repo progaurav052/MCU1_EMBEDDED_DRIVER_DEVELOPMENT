@@ -130,8 +130,12 @@ int main()
 
 			while(!stopreceiving)
 			{
-				while(SPI_SendDataWithIT(&SPI_Pins,&dummyWriteByte,1) ==SPI_BUSY_IN_TX); //using while loop is important here , else code will jump to Rx when Tx
+				while(SPI_SendDataWithIT(&SPI_Pins,&dummyWriteByte,1) ==SPI_BUSY_IN_TX);
 				while(SPI_ReceiveDataWithIT(&SPI_Pins,&ReadByte,1) == SPI_BUSY_IN_RX);
+
+				//these while loops are just an design pattern that, in our case this wont be very use full
+				// think of case where 2 back to back sendDataWithIT is used ... and dry run the code
+				//Need to understand ISR execution rule in detail for this
 
 			}
 

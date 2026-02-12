@@ -302,7 +302,6 @@ uint8_t SPI_SendDataWithIT(SPI_Handle_t *pSPIHandle,uint8_t *pTxBuffer,uint32_t 
    // only storing buffer address and len info in global varaibles , that is handle structure
    // we will be enabling the TXEIE control bit to get interrupt when TXE flag is set in SR register
    // do all of this when SPI is not busy in TX transmission
-
 	uint8_t state = pSPIHandle->TxState;
 
 	if(pSPIHandle->TxState != SPI_BUSY_IN_TX)
@@ -315,9 +314,6 @@ uint8_t SPI_SendDataWithIT(SPI_Handle_t *pSPIHandle,uint8_t *pTxBuffer,uint32_t 
    }
   
    return state;
-
-   
-
 }
 
 void SPI_ReceiveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len)

@@ -88,7 +88,7 @@ typedef struct{
  */
 #define I2C_CR2_FREQ				 	0
 #define I2C_CR2_ITERREN				 	8
-#define I2C_CR2_ITEVTEN				 	9
+#define I2C_CR2_ITEVFEN				 	9
 #define I2C_CR2_ITBUFEN 			    10
 
 /*
@@ -184,7 +184,7 @@ void I2C_MasterSendData(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len
 void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr);
 
 //interrupt API
-void I2C_MasterSendDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len,uint8_t SlaveAddr);
-void I2C_MasterReceiveDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr);
+uint8_t I2C_MasterSendDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len,uint8_t SlaveAddr);
+uint8_t I2C_MasterReceiveDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr);
 
 #endif /* INC_STM32F4XX_I2C_DRIVER_H_ */
