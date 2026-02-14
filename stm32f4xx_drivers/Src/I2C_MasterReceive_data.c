@@ -16,6 +16,8 @@
 #include <stddef.h>
 
 
+
+
 #define HIGH  1
 #define LOW   0
 #define BTN_PRESSED 	LOW
@@ -51,7 +53,7 @@ void I2C1_GpioInits(){
 	GPIO_Init(&I2C1_pins);
 
 	//SDA line
-	I2C1_pins.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_7;
+	I2C1_pins.GPIO_PinConfig.GPIO_PinNumber=GPIO_PIN_NO_9;
 	GPIO_Init(&I2C1_pins);
 
 
@@ -100,9 +102,13 @@ int main()
 {
 	uint8_t commandCode;
 
+
+
+
 	GPIO_ButtonInit();
 
 	//I2C pin init
+
 	I2C1_GpioInits();
 
 	//I2C peripheral init
@@ -121,6 +127,8 @@ int main()
 	{
 
 		while(!GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0));
+		delay();
+
 
 		commandCode=0x51;
 
@@ -136,6 +144,10 @@ int main()
 
 		// do another read to read those Nbytes of Data
 		I2C_MasterReceiveData(&I2C1_Handle,rcvBuffer,NBytes,SLAVE_ADDR,0);
+
+		rcvBuffer[NBytes+1]='\0';
+
+
 
 
 

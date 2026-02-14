@@ -106,11 +106,11 @@ int main()
 
 	while(1){
 
-		while(!GPIO_ReadFromInputPin(GPIOA, GPIO_PIN_NO_0));
 
+		while(!GPIO_ReadFromInputPin(GPIOA,0));
 		delay();
 
-		I2C_MasterSendData(&I2C1_Handle,some_data,strlen((char*)some_data),SLAVE_ADDR);
+		I2C_MasterSendData(&I2C1_Handle,some_data,strlen((char*)some_data),SLAVE_ADDR,0);
 	}
 
 	return 0;

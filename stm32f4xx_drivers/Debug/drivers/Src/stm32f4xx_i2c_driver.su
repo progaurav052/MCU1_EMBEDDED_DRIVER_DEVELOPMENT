@@ -21,4 +21,5 @@
 ../drivers/Src/stm32f4xx_i2c_driver.c:523:9:I2C_MasterSendDataIT	32	static
 ../drivers/Src/stm32f4xx_i2c_driver.c:553:9:I2C_MasterReceiveDataIT	32	static
 ../drivers/Src/stm32f4xx_i2c_driver.c:585:6:I2C_EV_IRQHandling	32	static
-../drivers/Src/stm32f4xx_i2c_driver.c:744:29:I2C_ApplicationEventCallback	16	static
+../drivers/Src/stm32f4xx_i2c_driver.c:745:6:I2C_ER_IRQHandling	24	static
+../drivers/Src/stm32f4xx_i2c_driver.c:823:29:I2C_ApplicationEventCallback	16	static
