@@ -125,17 +125,17 @@ int main()
 		commandCode=0x51;
 
 		//send 0x51 to read number of bytes in read phase
-		I2C_MasterSendData(&I2C1_Handle,&commandCode,1,SLAVE_ADDR);
+		I2C_MasterSendData(&I2C1_Handle,&commandCode,1,SLAVE_ADDR,0);
 
-		I2C_MasterReceiveData(&I2C1_Handle,&NBytes,1, SLAVE_ADDR);
+		I2C_MasterReceiveData(&I2C1_Handle,&NBytes,1, SLAVE_ADDR,0);
 		//after this you will have number of bytes in the Nbytes variable
 
 		commandCode=0x52;
 		//send 0x51 to read number of bytes in read phase
-		I2C_MasterSendData(&I2C1_Handle,&commandCode,1,SLAVE_ADDR);
+		I2C_MasterSendData(&I2C1_Handle,&commandCode,1,SLAVE_ADDR,0);
 
 		// do another read to read those Nbytes of Data
-		I2C_MasterReceiveData(&I2C1_Handle,rcvBuffer,NBytes,SLAVE_ADDR);
+		I2C_MasterReceiveData(&I2C1_Handle,rcvBuffer,NBytes,SLAVE_ADDR,0);
 
 
 

@@ -153,6 +153,10 @@ typedef struct{
 #define I2C_DISABLE_SR  	RESET
 #define I2C_ENABLE_SR   	SET
 
+#define I2C_EV_TX_CMPLT  		0
+#define I2C_EV_RX_CMPLT			1
+#define I2C_EV_STOPF			2
+
 
 /******************************************************************************************
  *								APIs supported by this driver
@@ -180,11 +184,14 @@ void I2C_ManageAcking(I2C_RegDef_t *pI2Cx,uint8_t EnorDi);
 
 
 //communication API's
-void I2C_MasterSendData(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len,uint8_t SlaveAddr);
-void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr);
+void I2C_MasterSendData(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len,uint8_t SlaveAddr,uint8_t Sr);
+void I2C_MasterReceiveData(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr,uint8_t Sr);
 
 //interrupt API
-uint8_t I2C_MasterSendDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len,uint8_t SlaveAddr);
-uint8_t I2C_MasterReceiveDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr);
+uint8_t I2C_MasterSendDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_t Len,uint8_t SlaveAddr,uint8_t Sr);
+uint8_t I2C_MasterReceiveDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr,uint8_t Sr);
+
+void I2C_ApplicationEventCallback(I2C_Handle_t *pI2CHandle,uint8_t AppEvent);
+
 
 #endif /* INC_STM32F4XX_I2C_DRIVER_H_ */
