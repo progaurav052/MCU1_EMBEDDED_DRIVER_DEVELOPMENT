@@ -171,8 +171,8 @@ void I2C_PeripheralControl(I2C_RegDef_t *pI2CX,uint8_t EnorDi);
 /* Interrupt configuration and ISR handling */
 void I2C_IRQInterruptConfig(uint8_t IRQNumber,uint8_t EnorDi);
 void I2C_IRQPriorityConfig(uint8_t IRQNumber,uint8_t IRQPriority);
-void I2C_IRQHandling(I2C_Handle_t *pI2CHandle);
-
+void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle);
+void I2C_ER_IRQHandling(I2C_Handle_t *pI2CHandle);
 //Adding an function to check the flags ,repo code
 uint8_t I2C_GetFlagStatus(I2C_RegDef_t *pI2Cx , uint32_t FlagName);
 
