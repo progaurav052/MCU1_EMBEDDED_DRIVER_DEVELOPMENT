@@ -94,7 +94,7 @@ int main ()
 	//Need to use GPIO pins for MISO , MOSI , NSS and SCLK
 
 	//Define the Message to be sent
-	char master_data[]="Hi My name is Gaurav Pai";
+	char master_data[5]="Guru";
 
 	uint8_t master_data_len= strlen(master_data);
 	SPI_GPIOInits();
@@ -114,12 +114,14 @@ int main ()
     	while(!GPIO_ReadFromInputPin(GPIOA,GPIO_BTN_PIN));
 
 
+
+
     	SPI_PeripheralControl(SPI2, ENABLE);
     	// first send the number of bytes to be transfered
     	SPI_SendData(SPI2,&master_data_len,1);
 
     	// transfer those bytes
-    	SPI_SendData(SPI2,(uint8_t *)master_data, master_data_len);
+    	SPI_SendData(SPI2,(uint8_t *)master_data, 5);
     	// above procedure is followed in sketch file --> First send number bytes , followed by those bytes
 
 
