@@ -35,8 +35,6 @@ typedef struct{
 	uint32_t RxSize;
 	uint8_t Sr;
 
-
-
 }I2C_Handle_t;
 
 /*
@@ -201,6 +199,15 @@ uint8_t I2C_MasterSendDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pTxBuffer, uint8_
 uint8_t I2C_MasterReceiveDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uint8_t Len,uint8_t SlaveAddr,uint8_t Sr);
 
 void I2C_ApplicationEventCallback(I2C_Handle_t *pI2CHandle,uint8_t AppEvent);
+
+//I2C_Slave programming
+
+//slave does only 2 jobs :
+//gets request for Data
+// receive Data
+void I2C_SlaveSendData(I2C_RegDef_t *pI2Cx,uint8_t data);
+uint8_t I2C_SlaveReceiveData(I2C_RegDef_t *pI2Cx);
+
 
 
 #endif /* INC_STM32F4XX_I2C_DRIVER_H_ */

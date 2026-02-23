@@ -136,7 +136,7 @@ static void I2C_ClearADDRFlag(I2C_Handle_t *pI2CHandle){
 	// the same code can we used for Non Interrupt mode as well
 	// in the case when SendData / receiveData API (non interrupt mode is used) ... than STATE will be in I2C_Ready by default so else part is executed
 	uint32_t dummyRead;
-	if(pI2CHandle->pI2Cx->I2C_SR2 & (1<<I2C_SR2_MSL))
+	if(pI2CHandle->pI2Cx->I2C_SR2 & (1<<I2C_SR2_MSL)) //@why this condition is important
 	{
 		if(pI2CHandle->TxRxState==I2C_BUSY_IN_RX)
 		{
@@ -578,8 +578,14 @@ uint8_t I2C_MasterReceiveDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uin
 
 		return busystate;
 }
+void I2C_SlaveSendData(I2C_RegDef_t *pI2Cx,uint8_t data){
+	pI2Cx->I2C_DR=data;
 
-
+}
+uint8_t I2C_SlaveReceiveData(I2C_RegDef_t *pI2Cx)
+{
+	return (uint8_t)pI2Cx->I2C_DR;
+}
 //EVENT ISR Handler
 // when the interrupt is triggered , ISR is called , that ISR calls the handler ... where the servicing is done
 void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
@@ -648,13 +654,14 @@ void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
 
 
 			}
-			else if(pI2CHandle->TxRxState == I2C_BUSY_IN_RX)
-			{
+		}
+		else if(pI2CHandle->TxRxState == I2C_BUSY_IN_RX)
+		{
 				// we have got nothing to do,
 				//we do not use BTF to close Rx reception
 
-			}
 		}
+		
 
 	}
 
@@ -680,7 +687,7 @@ void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
 		if(pI2CHandle->pI2Cx->I2C_SR2 & (1 << I2C_SR2_MSL))
 		{
 			// TXE flag is set , we have to do transmission.. by loading the data
-			if(pI2CHandle->TxRxState == I2C_BUSY_IN_TX){
+			if(pI2CHandle->TxRxState == I2C_BUSY_IN_TX){  //@why this condition is necessary here
 				if (pI2CHandle->TxLen > 0) {
 					//1. load the data in DR
 					pI2CHandle->pI2Cx->I2C_DR = *pI2CHandle->pTxBuffer;
@@ -693,6 +700,15 @@ void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
 			}
 
 		}
+		else
+		{
+			//device is in slave mode :
+			// same logic as above check if the device is in receive mode
+			if (pI2CHandle->pI2Cx->I2C_SR2 & (1 << I2C_SR2_TRA)) {
+				I2C_ApplicationEventCallback(pI2CHandle, I2C_EV_DATA_REQ);
+			}
+		}
+
 
 
 	}
@@ -704,7 +720,7 @@ void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
 		// RXNE flag is set, we have to do Rx in this case
 		// Need to handle the case of Len 1 byte and length 2 bytes
 		if (pI2CHandle->pI2Cx->I2C_SR2 & (1 << I2C_SR2_MSL)) {
-			if (pI2CHandle->TxRxState == I2C_BUSY_IN_RX) {
+			if (pI2CHandle->TxRxState == I2C_BUSY_IN_RX) { // @why this condition is important
 				if (pI2CHandle->RxSize == 1) {
 					*pI2CHandle->pRxBuffer = pI2CHandle->pI2Cx->I2C_DR;
 					pI2CHandle->RxLen--;
@@ -718,7 +734,7 @@ void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
 					pI2CHandle->pRxBuffer++;
 					pI2CHandle->RxLen--;
 				}
-				if (pI2CHandle->RxLen == 0) {
+				if (pI2CHandle->RxLen == 0) { // after last reading code will come here
 					//close the Rx and notify the application
 					//1. generate stop condition
 					if (pI2CHandle->Sr == I2C_DISABLE_SR)
@@ -734,6 +750,15 @@ void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
 				}
 			}
 
+		}
+		else
+		{
+			//device is in slave mode :
+			// same logic as above check if the device is in receive mode
+			if(pI2CHandle->pI2Cx->I2C_SR2 & (1 << I2C_SR2_TRA)==0)
+			{
+				I2C_ApplicationEventCallback(pI2CHandle, I2C_EV_DATA_RCV);
+			}
 		}
 
 
@@ -821,5 +846,6 @@ void I2C_ER_IRQHandling(I2C_Handle_t *pI2CHandle)
 }
 
 __attribute__ ((weak)) void I2C_ApplicationEventCallback(I2C_Handle_t *pI2CHandle,uint8_t AppEvent){
-
+ // weak implementation
+ // code is called by the application , usually in  caseof event completion
 }
