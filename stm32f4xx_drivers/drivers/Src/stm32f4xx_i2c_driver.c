@@ -96,6 +96,7 @@ static void I2C_CloseReceiveData(I2C_Handle_t *pI2CHandle)
 	if (pI2CHandle->I2C_Config.I2C_AckControl == I2C_ACK_ENABLE) {
 		I2C_ManageAcking(pI2CHandle->pI2Cx, I2C_ACK_ENABLE);
 	}
+	// we have to maintain the state to what it was before transmission;
 
 
 }
