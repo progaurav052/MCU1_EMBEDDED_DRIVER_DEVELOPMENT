@@ -175,6 +175,11 @@ void I2C_ApplicationEventCallback(I2C_Handle_t *pI2CHandle,uint8_t AppEv)
 	{
 		//Data is waiting for the slave to read . slave has to read it
 		commandCode = I2C_SlaveReceiveData(pI2CHandle->pI2Cx);
+		// when master initially sends command code 0x51 ... during this after the address phase is completed the TRA of slave is 0 , when RXNE becomes 1 ISR is serviced and commandCode value is stored -->
+		//....ISR exits , TXE ISR starts executing as TXE is set ... ||ly on master  MasterRecieve is executed .. when the address phase is completed the TRA os master is set to 0 and TRA of slave is set to 1
+		//.... when this happens master executed SendData code ... hence its ensured that communication is in sync.
+
+
 
 	}else if (AppEv == I2C_ERROR_AF)
 	{
