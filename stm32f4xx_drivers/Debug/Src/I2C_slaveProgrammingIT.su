@@ -1,0 +1,8 @@
+../Src/I2C_slaveProgrammingIT.c:40:6:delay	16	static
+../Src/I2C_slaveProgrammingIT.c:47:6:I2C1_GpioInits	24	static
+../Src/I2C_slaveProgrammingIT.c:71:6:I2C1_Inits	8	static
+../Src/I2C_slaveProgrammingIT.c:89:6:GPIO_ButtonInit	24	static
+../Src/I2C_slaveProgrammingIT.c:109:5:main	8	static
+../Src/I2C_slaveProgrammingIT.c:144:6:I2C1_EV_IRQHandler	8	static
+../Src/I2C_slaveProgrammingIT.c:150:6:I2C1_ER_IRQHandler	8	static
+../Src/I2C_slaveProgrammingIT.c:155:6:I2C_ApplicationEventCallback	24	static

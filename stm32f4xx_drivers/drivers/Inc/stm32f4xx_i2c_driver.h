@@ -207,7 +207,7 @@ void I2C_ApplicationEventCallback(I2C_Handle_t *pI2CHandle,uint8_t AppEvent);
 // receive Data
 void I2C_SlaveSendData(I2C_RegDef_t *pI2Cx,uint8_t data);
 uint8_t I2C_SlaveReceiveData(I2C_RegDef_t *pI2Cx);
-
+void I2C_SlaveModeEnableDisableInterruptControlBits(I2C_RegDef_t *pI2Cx,uint8_t EnorDi);
 
 
 #endif /* INC_STM32F4XX_I2C_DRIVER_H_ */

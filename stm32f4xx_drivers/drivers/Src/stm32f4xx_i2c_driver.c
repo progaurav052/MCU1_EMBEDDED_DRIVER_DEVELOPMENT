@@ -578,6 +578,8 @@ uint8_t I2C_MasterReceiveDataIT(I2C_Handle_t *pI2CHandle,uint8_t *pRxBuffer, uin
 
 		return busystate;
 }
+
+//Slave Mode API :
 void I2C_SlaveSendData(I2C_RegDef_t *pI2Cx,uint8_t data){
 	pI2Cx->I2C_DR=data;
 
@@ -586,6 +588,32 @@ uint8_t I2C_SlaveReceiveData(I2C_RegDef_t *pI2Cx)
 {
 	return (uint8_t)pI2Cx->I2C_DR;
 }
+
+void I2C_SlaveModeEnableDisableInterruptControlBits(I2C_RegDef_t *pI2Cx,uint8_t EnorDi){
+	if(EnorDi == ENABLE)
+	{
+		pI2Cx->I2C_CR2 |= (1 << I2C_CR2_ITBUFEN);
+
+		//Implement the code to enable ITEVFEN Control Bit
+		pI2Cx->I2C_CR2 |= (1 << I2C_CR2_ITEVFEN);
+
+		//Implement the code to enable ITERREN Control Bit
+		pI2Cx->I2C_CR2 |= (1 << I2C_CR2_ITERREN);
+	}
+	else
+	{
+
+		pI2Cx->I2C_CR2 &= ~(1 << I2C_CR2_ITBUFEN);
+
+
+		pI2Cx->I2C_CR2 &= ~(1 << I2C_CR2_ITEVFEN);
+
+
+		pI2Cx->I2C_CR2 &= ~(1 << I2C_CR2_ITERREN);
+	}
+}
+
+
 //EVENT ISR Handler
 // when the interrupt is triggered , ISR is called , that ISR calls the handler ... where the servicing is done
 void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
@@ -755,7 +783,7 @@ void I2C_EV_IRQHandling(I2C_Handle_t *pI2CHandle)
 		{
 			//device is in slave mode :
 			// same logic as above check if the device is in receive mode
-			if(pI2CHandle->pI2Cx->I2C_SR2 & (1 << I2C_SR2_TRA)==0)
+			if(!(pI2CHandle->pI2Cx->I2C_SR2 & (1 << I2C_SR2_TRA)))
 			{
 				I2C_ApplicationEventCallback(pI2CHandle, I2C_EV_DATA_RCV);
 			}
