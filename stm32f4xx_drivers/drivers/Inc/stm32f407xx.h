@@ -264,11 +264,31 @@ typedef struct{
 }I2C_RegDef_t;
 
 
-//the above structure should be pointer to actual I2C peripherals which are memory mapped
-
 #define I2C1  			((I2C_RegDef_t*)I2C1_BASEADDR)
 #define I2C2  			((I2C_RegDef_t*)I2C2_BASEADDR)
 #define I2C3  			((I2C_RegDef_t*)I2C3_BASEADDR)
+
+/*USART peripheral register structure definition*/
+typedef struct
+{
+	__vo uint32_t SR;         /*!< TODO,     										Address offset: 0x00 */
+	__vo uint32_t DR;         /*!< TODO,     										Address offset: 0x04 */
+	__vo uint32_t BRR;        /*!< TODO,     										Address offset: 0x08 */
+	__vo uint32_t CR1;        /*!< TODO,     										Address offset: 0x0C */
+	__vo uint32_t CR2;        /*!< TODO,     										Address offset: 0x10 */
+	__vo uint32_t CR3;        /*!< TODO,     										Address offset: 0x14 */
+	__vo uint32_t GTPR;       /*!< TODO,     										Address offset: 0x18 */
+} USART_RegDef_t;
+
+#define USART1  			((USART_RegDef_t*)USART1_BASEADDR)
+#define USART2  			((USART_RegDef_t*)USART2_BASEADDR)
+#define USART3  			((USART_RegDef_t*)USART3_BASEADDR)
+#define UART4  				((USART_RegDef_t*)UART4_BASEADDR)
+#define UART5  				((USART_RegDef_t*)UART5_BASEADDR)
+#define USART6  			((USART_RegDef_t*)USART6_BASEADDR)
+
+//the above structure should be pointer to actual I2C peripherals which are memory mapped
+
 
 /*define clock Enable Macros for GPIOx peripherals
  */
