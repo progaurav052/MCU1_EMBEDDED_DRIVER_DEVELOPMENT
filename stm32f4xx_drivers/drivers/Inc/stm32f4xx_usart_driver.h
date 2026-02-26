@@ -47,7 +47,7 @@ typedef struct
 
 /*
  *@USART_Baud
- *Possible options for USART_Baud
+ *Possible options for USART_Baud --> Reference Manual , for 16Mhz frequency of SYSCLK
  */
 #define USART_STD_BAUD_1200					1200
 #define USART_STD_BAUD_2400					400
@@ -96,7 +96,12 @@ typedef struct
 #define USART_HW_FLOW_CTRL_RTS    	2
 #define USART_HW_FLOW_CTRL_CTS_RTS	3
 
-
+/*
+ * USART flags
+ */
+#define USART_FLAG_TXE 			( 1 << USART_SR_TXE)
+#define USART_FLAG_RXNE 		( 1 << USART_SR_RXNE)
+#define USART_FLAG_TC 			( 1 << USART_SR_TC)
 
 /******************************************************************************************
  *								APIs supported by this driver
