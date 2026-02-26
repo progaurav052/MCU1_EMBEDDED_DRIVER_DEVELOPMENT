@@ -377,8 +377,8 @@ typedef struct
 /*define clock Disable Macros for UARTx peripherals
  */
 
-#define UART4_PCLK_DI()			( RCC->AHB1ENR &= ~( 1<<19 ))
-#define UART5_PCLK_DI()			( RCC->AHB1ENR &= ~( 1<<20 ))
+#define UART4_PCLK_DI()			( RCC->APB1ENR &= ~( 1<<19 ))
+#define UART5_PCLK_DI()			( RCC->APB1ENR &= ~( 1<<20 ))
 
 
 // some generic macros
@@ -453,6 +453,13 @@ typedef struct
 #define I2C1_REG_RESET()        do{(RCC->APB2RSTR |= (1<<21)); (RCC->APB2RSTR |= ~(1<<21));}while(0)
 #define I2C2_REG_RESET()        do{(RCC->APB1RSTR |= (1<<22)); (RCC->APB1RSTR |= ~(1<<22));}while(0)
 #define I2C3_REG_RESET()        do{(RCC->APB1RSTR |= (1<<23)); (RCC->APB1RSTR |= ~(1<<23));}while(0)
+
+/*USART Peripheral Register reset*/
+//set it once and clear that again , if  left as 1,it will keep on resetting
+#define USART1_REG_RESET()        do{(RCC->APB2RSTR |= (1<<12)); (RCC->APB2RSTR |= ~(1<<4));}while(0)
+#define USART2_REG_RESET()        do{(RCC->APB1RSTR |= (1<<14)); (RCC->APB1RSTR |= ~(1<<17));}while(0)
+#define USART3_REG_RESET()        do{(RCC->APB1RSTR |= (1<<15)); (RCC->APB1RSTR |= ~(1<<18));}while(0)
+#define UART4_REG_RESET()        do{(RCC->APB2RSTR |= (1<<13)); (RCC->APB1RSTR |= ~(1<<19));}while(0)
 
 #include "stm32f4xx_gpio_driver.h"
 #include "stm32f4xx_spi_driver.h"
