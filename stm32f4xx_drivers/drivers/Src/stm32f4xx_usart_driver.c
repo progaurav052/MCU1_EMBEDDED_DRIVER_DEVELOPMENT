@@ -46,7 +46,7 @@ void USART_DeInit(USART_RegDef_t *pUSARTx){
 		}
 		else if(pUSARTx==USART2)
 		{
-			USART4_REG_RESET();
+			USART2_REG_RESET();
 		}
 		else if(pUSARTx==USART3)
 		{
@@ -114,7 +114,7 @@ void USART_PeripheralControl(USART_RegDef_t *pUSARTx, uint8_t EnOrDi){
 	}
 }
 uint8_t USART_GetFlagStatus(USART_RegDef_t *pUSARTx , uint32_t FlagName){
-	 if(pUSARTx->SR & StatusFlagName)
+	 if(pUSARTx->SR & FlagName)
 	    {
 	    	return SET;
 	    }
