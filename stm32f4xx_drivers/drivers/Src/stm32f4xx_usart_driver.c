@@ -165,7 +165,7 @@ void USART_Init(USART_Handle_t *pUSARTHandle)
 	tempreg |= pUSARTHandle->USART_Config.USART_NoOfStopBits << USART_CR2_STOP;
 
 	//Program the CR2 register
-	pUSARTHandle->pUSARTx->CR2 | tempreg;
+	pUSARTHandle->pUSARTx->CR2 |= tempreg;
 
 /******************************** Configuration of CR3******************************************/
 
@@ -320,48 +320,7 @@ void USART_ReceiveData(USART_Handle_t *pUSARTHandle, uint8_t *pRxBuffer, uint32_
 
 }
 
-uint8_t USART_SendDataIT(USART_Handle_t *pUSARTHandle,uint8_t *pTxBuffer, uint32_t Len)
-{
-	uint8_t txstate = pUSARTHandle->TODO;
 
-	if(txstate != USART_BUSY_IN_TX)
-	{
-		pUSARTHandle->TODO = Len;
-		pUSARTHandle->pTxBuffer = TODO;
-		pUSARTHandle->TxBusyState = TODO;
-
-		//Implement the code to enable interrupt for TXE
-		TODO
-
-
-		//Implement the code to enable interrupt for TC
-		TODO
-
-
-	}
-
-	return txstate;
-
-}
-
-uint8_t USART_ReceiveDataIT(USART_Handle_t *pUSARTHandle,uint8_t *pRxBuffer, uint32_t Len)
-{
-	uint8_t rxstate = pUSARTHandle->TODO;
-
-	if(rxstate != TODO)
-	{
-		pUSARTHandle->RxLen = Len;
-		pUSARTHandle->pRxBuffer = TODO;
-		pUSARTHandle->RxBusyState = TODO;
-
-		//Implement the code to enable interrupt for RXNE
-		TODO
-
-	}
-
-	return rxstate;
-
-}
 
 
 void USART_DeInit(USART_RegDef_t *pUSARTx){

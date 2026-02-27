@@ -8,8 +8,6 @@
 
 #include "stm32f4xx_i2c_driver.h"
 
-uint32_t  AHB_PS[8]={2,4,8,16,64,128,256,512};
-uint32_t  APB_PS[5]={2,4,8,16};
 
 
 
