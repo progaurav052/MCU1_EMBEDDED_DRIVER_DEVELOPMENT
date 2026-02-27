@@ -62,7 +62,7 @@ static uint32_t  Get_PCLK_Speed()
 
 
 	//need to find the Prescaler of APB
-	temp = ((RCC->CFGR >> 13) &  0x7);
+	temp = ((RCC->CFGR >> 10) &  0x7);
 	if(temp < 4)
 	{
 		APB_Prescaler=1;

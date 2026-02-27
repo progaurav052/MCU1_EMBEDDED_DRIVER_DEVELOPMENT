@@ -6,6 +6,195 @@
  */
 #include "stm32f4xx_usart_driver.h"
 
+uint32_t  AHB_PS[8]={2,4,8,16,64,128,256,512};
+uint32_t  APB_PS[5]={2,4,8,16};
+static void RCC_GetPLLOutputClock(){
+
+}
+
+static uint32_t findClockSource()
+{
+	uint32_t temp;
+
+	temp = ((RCC->CFGR >> 2) & 0x3);
+
+	return temp;
+
+}
+static uint32_t  RCC_GetPCLK2Value(){
+	// clock source --> AHb1 prescaler --> APB1 prescaler ---> APB1 peripheral clocks
+
+		// find the clock source from RCC_CFGR Regsiter
+		uint32_t clckSource=0,SysClk=0,AHB_Prescaler=0, APB_Prescaler=0,temp=0,PCLK_SPEED;
+
+		clckSource=findClockSource();
+
+		if(clckSource==0)
+		{
+	       SysClk=16000000;
+
+		}
+		else if(clckSource ==1)
+		{
+			SysClk=8000000;
+
+		}
+		else if(clckSource ==2)
+		{
+			RCC_GetPLLOutputClock();
+
+		}
+
+		//need to find the preSclaer of AHB
+
+		temp = ((RCC->CFGR >> 4) &  0xF);
+		if(temp<8)
+		{
+			AHB_Prescaler=1;
+		}
+		else
+		{
+			AHB_Prescaler=AHB_PS[temp-8];
+		}
+
+
+		//need to find the Prescaler of APB
+		temp = ((RCC->CFGR >> 13) &  0x7);
+		if(temp < 4)
+		{
+			APB_Prescaler=1;
+		}
+		else
+		{
+			APB_Prescaler=APB_PS[temp-4];
+		}
+
+
+		PCLK_SPEED=((SysClk/AHB_Prescaler)/APB_Prescaler);
+
+		return PCLK_SPEED/1000000;
+
+
+}
+static uint32_t RCC_GetPCLK1Value(){
+	// clock source --> AHb1 prescaler --> APB1 prescaler ---> APB1 peripheral clocks
+
+		// find the clock source from RCC_CFGR Regsiter
+		uint32_t clckSource=0,SysClk=0,AHB_Prescaler=0, APB_Prescaler=0,temp=0,PCLK_SPEED;
+
+		clckSource=findClockSource();
+
+		if(clckSource==0)
+		{
+	       SysClk=16000000;
+
+		}
+		else if(clckSource ==1)
+		{
+			SysClk=8000000;
+
+		}
+		else if(clckSource ==2)
+		{
+			RCC_GetPLLOutputClock();
+
+		}
+
+		//need to find the preSclaer of AHB
+
+		temp = ((RCC->CFGR >> 4) &  0xF);
+		if(temp<8)
+		{
+			AHB_Prescaler=1;
+		}
+		else
+		{
+			AHB_Prescaler=AHB_PS[temp-8];
+		}
+
+
+		//need to find the Prescaler of APB
+		temp = ((RCC->CFGR >> 10) &  0x7);
+		if(temp < 4)
+		{
+			APB_Prescaler=1;
+		}
+		else
+		{
+			APB_Prescaler=APB_PS[temp-4];
+		}
+
+
+		PCLK_SPEED=((SysClk/AHB_Prescaler)/APB_Prescaler);
+
+		return PCLK_SPEED/1000000;
+
+}
+void USART_SetBaudRate(USART_RegDef_t *pUSARTx, uint32_t BaudRate)
+{
+
+	//Variable to hold the APB clock
+	uint32_t PCLKx;
+
+	uint32_t usartdiv;
+
+	//variables to hold Mantissa and Fraction values
+	uint32_t M_part,F_part;
+
+  uint32_t tempreg=0;
+
+  //Get the value of APB bus clock in to the variable PCLKx
+  if(pUSARTx == USART1 || pUSARTx == USART6)
+  {
+	   //USART1 and USART6 are hanging on APB2 bus
+	   PCLKx = RCC_GetPCLK2Value();
+
+  }else
+  {
+	   PCLKx = RCC_GetPCLK1Value();
+  }
+
+  //Check for OVER8 configuration bit
+  if(pUSARTx->CR1 & (1 << TODO))
+  {
+	   //OVER8 = 1 , over sampling by 8
+	   usartdiv = ((25 * PCLKx) / (2 *BaudRate));
+  }else
+  {
+	   //over sampling by 16
+	  usartdiv = ((25 * PCLKx) / (4 *BaudRate));
+  }
+
+  //Calculate the Mantissa part
+  M_part = usartdiv/100;
+
+  //Place the Mantissa part in appropriate bit position . refer USART_BRR
+  tempreg |= M_part << 4;
+
+  //Extract the fraction part
+  F_part = (usartdiv - (M_part * 100));
+
+  //Calculate the final fractional
+  if(pUSARTx->CR1 & ( 1 << USART_CR1_OVER8))
+   {
+	  //OVER8 = 1 , over sampling by 8
+	  F_part = ((( F_part * 8)+ 50) / 100)& ((uint8_t)0x07); // 3bits
+
+   }else
+   {
+	   //over sampling by 16
+	   F_part = ((( F_part * 16)+ 50) / 100) & ((uint8_t)0x0F); // 4 bits
+
+   }
+
+  //Place the fractional part in appropriate bit position . refer USART_BRR
+  tempreg |= F_part;
+
+  //copy the value of tempreg in to BRR register
+  pUSARTx->BRR = tempreg;
+}
+
+
 void USART_PeriClockControl(USART_RegDef_t *pUSARTx, uint8_t EnorDi){
 	if(EnorDi == ENABLE)
 		{
