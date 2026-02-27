@@ -11,76 +11,7 @@
 uint32_t  AHB_PS[8]={2,4,8,16,64,128,256,512};
 uint32_t  APB_PS[5]={2,4,8,16};
 
-static uint32_t findClockSource()
-{
-	uint32_t temp;
 
-	temp = ((RCC->CFGR >> 2) & 0x3);
-
-	return temp;
-
-}
-static void RCC_GetPLLOutputClock(){
-
-}
-static uint32_t  Get_PCLK_Speed()
-{
-	// clock source --> AHb1 prescaler --> APB1 prescaler ---> APB1 peripheral clocks
-
-	// find the clock source from RCC_CFGR Regsiter
-	uint32_t clckSource=0,SysClk=0,AHB_Prescaler=0, APB_Prescaler=0,temp=0,PCLK_SPEED;
-
-	clckSource=findClockSource();
-
-	if(clckSource==0)
-	{
-       SysClk=16000000;
-
-	}
-	else if(clckSource ==1)
-	{
-		SysClk=8000000;
-
-	}
-	else if(clckSource ==2)
-	{
-		RCC_GetPLLOutputClock();
-
-	}
-
-	//need to find the preSclaer of AHB
-
-	temp = ((RCC->CFGR >> 4) &  0xF);
-	if(temp<8)
-	{
-		AHB_Prescaler=1;
-	}
-	else
-	{
-		AHB_Prescaler=AHB_PS[temp-8];
-	}
-
-
-	//need to find the Prescaler of APB
-	temp = ((RCC->CFGR >> 10) &  0x7);
-	if(temp < 4)
-	{
-		APB_Prescaler=1;
-	}
-	else
-	{
-		APB_Prescaler=APB_PS[temp-4];
-	}
-
-
-	PCLK_SPEED=((SysClk/AHB_Prescaler)/APB_Prescaler);
-
-	return PCLK_SPEED;
-
-
-
-
-}
 
 static void I2C_CloseReceiveData(I2C_Handle_t *pI2CHandle)
 {
@@ -216,7 +147,7 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
 	//configure the SCL speed , for this calculation we need to know the PCLK speed (it can be anything based on preScaler)
 	//first configure the FREQ field in CR2 register
     tempReg=0;
-    tempReg|=Get_PCLK_Speed()/1000000;
+    tempReg|=RCC_GetPCLK1Value()/1000000;
     pI2CHandle->pI2Cx->I2C_CR2|=(tempReg & 0x3F);
 
 
@@ -235,7 +166,7 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
     	//configure the mode bit 0 by default for STD mode
     	//configure the CCR value in CCR field
     	//we assume in std mode tHigh == tLow
-    	ccr_value=(Get_PCLK_Speed() / (2* pI2CHandle->I2C_Config.I2C_SCLSpeed));
+    	ccr_value=(RCC_GetPCLK1Value() / (2* pI2CHandle->I2C_Config.I2C_SCLSpeed));
     	tempReg |=(ccr_value &0xFFF);
 
 
@@ -251,11 +182,11 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
     	//based on the duty cycle the tHigh and tLow changes
     	if(pI2CHandle->I2C_Config.I2C_FMDutyCycle == I2C_FM_DUTY_2)
     	{
-    		ccr_value=(Get_PCLK_Speed() / (3 * pI2CHandle->I2C_Config.I2C_SCLSpeed));
+    		ccr_value=(RCC_GetPCLK1Value() / (3 * pI2CHandle->I2C_Config.I2C_SCLSpeed));
     	}
     	else
     	{
-    		ccr_value=(Get_PCLK_Speed() / (25 * pI2CHandle->I2C_Config.I2C_SCLSpeed));
+    		ccr_value=(RCC_GetPCLK1Value() / (25 * pI2CHandle->I2C_Config.I2C_SCLSpeed));
     	}
     	//configure the CCR value in CCR field
     	tempReg |=(ccr_value &0xFFF);
@@ -271,12 +202,12 @@ void I2C_Init(I2C_Handle_t *pI2CHandle){
     if(pI2CHandle->I2C_Config.I2C_SCLSpeed==I2C_SCL_SPEED_SM)
     {
     	//standard mode , Trise is 1000ns
-    	tempReg = ((Get_PCLK_Speed()/1000000U)+1);
+    	tempReg = ((RCC_GetPCLK1Value()/1000000U)+1);
 
     }
     else{
     	//fast mode  , Trise is 300ns
-    	tempReg=((Get_PCLK_Speed()*300)/1000000000U)+1;
+    	tempReg=((RCC_GetPCLK1Value()*300)/1000000000U)+1;
 
     }
     pI2CHandle->pI2Cx->I2C_TRISE|=tempReg;
