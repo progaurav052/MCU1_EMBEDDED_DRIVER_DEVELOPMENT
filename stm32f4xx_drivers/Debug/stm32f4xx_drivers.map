@@ -366,7 +366,7 @@ Discarded input sections
  .debug_macro   0x00000000       0x20 ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_macro   0x00000000      0x455 ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_macro   0x00000000      0x1bd ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_macro   0x00000000      0x1ff ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_macro   0x00000000      0x241 ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_macro   0x00000000      0x124 ./drivers/Src/stm32f4xx_gpio_driver.o
  .group         0x00000000        0xc ./drivers/Src/stm32f4xx_i2c_driver.o
  .group         0x00000000        0xc ./drivers/Src/stm32f4xx_i2c_driver.o
@@ -484,10 +484,10 @@ Discarded input sections
  .debug_macro   0x00000000      0x455 ./drivers/Src/stm32f4xx_i2c_driver.o
  .debug_macro   0x00000000      0x124 ./drivers/Src/stm32f4xx_i2c_driver.o
  .debug_macro   0x00000000      0x1ce ./drivers/Src/stm32f4xx_i2c_driver.o
- .debug_macro   0x00000000      0x1ff ./drivers/Src/stm32f4xx_i2c_driver.o
+ .debug_macro   0x00000000      0x241 ./drivers/Src/stm32f4xx_i2c_driver.o
  .debug_macro   0x00000000      0x1b7 ./drivers/Src/stm32f4xx_i2c_driver.o
  .debug_line    0x00000000      0xf45 ./drivers/Src/stm32f4xx_i2c_driver.o
- .debug_str     0x00000000     0xa7fa ./drivers/Src/stm32f4xx_i2c_driver.o
+ .debug_str     0x00000000     0xa8c0 ./drivers/Src/stm32f4xx_i2c_driver.o
  .comment       0x00000000       0x44 ./drivers/Src/stm32f4xx_i2c_driver.o
  .debug_frame   0x00000000      0x3d8 ./drivers/Src/stm32f4xx_i2c_driver.o
  .ARM.attributes
@@ -552,7 +552,7 @@ Discarded input sections
  .debug_macro   0x00000000      0x124 ./drivers/Src/stm32f4xx_rcc_driver.o
  .debug_macro   0x00000000      0x1ce ./drivers/Src/stm32f4xx_rcc_driver.o
  .debug_macro   0x00000000      0x1bd ./drivers/Src/stm32f4xx_rcc_driver.o
- .debug_macro   0x00000000      0x1ff ./drivers/Src/stm32f4xx_rcc_driver.o
+ .debug_macro   0x00000000      0x241 ./drivers/Src/stm32f4xx_rcc_driver.o
  .group         0x00000000        0xc ./drivers/Src/stm32f4xx_spi_driver.o
  .group         0x00000000        0xc ./drivers/Src/stm32f4xx_spi_driver.o
  .group         0x00000000        0xc ./drivers/Src/stm32f4xx_spi_driver.o
@@ -667,10 +667,10 @@ Discarded input sections
  .debug_macro   0x00000000      0x455 ./drivers/Src/stm32f4xx_spi_driver.o
  .debug_macro   0x00000000      0x124 ./drivers/Src/stm32f4xx_spi_driver.o
  .debug_macro   0x00000000      0x1bd ./drivers/Src/stm32f4xx_spi_driver.o
- .debug_macro   0x00000000      0x1ff ./drivers/Src/stm32f4xx_spi_driver.o
+ .debug_macro   0x00000000      0x241 ./drivers/Src/stm32f4xx_spi_driver.o
  .debug_macro   0x00000000      0x1c8 ./drivers/Src/stm32f4xx_spi_driver.o
  .debug_line    0x00000000      0xc22 ./drivers/Src/stm32f4xx_spi_driver.o
- .debug_str     0x00000000     0xa78a ./drivers/Src/stm32f4xx_spi_driver.o
+ .debug_str     0x00000000     0xa850 ./drivers/Src/stm32f4xx_spi_driver.o
  .comment       0x00000000       0x44 ./drivers/Src/stm32f4xx_spi_driver.o
  .debug_frame   0x00000000      0x3b4 ./drivers/Src/stm32f4xx_spi_driver.o
  .ARM.attributes
@@ -709,6 +709,12 @@ Discarded input sections
  .bss           0x00000000        0x0 ./drivers/Src/stm32f4xx_usart_driver.o
  .text.USART_ReceiveData
                 0x00000000       0xb0 ./drivers/Src/stm32f4xx_usart_driver.o
+ .text.USART_SendDataIT
+                0x00000000       0x5e ./drivers/Src/stm32f4xx_usart_driver.o
+ .text.USART_ReceiveDataIT
+                0x00000000       0x4e ./drivers/Src/stm32f4xx_usart_driver.o
+ .text.USART_IRQHandling
+                0x00000000      0x312 ./drivers/Src/stm32f4xx_usart_driver.o
  .text.USART_DeInit
                 0x00000000       0xac ./drivers/Src/stm32f4xx_usart_driver.o
  .text.USART_IRQInterruptConfig
@@ -717,6 +723,8 @@ Discarded input sections
                 0x00000000       0x52 ./drivers/Src/stm32f4xx_usart_driver.o
  .text.USART_ClearFlag
                 0x00000000       0x24 ./drivers/Src/stm32f4xx_usart_driver.o
+ .text.USART_ApplicationEventCallback
+                0x00000000       0x16 ./drivers/Src/stm32f4xx_usart_driver.o
  .debug_macro   0x00000000      0xad8 ./drivers/Src/stm32f4xx_usart_driver.o
  .debug_macro   0x00000000       0x22 ./drivers/Src/stm32f4xx_usart_driver.o
  .debug_macro   0x00000000       0x8e ./drivers/Src/stm32f4xx_usart_driver.o
@@ -1293,30 +1301,31 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
                 0x10000000                        _eccmram = .
                 0x10000000                        . = ALIGN (0x4)
 
-.bss            0x20000434       0x2c
+.bss            0x20000434       0x40
                 0x20000434                        _sbss = .
                 0x20000434                        __bss_start__ = _sbss
  *(.bss)
  .bss           0x20000434       0x1c /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.macos64_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m/nofp/crtbegin.o
  *(.bss*)
  .bss.usart2_handle
-                0x20000450       0x10 ./Src/Usart_tx.o
+                0x20000450       0x24 ./Src/Usart_tx.o
                 0x20000450                usart2_handle
  *(COMMON)
-                0x20000460                        . = ALIGN (0x4)
-                0x20000460                        _ebss = .
-                0x20000460                        __bss_end__ = _ebss
+                0x20000474                        . = ALIGN (0x4)
+                0x20000474                        _ebss = .
+                0x20000474                        __bss_end__ = _ebss
 
 ._user_heap_stack
-                0x20000460      0x600
-                0x20000460                        . = ALIGN (0x8)
+                0x20000474      0x604
+                0x20000478                        . = ALIGN (0x8)
+ *fill*         0x20000474        0x4 
                 [!provide]                        PROVIDE (end = .)
-                0x20000460                        PROVIDE (_end = .)
-                0x20000660                        . = (. + _Min_Heap_Size)
- *fill*         0x20000460      0x200 
-                0x20000a60                        . = (. + _Min_Stack_Size)
- *fill*         0x20000660      0x400 
-                0x20000a60                        . = ALIGN (0x8)
+                0x20000478                        PROVIDE (_end = .)
+                0x20000678                        . = (. + _Min_Heap_Size)
+ *fill*         0x20000478      0x200 
+                0x20000a78                        . = (. + _Min_Stack_Size)
+ *fill*         0x20000678      0x400 
+                0x20000a78                        . = ALIGN (0x8)
 
 /DISCARD/
  libc.a(*)
@@ -1352,21 +1361,21 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
 LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.macos64_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/nofp/libm.a
 LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.macos64_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/thumb/v7e-m/nofp/libgcc.a
 
-.debug_info     0x00000000     0x161f
- .debug_info    0x00000000      0x471 ./Src/Usart_tx.o
- .debug_info    0x00000471       0x30 ./Startup/startup_stm32f407vgtx.o
- .debug_info    0x000004a1      0x745 ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_info    0x00000be6      0x37e ./drivers/Src/stm32f4xx_rcc_driver.o
- .debug_info    0x00000f64      0x6bb ./drivers/Src/stm32f4xx_usart_driver.o
+.debug_info     0x00000000     0x1800
+ .debug_info    0x00000000      0x4bf ./Src/Usart_tx.o
+ .debug_info    0x000004bf       0x30 ./Startup/startup_stm32f407vgtx.o
+ .debug_info    0x000004ef      0x745 ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_info    0x00000c34      0x37e ./drivers/Src/stm32f4xx_rcc_driver.o
+ .debug_info    0x00000fb2      0x84e ./drivers/Src/stm32f4xx_usart_driver.o
 
-.debug_abbrev   0x00000000      0x680
+.debug_abbrev   0x00000000      0x683
  .debug_abbrev  0x00000000      0x1e6 ./Src/Usart_tx.o
  .debug_abbrev  0x000001e6       0x24 ./Startup/startup_stm32f407vgtx.o
  .debug_abbrev  0x0000020a      0x160 ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_abbrev  0x0000036a       0xfc ./drivers/Src/stm32f4xx_rcc_driver.o
- .debug_abbrev  0x00000466      0x21a ./drivers/Src/stm32f4xx_usart_driver.o
+ .debug_abbrev  0x00000466      0x21d ./drivers/Src/stm32f4xx_usart_driver.o
 
-.debug_aranges  0x00000000      0x180
+.debug_aranges  0x00000000      0x1a0
  .debug_aranges
                 0x00000000       0x40 ./Src/Usart_tx.o
  .debug_aranges
@@ -1376,10 +1385,10 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
  .debug_aranges
                 0x000000d8       0x38 ./drivers/Src/stm32f4xx_rcc_driver.o
  .debug_aranges
-                0x00000110       0x70 ./drivers/Src/stm32f4xx_usart_driver.o
+                0x00000110       0x90 ./drivers/Src/stm32f4xx_usart_driver.o
 
 .debug_rnglists
-                0x00000000      0x121
+                0x00000000      0x13a
  .debug_rnglists
                 0x00000000       0x2b ./Src/Usart_tx.o
  .debug_rnglists
@@ -1389,9 +1398,9 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
  .debug_rnglists
                 0x000000a4       0x27 ./drivers/Src/stm32f4xx_rcc_driver.o
  .debug_rnglists
-                0x000000cb       0x56 ./drivers/Src/stm32f4xx_usart_driver.o
+                0x000000cb       0x6f ./drivers/Src/stm32f4xx_usart_driver.o
 
-.debug_macro    0x00000000     0x30e4
+.debug_macro    0x00000000     0x3168
  .debug_macro   0x00000000      0x1b6 ./Src/Usart_tx.o
  .debug_macro   0x000001b6      0xad8 ./Src/Usart_tx.o
  .debug_macro   0x00000c8e       0x22 ./Src/Usart_tx.o
@@ -1427,35 +1436,35 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
  .debug_macro   0x00002087      0x124 ./Src/Usart_tx.o
  .debug_macro   0x000021ab      0x1ce ./Src/Usart_tx.o
  .debug_macro   0x00002379      0x1bd ./Src/Usart_tx.o
- .debug_macro   0x00002536      0x1ff ./Src/Usart_tx.o
- .debug_macro   0x00002735      0x18c ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_macro   0x000028c1       0x8e ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_macro   0x0000294f       0x51 ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_macro   0x000029a0       0x61 ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_macro   0x00002a01       0x10 ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_macro   0x00002a11      0x1c8 ./drivers/Src/stm32f4xx_gpio_driver.o
- .debug_macro   0x00002bd9      0x186 ./drivers/Src/stm32f4xx_rcc_driver.o
- .debug_macro   0x00002d5f      0x18c ./drivers/Src/stm32f4xx_usart_driver.o
- .debug_macro   0x00002eeb      0x1f9 ./drivers/Src/stm32f4xx_usart_driver.o
+ .debug_macro   0x00002536      0x241 ./Src/Usart_tx.o
+ .debug_macro   0x00002777      0x18c ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_macro   0x00002903       0x8e ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_macro   0x00002991       0x51 ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_macro   0x000029e2       0x61 ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_macro   0x00002a43       0x10 ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_macro   0x00002a53      0x1c8 ./drivers/Src/stm32f4xx_gpio_driver.o
+ .debug_macro   0x00002c1b      0x186 ./drivers/Src/stm32f4xx_rcc_driver.o
+ .debug_macro   0x00002da1      0x18c ./drivers/Src/stm32f4xx_usart_driver.o
+ .debug_macro   0x00002f2d      0x23b ./drivers/Src/stm32f4xx_usart_driver.o
 
-.debug_line     0x00000000     0x248e
+.debug_line     0x00000000     0x2750
  .debug_line    0x00000000      0x709 ./Src/Usart_tx.o
  .debug_line    0x00000709       0x7b ./Startup/startup_stm32f407vgtx.o
  .debug_line    0x00000784      0xbd8 ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_line    0x0000135c      0x713 ./drivers/Src/stm32f4xx_rcc_driver.o
- .debug_line    0x00001a6f      0xa1f ./drivers/Src/stm32f4xx_usart_driver.o
+ .debug_line    0x00001a6f      0xce1 ./drivers/Src/stm32f4xx_usart_driver.o
 
-.debug_str      0x00000000     0xadfe
- .debug_str     0x00000000     0xadfe ./Src/Usart_tx.o
-                               0xab4c (size before relaxing)
- .debug_str     0x0000adfe        0x0 ./Startup/startup_stm32f407vgtx.o
+.debug_str      0x00000000     0xaf50
+ .debug_str     0x00000000     0xaf50 ./Src/Usart_tx.o
+                               0xac42 (size before relaxing)
+ .debug_str     0x0000af50        0x0 ./Startup/startup_stm32f407vgtx.o
                                  0x9e (size before relaxing)
- .debug_str     0x0000adfe        0x0 ./drivers/Src/stm32f4xx_gpio_driver.o
-                               0xa696 (size before relaxing)
- .debug_str     0x0000adfe        0x0 ./drivers/Src/stm32f4xx_rcc_driver.o
-                               0xa498 (size before relaxing)
- .debug_str     0x0000adfe        0x0 ./drivers/Src/stm32f4xx_usart_driver.o
-                               0xa676 (size before relaxing)
+ .debug_str     0x0000af50        0x0 ./drivers/Src/stm32f4xx_gpio_driver.o
+                               0xa75c (size before relaxing)
+ .debug_str     0x0000af50        0x0 ./drivers/Src/stm32f4xx_rcc_driver.o
+                               0xa55e (size before relaxing)
+ .debug_str     0x0000af50        0x0 ./drivers/Src/stm32f4xx_usart_driver.o
+                               0xa7d4 (size before relaxing)
 
 .comment        0x00000000       0x43
  .comment       0x00000000       0x43 ./Src/Usart_tx.o
@@ -1467,12 +1476,12 @@ LOAD /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.id
  .comment       0x00000043        0x0 ./drivers/Src/stm32f4xx_usart_driver.o
                                  0x44 (size before relaxing)
 
-.debug_frame    0x00000000      0x504
+.debug_frame    0x00000000      0x5a4
  .debug_frame   0x00000000       0xb8 ./Src/Usart_tx.o
  .debug_frame   0x000000b8      0x1c8 ./drivers/Src/stm32f4xx_gpio_driver.o
  .debug_frame   0x00000280       0xa0 ./drivers/Src/stm32f4xx_rcc_driver.o
- .debug_frame   0x00000320      0x1b8 ./drivers/Src/stm32f4xx_usart_driver.o
- .debug_frame   0x000004d8       0x2c /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.macos64_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/nofp/libc_nano.a(libc_a-init.o)
+ .debug_frame   0x00000320      0x258 ./drivers/Src/stm32f4xx_usart_driver.o
+ .debug_frame   0x00000578       0x2c /Applications/STM32CubeIDE.app/Contents/Eclipse/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.13.3.rel1.macos64_1.0.100.202509120712/tools/bin/../lib/gcc/arm-none-eabi/13.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m/nofp/libc_nano.a(libc_a-init.o)
 
 .debug_line_str
                 0x00000000       0x82

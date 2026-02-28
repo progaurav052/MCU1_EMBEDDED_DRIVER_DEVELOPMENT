@@ -23,9 +23,16 @@ typedef struct
 	uint8_t USART_WordLength;
 	uint8_t USART_ParityControl;
 	uint8_t USART_HWFlowControl;
+
 }USART_Config_t;
 
+//USART is unlike SPI where for every time you send , you also get something back
+// in USART There is an separate path/Tx and Rx engine is separate with their own Shift registers
 
+//modes used for interrupt based application
+#define USART_READY 		0
+#define USART_BUSY_IN_TX  	1
+#define USART_BUSY_IN_RX	2
 /*
  * Handle structure for USARTx peripheral
  */
@@ -33,6 +40,12 @@ typedef struct
 {
 	USART_RegDef_t *pUSARTx;
 	USART_Config_t   USART_Config;
+	uint32_t TxLen;
+	uint32_t RxLen;
+	uint8_t *pTxBuffer;
+	uint8_t *pRxBuffer;
+	uint8_t TxState;
+	uint8_t RxState;
 }USART_Handle_t;
 
 
@@ -102,6 +115,16 @@ typedef struct
 #define USART_FLAG_TXE 			( 1 << USART_SR_TXE)
 #define USART_FLAG_RXNE 		( 1 << USART_SR_RXNE)
 #define USART_FLAG_TC 			( 1 << USART_SR_TC)
+
+
+#define 	USART_EVENT_TX_CMPLT   0
+#define		USART_EVENT_RX_CMPLT   1
+#define		USART_EVENT_IDLE      2
+#define		USART_EVENT_CTS       3
+#define		USART_EVENT_PE        4
+#define		USART_ERR_FE     	5
+#define		USART_ERR_NE    	 6
+#define		USART_ERR_ORE    	7
 
 /******************************************************************************************
  *								APIs supported by this driver
