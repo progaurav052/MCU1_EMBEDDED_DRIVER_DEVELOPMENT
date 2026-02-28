@@ -74,7 +74,7 @@ uint32_t  RCC_GetPCLK2Value(){
 
 		PCLK_SPEED=((SysClk/AHB_Prescaler)/APB_Prescaler);
 
-		return PCLK_SPEED/1000000;
+		return PCLK_SPEED;
 
 
 }
@@ -129,6 +129,6 @@ uint32_t RCC_GetPCLK1Value(){
 
 		PCLK_SPEED=((SysClk/AHB_Prescaler)/APB_Prescaler);
 
-		return PCLK_SPEED/1000000;
+		return PCLK_SPEED;
 
 }

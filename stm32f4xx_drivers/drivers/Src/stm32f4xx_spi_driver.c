@@ -338,7 +338,6 @@ void SPI_ReceiveData(SPI_RegDef_t *pSPIx,uint8_t *pRxBuffer,uint32_t len)
 			*(pRxBuffer)= pSPIx->SPI_DR;
 			pRxBuffer++;
 			len--;
-			len--;
 		}
 
 
@@ -381,7 +380,9 @@ void SPI_PeripheralControl(SPI_RegDef_t *pSPIX,uint8_t EnorDi){
 void SPI_SSI_Config(SPI_RegDef_t *pSPIX,uint8_t EnorDi)
 {
 	//used to configure the SSI bit , in case of SSM = 1 and SSI 0 , in single master case this will cause NSS of master to ground
-	//which will cause MODF fault and Reset the MSTR bit which will make master as slave
+	//which will cause MODF fault and Reset the MSTR bit which will make master as slave , used in multi master config 
+	// using SSM and SSI bit , we dont use the NSS physical hardware pin ... SSM and SSI is like virtual NSS pin from which we read input 
+	// therefore it is like input pin 
 	if(EnorDi == ENABLE)
 	{
 		pSPIX->SPI_CR1|=(1 << SPI_CR1_SSI);
