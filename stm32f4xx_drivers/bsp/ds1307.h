@@ -19,6 +19,7 @@
 #define DS1307_I2C_SDA_PIN			GPIO_PIN_NO_7
 #define DS1307_I2C_SCL_PIN			GPIO_PIN_NO_6
 #define DS1307_I2C_SPEED			I2C_SCL_SPEED_SM
+#define DS1307_I2C_PUPD_CONFIG		GPIO_PIN_PU
 
 
 
@@ -35,10 +36,10 @@
 
 
 #define TIME_FORMAT_12HRS_AM  	0
-#define TIME_FORMAT_12HRS_AM  	1
+#define TIME_FORMAT_12HRS_PM  	1
 #define TIME_FORMAT_24HRS  		2
 
-//check the address from DS1307 doc - I2C Data bus section
+//check the address from DS1307 doc - I2C Data bus section , slave address
 #define DS1307_I2C_ADDRESS    0x68
 
 
