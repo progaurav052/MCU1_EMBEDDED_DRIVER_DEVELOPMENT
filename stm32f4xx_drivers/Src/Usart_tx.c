@@ -2,7 +2,8 @@
 #include<string.h>
 #include "stm32f407xx.h"
 
-char msg[1024] = "UART Tx testing...\n\r";
+char send_msg[1024] = "UART Tx testing...\n\r";
+char rcv_msg[1024];
 
 USART_Handle_t usart2_handle;
 
@@ -89,6 +90,8 @@ int main(void)
 
 
 		USART_SendData(&usart2_handle,(uint8_t*)msg,strlen(msg));
+		
+
 
     }
 

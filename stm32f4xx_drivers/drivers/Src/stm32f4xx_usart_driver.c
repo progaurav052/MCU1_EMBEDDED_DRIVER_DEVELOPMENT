@@ -385,7 +385,7 @@ void USART_IRQHandling(USART_Handle_t *pUSARTHandle)
 		if ( pUSARTHandle->TxState == USART_BUSY_IN_TX)
 		{
 			//Check the TxLen . If it is zero then close the data transmission
-			if(! pUSARTHandle->TxLen==0 )
+			if( pUSARTHandle->TxLen==0 )
 			{
 				//Implement the code to clear the TC flag
 				pUSARTHandle->pUSARTx->SR &= ~( 1 << USART_SR_TC);

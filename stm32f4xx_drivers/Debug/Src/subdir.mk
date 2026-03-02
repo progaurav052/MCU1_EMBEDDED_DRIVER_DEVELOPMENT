@@ -5,19 +5,19 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Src/Usart_tx.c \
 ../Src/syscalls.c \
-../Src/sysmem.c 
+../Src/sysmem.c \
+../Src/usart_Interrupt.c 
 
 OBJS += \
-./Src/Usart_tx.o \
 ./Src/syscalls.o \
-./Src/sysmem.o 
+./Src/sysmem.o \
+./Src/usart_Interrupt.o 
 
 C_DEPS += \
-./Src/Usart_tx.d \
 ./Src/syscalls.d \
-./Src/sysmem.d 
+./Src/sysmem.d \
+./Src/usart_Interrupt.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -27,7 +27,7 @@ Src/%.o Src/%.su Src/%.cyclo: ../Src/%.c Src/subdir.mk
 clean: clean-Src
 
 clean-Src:
-	-$(RM) ./Src/Usart_tx.cyclo ./Src/Usart_tx.d ./Src/Usart_tx.o ./Src/Usart_tx.su ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su
+	-$(RM) ./Src/syscalls.cyclo ./Src/syscalls.d ./Src/syscalls.o ./Src/syscalls.su ./Src/sysmem.cyclo ./Src/sysmem.d ./Src/sysmem.o ./Src/sysmem.su ./Src/usart_Interrupt.cyclo ./Src/usart_Interrupt.d ./Src/usart_Interrupt.o ./Src/usart_Interrupt.su
 
 .PHONY: clean-Src
 
