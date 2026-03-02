@@ -14,7 +14,7 @@ static void ds1307_i2c_config(void);
 static uint8_t ds1307_read(uint8_t reg_addr);
 static void ds1307_write(uint8_t value,uint8_t reg_addr);
 static uint8_t binary_to_bcd(uint8_t value);
-
+static uint8_t bcd_to_binary(uint8_t value);
 
 I2C_Handle_t g_ds1307I2cHandle;
 
@@ -62,7 +62,7 @@ void ds1307_set_current_time(RTC_Time_t *rtc_time){
 	ds1307_write(binary_to_bcd(rtc_time->minutes),DS1307_ADDR_MIN);
 
 	//program the hour , 12 hr and 24 hr format
-	hrs = binary_to_bcd(rtc_time->hours);
+	uint8_t hrs = binary_to_bcd(rtc_time->hours);
 
 	if (rtc_time->time_format == TIME_FORMAT_24HRS) {
 		hrs &= ~(1 << 6);
@@ -78,7 +78,7 @@ void ds1307_set_current_time(RTC_Time_t *rtc_time){
 void ds1307_get_current_time(RTC_Time_t *rtc_time){
 
 	// we need to fetch seconds , min , hours , time format and store it back in the data structure
-	uint8_t seconds,hrs;
+	   uint8_t seconds,hrs;
 
 		seconds = ds1307_read(DS1307_ADDR_SEC);
 
@@ -99,7 +99,7 @@ void ds1307_get_current_time(RTC_Time_t *rtc_time){
 
 		rtc_time->hours = bcd_to_binary(hrs);
 	}
-}
+
 
 void ds1307_set_current_date(RTC_Date_t *rtc_date){
 
@@ -189,6 +189,28 @@ static void ds1307_write(uint8_t value,uint8_t reg_addr){
 	I2C_MasterSendData(&g_ds1307I2cHandle, tx, 2, DS1307_I2C_ADDRESS, 0);
 }
 
-static uint8_t binary_to_bcd(uint8_t value){
+// try to work this out on book ... easy to understand + Binary shifiting
+// in BCD each digit is represented by 4 bits
+static uint8_t binary_to_bcd(uint8_t value)
+{
+	uint8_t m , n;
+	uint8_t bcd;
 
+	bcd = value;
+	if(value >= 10)
+	{
+		m = value /10;
+		n = value % 10;
+		bcd = (m << 4) | n ;
+	}
+
+	return bcd;
+}
+
+static uint8_t bcd_to_binary(uint8_t value)
+{
+	uint8_t m , n;
+	m = (uint8_t) ((value >> 4 ) * 10);
+	n =  value & (uint8_t)0x0F;
+	return (m+n);
 }
