@@ -1,2 +1,8 @@
-../bsp/lcd.c:12:6:lcd_init	1
-../bsp/lcd.c:20:13:lcd_gpio_pin_config	1
+../bsp/lcd.c:18:6:lcd_send_command	1
+../bsp/lcd.c:35:6:lcd_send_char	1
+../bsp/lcd.c:52:6:lcd_init	1
+../bsp/lcd.c:136:13:write_4_bits	1
+../bsp/lcd.c:148:13:lcd_enable	1
+../bsp/lcd.c:158:6:lcd_display_clear	1
+../bsp/lcd.c:165:13:mdelay	2
+../bsp/lcd.c:170:13:udelay	2
