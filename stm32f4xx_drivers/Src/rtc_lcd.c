@@ -123,7 +123,7 @@ int main()
 	ds1307_set_current_date(&current_date);
 	ds1307_set_current_time(&current_time);
 
-	init_systick_timer(1);
+
 
 	ds1307_get_current_date(&current_date);
 	ds1307_get_current_time(&current_time);
