@@ -214,3 +214,6 @@ static uint8_t bcd_to_binary(uint8_t value)
 	n =  value & (uint8_t)0x0F;
 	return (m+n);
 }
+
+
+

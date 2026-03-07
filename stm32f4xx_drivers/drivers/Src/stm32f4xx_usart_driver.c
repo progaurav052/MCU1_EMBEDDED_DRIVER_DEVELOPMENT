@@ -468,6 +468,7 @@ void USART_IRQHandling(USART_Handle_t *pUSARTHandle)
 				//TxLen is zero
 				//Implement the code to clear the TXEIE bit (disable interrupt for TXE flag )
 				pUSARTHandle->pUSARTx->CR1&=~(1 << USART_CR1_TXEIE);
+				// the reamaining things like clearing the TXEIE interrupt control bit setting state to ready will be done in TC flag because TC flag indicates transmission complete which means last data is moved to shift register from DR and is being transmitted , so we can close the transmission only after TC flag is set
 			}
 		}
 	}
