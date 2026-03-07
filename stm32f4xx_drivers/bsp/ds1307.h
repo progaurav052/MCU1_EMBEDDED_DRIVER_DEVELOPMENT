@@ -72,7 +72,7 @@ typedef struct{
 
 
 
-//Function prototypes
+//Function prototypes , BSP exposed APIS
 
 uint8_t ds1307_init(void);
 

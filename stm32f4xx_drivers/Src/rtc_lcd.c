@@ -15,7 +15,7 @@ void init_systick_timer(uint32_t tick_hz)
 	uint32_t *pSCSR = (uint32_t*)0xE000E010;
 
     /* calculation of reload value */
-    uint32_t count_value = (SYSTICK_TIM_CLK/tick_hz)-1;
+    uint32_t count_value = (SYSTICK_TIM_CLK/tick_hz)-1; // do the calculation on book , can be understood
 
     //Clear the value of SVR
     *pSRVR &= ~(0x00FFFFFFFF);
@@ -122,6 +122,8 @@ int main()
 
 	ds1307_set_current_date(&current_date);
 	ds1307_set_current_time(&current_time);
+
+	init_systick_timer(1);
 
 	ds1307_get_current_date(&current_date);
 	ds1307_get_current_time(&current_time);
