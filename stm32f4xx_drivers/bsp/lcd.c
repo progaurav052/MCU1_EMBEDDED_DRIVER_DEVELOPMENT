@@ -183,6 +183,23 @@ void lcd_display_return_home(void)
 	 */
 	mdelay(2);
 }
+void lcd_set_cursor(uint8_t row,uint8_t column)
+{
+	// row value --> 1 or 2
+	// column value --> 1 <> 16 ... possible hexa value is only 15 , F
+	// we should decreement the column value first
+	column--;
+	if(row==1)
+	{
+		// in both the cases we we need to send command
+		lcd_send_command(column|=(0x80));
+
+	}
+	else if(row==2)
+	{
+		lcd_send_command(column|=(0xC0));
+	}
+}
 
 static void mdelay(uint32_t cnt)
 {
