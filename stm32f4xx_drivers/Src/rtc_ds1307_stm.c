@@ -33,7 +33,7 @@ void init_systick_timer(uint32_t tick_hz)
 }
 char* get_day_of_week(uint8_t i)
 {
-	char* days[] = { "Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"};
+	char* days[] = { "SUN","MON","TUES","WED","THUR","FRI","SAT"};
 
 	return days[i-1];
 }
