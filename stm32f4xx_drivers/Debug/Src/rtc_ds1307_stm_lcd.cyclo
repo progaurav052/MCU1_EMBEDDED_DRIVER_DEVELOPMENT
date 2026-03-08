@@ -1,0 +1,8 @@
+../Src/rtc_ds1307_stm_lcd.c:13:6:init_systick_timer	1
+../Src/rtc_ds1307_stm_lcd.c:35:6:mdelay	2
+../Src/rtc_ds1307_stm_lcd.c:39:7:get_day_of_week	1
+../Src/rtc_ds1307_stm_lcd.c:46:6:number_to_string	4
+../Src/rtc_ds1307_stm_lcd.c:61:7:time_to_string	1
+../Src/rtc_ds1307_stm_lcd.c:79:7:date_to_string	1
+../Src/rtc_ds1307_stm_lcd.c:96:5:main	4
+../Src/rtc_ds1307_stm_lcd.c:172:6:SysTick_Handler	3
