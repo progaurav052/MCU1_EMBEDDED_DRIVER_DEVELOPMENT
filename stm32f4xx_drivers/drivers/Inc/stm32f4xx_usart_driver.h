@@ -29,7 +29,7 @@ typedef struct
 //USART is unlike SPI where for every time you send , you also get something back
 // in USART There is an separate path/Tx and Rx engine is separate with their own Shift registers
 
-//modes used for interrupt based application
+//states used for interrupt based application
 #define USART_READY 		0
 #define USART_BUSY_IN_TX  	1
 #define USART_BUSY_IN_RX	2
